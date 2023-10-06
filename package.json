@@ -1,0 +1,29 @@
+{
+  "name": "logic-engine",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "version": "0.1.0",
+
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "classnames": "^2.3.2",
+    "less": "^4.2.0",
+    "lodash": "^4.17.21",
+    "uuid": "^9.0.1"
+  },
+  "peerDependencies": {
+    "react": "^16.14.0",
+    "react-redux": "^7.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.1.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.11",
+    "vite-plugin-load-css-module": "^0.1.4"
+  }
+}

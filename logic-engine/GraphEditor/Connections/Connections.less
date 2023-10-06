@@ -1,0 +1,48 @@
+.connections {
+  position: absolute;
+  right: 0px;
+}
+
+.connection {
+  padding: 5px;
+  margin: 3px;
+  border: 1px solid #ccc;
+}
+
+.line {
+  stroke: #fff;
+  stroke-width: 2px;
+  &:hover {
+    stroke-width: 4px;
+    filter: url('#dropshadow');
+  }
+
+  &.call {
+    stroke: #00A8F2;
+  }
+
+  &.exec {
+    stroke: #fff;
+  }
+
+  &.boolean {
+    stroke: #f20038;
+  }
+}
+
+.tempLine {
+  stroke: #fff;
+  stroke-width: 2px;
+
+  &.call {
+    stroke: #00A8F2;
+  }
+
+  &.exec {
+    stroke: #fff;
+  }
+
+  &.boolean {
+    stroke: #f20038;
+  }
+}

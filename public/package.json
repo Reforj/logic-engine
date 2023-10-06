@@ -1,0 +1,39 @@
+{
+  "name": "@reforj/logic-engine",
+  "author": "tarassovf",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./runtime": "./runtime.js",
+    "./style.css": "./style.css"
+  },
+  "version": "0.1.0",
+  "scripts": {
+    "publish": ""
+  },
+  "dependencies": {
+    "classnames": "^2.3.2",
+    "less": "^4.2.0",
+    "lodash": "^4.17.21",
+    "uuid": "^9.0.1"
+  },
+  "peerDependencies": {
+    "react": "^16.14.0",
+    "react-redux": "^7.1.0"
+  },
+  "description": "Base logic builder and runtime",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Reforj/logic-engine.git"
+  },
+  "keywords": [
+    "logic",
+    "nodes"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Reforj/logic-engine/issues"
+  },
+  "homepage": "https://github.com/Reforj/logic-engine#readme"
+}

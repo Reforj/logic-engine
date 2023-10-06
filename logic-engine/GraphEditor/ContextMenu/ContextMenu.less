@@ -1,0 +1,84 @@
+.contextMenu {
+  position: absolute;
+  width: 410px;
+  height: 409px;
+  border: 1px solid #000;
+  padding: 4px;
+  background: #1A1A1A;
+
+  box-shadow: inset 0px 2px 7px -3px #ffffff33;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 1.2em;
+}
+
+.search {
+  padding: 0;
+
+  input {
+    padding: 0 2px;
+    font-size: 12px;
+    height: 18px;
+  }
+
+  :global {
+    .reforj-input-suffix {
+      right: 3px;
+    }
+  }
+}
+
+.menuItem {
+  padding: 1px 4px;
+  font-weight: normal;
+
+  &:hover {
+    background: #313131;
+  }
+}
+
+.tree {
+  :global {
+    .reforj-tree {
+      color: #fff;
+      font-size: 12px;
+      background: transparent;
+      li {
+        ul {
+          padding: 0 0 0 12px;
+        }
+
+        span.reforj-tree-switcher {
+          width: 14px;
+          height: 12px;
+          line-height: 12px;
+          vertical-align: middle;
+        }
+
+        .reforj-tree-node-content-wrapper {
+          color: #fff;
+          padding: 0;
+          border-radius: 0;
+          height: 16px;
+          line-height: 16px;
+          vertical-align: middle;
+          &:hover {
+            background: none;
+          }
+        }
+      }
+      .reforj-tree-treenode-switcher-open {
+        padding: 0;
+
+      }
+      .reforj-tree-treenode-switcher-close {
+        padding: 0;
+        &:hover {
+          background: #313131;
+        }
+      }
+    }
+  }
+}

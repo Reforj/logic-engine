@@ -1,0 +1,198 @@
+
+.socket {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 24px;
+  padding: 2px 0;
+  min-width: 75px;
+  white-space: nowrap;
+  &.output {
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .handler {
+    padding: 5px;
+    display: flex;
+    width: 22px;
+    border-radius: 4px;
+    background-color: transparent;
+    transition: 0.3s;
+
+    &.over {
+      background-color: #00A8F2ac;
+    }
+
+    &.right {
+      justify-content: flex-end;
+    }
+
+    &:hover {
+      background-color: #00A8F2ac;
+      &.exec {
+        background-color: #ffffffee;
+      }
+      .circle {
+        background-color: #00A8F2;
+      }
+    }
+    img {
+      min-width: 14px;
+      min-height: 14px;
+    }
+  }
+
+  .input {
+    width: 50px;
+    height: 22px;
+  }
+
+  .circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    border: 2px solid #00A8F2;
+    position: relative;
+    .arrow {
+      border: solid #00A8F2;
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      position: absolute;
+      right: -4px;
+      top: 1px;
+      padding: 1px;
+      transform: rotate(-45deg);
+      -webkit-transform: rotate(-45deg);
+    }
+    &.active {
+      background-color: #00A8F2;
+    }
+  }
+
+  &.boolean {
+    .handler {
+      &:hover {
+        background-color: #f200388f;
+
+        .circle {
+          background-color: #f20038;
+        }
+      }
+    }
+    .circle {
+      border-color: #f20038;
+      .arrow {
+        border-color: #f20038;
+      }
+
+      &.active {
+        background-color: #f20038;
+      }
+    }
+  }
+
+  &.any {
+    .handler {
+      &:hover {
+        background-color: #00f2698f;
+
+        .circle {
+          background-color: #00f269;
+        }
+      }
+    }
+    .circle {
+      border-color: #00f269;
+      .arrow {
+        border-color: #00f269;
+      }
+
+      &.active {
+        background-color: #00f269;
+      }
+    }
+  }
+
+  &.string {
+    .handler {
+      &:hover {
+        background-color: #f200a58f;
+
+        .circle {
+          background-color: #f200a5;
+        }
+      }
+    }
+    .circle {
+      border-color: #f200a5;
+      .arrow {
+        border-color: #f200a5;
+      }
+
+      &.active {
+        background-color: #f200a5;
+      }
+    }
+  }
+
+
+  &.deleted {
+    .circle {
+      border: 2px solid #f55;
+      background-color: #f55;
+
+      .arrow {
+        border: solid #f55;
+      }
+      &:hover {
+        background-color: #f55;
+      }
+    }
+  }
+
+
+  .array {
+    border-radius: 1px;
+  }
+
+  .arrow {
+    max-width: 14px;
+    max-height: 14px;
+  }
+
+  .square {
+    width: 10px;
+    height: 10px;
+    border: 2px solid #f9f9f9;
+    border-radius: 2px;
+
+    &.active {
+      background-color: #f9f9f9;
+    }
+  }
+
+  .defaultValue {
+    display: flex;
+    align-items: center;
+    margin: 0 4px;
+
+    .numberInput {
+      color: #555;
+      width: 50px;
+    }
+    .textInput {
+      color: #555;
+      width: 80px;
+    }
+  }
+  .socketName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.popover {
+  border-radius: 0;
+  border: 1px solid #111;
+}
