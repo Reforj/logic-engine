@@ -21,7 +21,9 @@ export default defineConfig({
       name: 'logic-engine',
     },
     rollupOptions: {
-      external: ['react', 'redux', 'react-dnd', 'react/jsx-runtime', 'react-redux'],
+      external: [
+        'react', 'redux', 'react-dnd', 'react/jsx-runtime', 'react-redux', 'react-dnd', 'react-dnd-html5-backend'
+      ],
       output: {
         globals: {
         },

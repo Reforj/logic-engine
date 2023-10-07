@@ -17,7 +17,7 @@ const Operator = (props) => {
           {_.filter(node.pins, {side: 'In'}).map((pin) => {
             return inputPin(pin)
           })}
-          {node.canAddInput && <div className={css.addPin} onClick={() => addPin({dataType, defaultValue})}>
+          {node.canAddInputs && <div className={css.addPin} onClick={() => addPin({dataType, defaultValue})}>
             <span className={css.addIcon}>+</span> Add pin
           </div>}
         </div>

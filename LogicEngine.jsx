@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Provider } from 'react-redux'
+import { DndProvider } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import {LogicEngine} from './logic-engine'
 import Header from './Header'
 import css from './LogicEngine.less'
@@ -18,12 +20,14 @@ export default (props) => {
 
   return (
     <Provider store={store}>
-      <div className={css.main}>
-        <div className={css.editor}>
-          <Header headerContent={props.headerContent} />
-          <LogicEngine {...props}/>
+      <DndProvider backend={HTML5Backend}>
+        <div className={css.main}>
+          <div className={css.editor}>
+            <Header headerContent={props.headerContent} />
+            <LogicEngine {...props}/>
+          </div>
         </div>
-      </div>
+      </DndProvider>
     </Provider>
   )
 }

@@ -8,19 +8,20 @@
     "./runtime": "./runtime.js",
     "./style.css": "./style.css"
   },
-  "version": "0.1.0",
+  "version": "0.1.0-prealpha2",
   "scripts": {
     "publish": ""
   },
   "dependencies": {
     "classnames": "^2.3.2",
-    "less": "^4.2.0",
     "lodash": "^4.17.21",
     "uuid": "^9.0.1"
   },
   "peerDependencies": {
     "react": "^16.14.0",
-    "react-redux": "^7.1.0"
+    "react-redux": "^7.1.0",
+    "react-dnd": "^9.4.0",
+    "react-dnd-html5-backend": "^9.4.0"
   },
   "description": "Base logic builder and runtime",
   "repository": {

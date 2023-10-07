@@ -3,11 +3,11 @@ import rootReducers from '../redux/reducers'
 
 let composeEnhancers = compose
 
-if (__DEV__) {
-  if (typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === 'function') {
-    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ name: 'Logic Engine' })
-  }
-}
+// if (window.__DEV__) {
+//   if (typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === 'function') {
+//     composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ name: 'Logic Engine' })
+//   }
+// }
 
 let store = create(
   rootReducers(),

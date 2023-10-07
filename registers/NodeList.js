@@ -14,12 +14,12 @@ export default [
       {key: 'Logic.And', title: '&& (And)', type: "Operator", nodeTitle: '&&', path: 'Logic.And', pure: true,
         inputs: [{dataType: 'boolean', defaultValue: false}, {dataType: 'boolean', defaultValue: false}],
         outputs: [{dataType: 'boolean'}],
-        canAddInput: true
+        canAddInputs: true
       },
       {key: 'Logic.Or', title: '|| (Or)', type: "Operator", nodeTitle: '||', path: 'Logic.Or', pure: true,
         inputs: [{dataType: 'boolean', defaultValue: false}, {dataType: 'boolean', defaultValue: false}],
         outputs: [{dataType: 'boolean'}],
-        canAddInput: true
+        canAddInputs: true
       },
       {key: 'Logic.Equal', title: '=== (Equal)', type: "Operator", nodeTitle: '===', path: 'Logic.Equal', pure: true,
         inputs: [{dataType: 'any', defaultValue: false}, {dataType: 'any', defaultValue: false}],

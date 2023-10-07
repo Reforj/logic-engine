@@ -12,18 +12,20 @@
   },
   "dependencies": {
     "classnames": "^2.3.2",
-    "less": "^4.2.0",
     "lodash": "^4.17.21",
     "uuid": "^9.0.1"
   },
   "peerDependencies": {
     "react": "^16.14.0",
-    "react-redux": "^7.1.0"
+    "react-redux": "^7.1.0",
+    "react-dnd": "^9.4.0",
+    "react-dnd-html5-backend": "^9.4.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.1.0",
     "typescript": "^5.2.2",
     "vite": "^4.4.11",
+    "less": "^4.2.0",
     "vite-plugin-load-css-module": "^0.1.4"
   }
 }
