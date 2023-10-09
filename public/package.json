@@ -9,7 +9,7 @@
     "./style.css": "./style.css"
   },
   "typings": "./index.d.ts",
-  "version": "0.1.0-prealpha4",
+  "version": "0.1.0-prealpha5",
   "scripts": {
     "publish": ""
   },

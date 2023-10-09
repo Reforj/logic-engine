@@ -13,7 +13,7 @@ export const getState = () => store.getState().engine
 export default (props) => {
   const { useDndProvider = true } = props
   useEffect(() => {
-    store.dispatch({type: 'engine/INIT', ...props.nodes})
+    store.dispatch({type: 'engine/INIT', ...props.data})
     return () => {
       store.dispatch({type: 'engine/RESET'})
     }

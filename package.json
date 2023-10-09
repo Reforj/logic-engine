@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "main": "index.js",
-  "version": "0.1.0-prealpha4",
+  "version": "0.1.0-prealpha5",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
