@@ -12,7 +12,7 @@ export const getState = () => store.getState().engine
 
 export default (props) => {
   useEffect(() => {
-    store.dispatch({type: 'engine/INIT', ...props.data})
+    store.dispatch({type: 'engine/INIT', ...props.nodes})
     return () => {
       store.dispatch({type: 'engine/RESET'})
     }

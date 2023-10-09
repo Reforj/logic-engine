@@ -1,5 +1,6 @@
 interface Pin {
   side: 'In' | 'Out'
+  name?: string
   dataType?: 'boolean' | 'number' | 'string' | 'object'
   defaultValue?: any
 }
@@ -30,6 +31,10 @@ export declare class NodesRegister {
   define (name: string, node: Node) {}
 }
 
-export declare const LogicEngine: React.ForwardRefExoticComponent<{userNodesRegister: NodesRegister, nodes: State}>
+interface Props {
+  headerContent?: React.ReactNode
+}
 
-export declare const getState: State = () => State
+export declare const LogicEngine: React.ForwardRefExoticComponent<{userNodesRegister: NodesRegister, nodes?: State} & Props>
+
+export declare function getState(): State

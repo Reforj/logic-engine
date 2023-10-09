@@ -8,12 +8,12 @@ interface Node {
   executable?: boolean
 }
 
-type Handler = ({userContext, node}:{userContext: any, node: Node} , ...args: any[]) => any[]
+type Handler = ({context, node}:{context: any, node: Node} , ...args: any[]) => any[]
 
-type Func = (userContext: any, ...args: any) => any[]
+type Func = (context: any, ...args: any) => any[]
 
 export declare class Runtime {
   defineNodeHandler (name: string, handler: Handler) {}
 
-  build (state: State):  {}
+  build (state: State): (userData: any, ...args:any) => any
 }
