@@ -27,14 +27,11 @@ export declare class NodesRegister {
   define (name: string, node: Node) {}
 }
 
-export declare class NodesRegister {
-  define (name: string, node: Node) {}
-}
-
-interface Props {
+export declare const LogicEngine: React.ForwardRefExoticComponent<{
+  userNodesRegister: NodesRegister,
+  nodes?: State,
   headerContent?: React.ReactNode
-}
-
-export declare const LogicEngine: React.ForwardRefExoticComponent<{userNodesRegister: NodesRegister, nodes?: State} & Props>
+  useDndProvider?: boolean
+}>
 
 export declare function getState(): State

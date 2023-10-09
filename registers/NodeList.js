@@ -61,12 +61,12 @@ export default [
         inputs: [{dataType: 'string', defaultValue: ''}, {dataType: 'string', defaultValue: ''}],
         outputs: [{dataType: 'string'}],
       },
-      {key: 'Operator.Minus', title: 'Number - Number', type: "Operator", nodeTitle: '-', path: 'Operator.Minus', pure: true, inputs: 2, outputs: 1},
-      {key: 'Operator.Multiple', title: 'Number * Number', type: "Operator", nodeTitle: '-', path: 'Operator.Multiple', pure: true, inputs: 2, outputs: 1},
-      {key: 'Operator.Increment', title: 'Number ++', type: "Operator", nodeTitle: '++', path: 'Operator.Increment', pure: true, inputs: 1, outputs: 1},
-      {key: 'Operator.Decrement', title: 'Number --', type: "Operator", nodeTitle: '--', path: 'Operator.Decrement', pure: true, inputs: 1, outputs: 1},
-      {key: 'Operator.UnaryPlus', title: 'Unary +', type: "Operator", nodeTitle: '+', path: 'Operator.UnaryPlus', pure: true, inputs: 1, outputs: 1},
-      {key: 'Operator.UnaryMinus', title: 'Unary -', type: "Operator", nodeTitle: '-', path: 'Operator.UnaryMinus', pure: true, inputs: 1, outputs: 1},
+      // {key: 'Operator.Minus', title: 'Number - Number', type: "Operator", nodeTitle: '-', path: 'Operator.Minus', pure: true, inputs: 2, outputs: 1},
+      // {key: 'Operator.Multiple', title: 'Number * Number', type: "Operator", nodeTitle: '-', path: 'Operator.Multiple', pure: true, inputs: 2, outputs: 1},
+      // {key: 'Operator.Increment', title: 'Number ++', type: "Operator", nodeTitle: '++', path: 'Operator.Increment', pure: true, inputs: 1, outputs: 1},
+      // {key: 'Operator.Decrement', title: 'Number --', type: "Operator", nodeTitle: '--', path: 'Operator.Decrement', pure: true, inputs: 1, outputs: 1},
+      // {key: 'Operator.UnaryPlus', title: 'Unary +', type: "Operator", nodeTitle: '+', path: 'Operator.UnaryPlus', pure: true, inputs: 1, outputs: 1},
+      // {key: 'Operator.UnaryMinus', title: 'Unary -', type: "Operator", nodeTitle: '-', path: 'Operator.UnaryMinus', pure: true, inputs: 1, outputs: 1},
     ]
   },
   // {
