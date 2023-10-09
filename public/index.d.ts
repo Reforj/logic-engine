@@ -29,7 +29,7 @@ export declare class NodesRegister {
 
 export declare const LogicEngine: React.ForwardRefExoticComponent<{
   userNodesRegister: NodesRegister,
-  nodes?: State,
+  data?: State,
   headerContent?: React.ReactNode
   useDndProvider?: boolean
 }>
