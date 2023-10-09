@@ -3,7 +3,6 @@ import Node from '../NodeHOC'
 import css from '../Node.less'
 import cs from 'classnames'
 import _ from 'lodash'
-import {PinIn} from '../../../../registers/NodeTypes'
 
 const Operator = (props) => {
   const {node, inputPin, outputPin, addPin} = props

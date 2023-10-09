@@ -19,7 +19,6 @@ export const getNodeList = (state, nodeRegister) => {
             key: name,
             title: node.title,
             ...node,
-            customType: node.type,
             type: 'UserNode',
           }
         })

@@ -64,8 +64,9 @@ const BuildFunction = (func, runtime) => {
     })
   }
 
-  return (...args) => {
-    const context = new FunctionContext()
+  return (contextData, ...args) => {
+    const context = new FunctionContext(contextData)
+
     let node = entry
     let result = node.exec(context, args)
     context.setResult(entry.uuid, result.outputs)

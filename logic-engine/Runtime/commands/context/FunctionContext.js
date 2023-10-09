@@ -1,6 +1,7 @@
 export default class FunctionContext {
-  constructor () {
+  constructor (contextData) {
     this.execResults = {}
+    this.userData = contextData
   }
 
   getResult (uuid) {
@@ -10,5 +11,4 @@ export default class FunctionContext {
   setResult (uuid, data) {
     this.execResults[uuid] = data
   }
-
 }

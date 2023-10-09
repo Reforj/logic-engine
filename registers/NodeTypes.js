@@ -101,10 +101,13 @@ const Branch = (func, args) => ({
 const UserNode = (func, args = {}) => ({
   uuid: uuid(),
   type: "UserNode",
-  customType: args.customType,
   name: args.name,
   title: args.title,
-  pins: _.map(args.pins, (pin) => pin.side === 'In' ? PinIn(pin) : PinOut(pin)),
+  executable: args.executable || false,
+  pins: [
+    ...(args.executable ? [PinExecIn(), PinExecOut()] : []),
+    ..._.map(args.pins, (pin) => pin.side === 'In' ? PinIn(pin) : PinOut(pin))
+  ],
   position: args.position || defaultPos,
   data: args.data
 })

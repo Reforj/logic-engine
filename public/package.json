@@ -8,7 +8,8 @@
     "./runtime": "./runtime.js",
     "./style.css": "./style.css"
   },
-  "version": "0.1.0-prealpha2",
+  "typings": "./index.d.ts",
+  "version": "0.1.0-prealpha3",
   "scripts": {
     "publish": ""
   },

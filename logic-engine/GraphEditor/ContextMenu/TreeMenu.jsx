@@ -1,7 +1,6 @@
 import {useState, useEffect, useRef} from 'react'
 import css from './TreeMenu.less'
 
-
 export const TreeMenu = ({treeData, onSelect}) => {
   const [search, setSearch] = useState("")
   const ref = useRef()

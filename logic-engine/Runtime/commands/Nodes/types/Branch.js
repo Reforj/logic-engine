@@ -12,7 +12,7 @@ export default class Branch extends Node {
   }
 
   exec (context, socketArgs = {}) {
-    const condition = socketArgs[this.inputs[0].uuid] || this.inputs[0].defaultValue
+    const condition = this.inputs[0].pinned ? socketArgs[this.inputs[0].uuid] : this.inputs[0].defaultValue
 
     let next = condition ? this.nextTrue : this.nextFalse
 
