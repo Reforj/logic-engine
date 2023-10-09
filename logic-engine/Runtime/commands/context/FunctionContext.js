@@ -1,14 +1,14 @@
 export default class FunctionContext {
   constructor (contextData) {
-    this.execResults = {}
+    this.nodeResults = {}
     this.userData = contextData
   }
 
   getResult (uuid) {
-    return this.execResults[uuid]
+    return this.nodeResults[uuid]
   }
 
   setResult (uuid, data) {
-    this.execResults[uuid] = data
+    this.nodeResults[uuid] = data
   }
 }
