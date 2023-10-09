@@ -47,7 +47,7 @@ const BuildFunction = (func, runtime) => {
     callCount += 1
     if (callCount > 2500) { throw 'Infinity loop detected' }
     const nodesToResolve = NodesToResolveArgs(node, nodes)  // [{node: Node, socket: uuid}]
-
+    const caller = node
     const results = reduce(nodesToResolve, (obj, node) => {
       if (!node) { return obj }
       if (node.executable) {
@@ -55,7 +55,14 @@ const BuildFunction = (func, runtime) => {
       }
 
       const args = resolveNodeArgs(node, context) // {[socketUuid]: val}
-      return {...obj, [node.uuid]: node.exec(context, args).outputs}
+      if (node._lastCaller === caller) {
+        return {...obj, [node.uuid]: context.getResult(node.uuid)}
+      } else {
+        node._lastCaller = caller
+        const result = node.exec(context, args, caller)
+        context.setResult(node.uuid, result.outputs)
+        return {...obj, [node.uuid]: result.outputs}
+      }
     })  // { [nodeUuid]: {[socketUuid]: value} }
 
     return reduce(node.inputs, (obj, pin) => {
