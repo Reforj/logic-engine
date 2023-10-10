@@ -55,10 +55,10 @@ const BuildFunction = (func, runtime) => {
       }
 
       const args = resolveNodeArgs(node, context) // {[socketUuid]: val}
-      if (node._lastCaller === caller) {
+      if (context.getCaller(node) === caller.uuid) {
         return {...obj, [node.uuid]: context.getResult(node.uuid)}
       } else {
-        node._lastCaller = caller
+        context.setCaller(node, caller)
         const result = node.exec(context, args, caller)
         context.setResult(node.uuid, result.outputs)
         return {...obj, [node.uuid]: result.outputs}
@@ -73,7 +73,6 @@ const BuildFunction = (func, runtime) => {
 
   return (contextData, ...args) => {
     const context = new FunctionContext(contextData)
-
     let node = entry
     let result = node.exec(context, args)
     context.setResult(entry.uuid, result.outputs)
