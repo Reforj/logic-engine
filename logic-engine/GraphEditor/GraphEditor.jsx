@@ -6,11 +6,14 @@ import './Nodes'
 import ContextMenu from './ContextMenu'
 import Connections from './Connections'
 import { ConnectPins } from './commands/ConnectPins'
-import { DisconnectConnectedPins } from './commands/DisconnectConnectedPins'
+import { DisconnectAllPins } from './commands/DisconnectAllPins'
 import { RemoveConnection } from './commands/RemoveConnection'
 import _ from 'lodash'
 import NodeRegister from '../../registers/NodeRegister'
 import { SIZE } from '../../consts/Editor'
+import { ConnectRelatedPin } from './commands/ConnecteRelatedPin'
+import { DisconnectPin } from './commands/DisconnectPin'
+import { DisconnectConnectedPins } from './commands/DisconnectConnectedPins'
 const SOCKET_TYPES = ['OUTPUT_SOCKET', 'INPUT_SOCKET', 'EXEC_OUTPUT', 'EXEC_INPUT']
 const isSocket = (type) => SOCKET_TYPES.includes(type)
 
@@ -137,9 +140,13 @@ export default function GraphEditor({
     }
   }
 
-  // disconnect all related pins to node or pin
-  const disconnectPins = (pins) => {
-    const nodes = DisconnectConnectedPins(funcNodes, pins)
+  const disconnectPin = (node, pin) => {
+    const nodes = DisconnectPin(node, pin, funcNodes)
+    if (nodes) { changeNodes(nodes) }
+  }
+
+  const disconnectAllPins = (node) => {
+    const nodes = DisconnectAllPins(node, funcNodes)
     if (nodes) { changeNodes(nodes) }
   }
 
@@ -151,50 +158,17 @@ export default function GraphEditor({
     changeNodes(nodes)
   }
 
+  const changePins = (node, pins) => {
+    const pinsToDisconnect = node.pins.filter(p => p.pinned && !_.find(pins, {uuid: p.uuid}))
+    const nodes = DisconnectConnectedPins(funcNodes, pinsToDisconnect)
+    changeNodes([...nodes, {...node, pins}])
+  }
+
   const onAddNode = (newNode, source, socket) => {
     addNode(newNode)
 
     if (!socket) { return }
-    const nodesToUpdate = {[source.uuid]: source, [newNode.uuid]: newNode}
-    const exec = {
-      In: _.find(newNode.pins, {side: 'In', exec: true}),
-      Out: _.find(newNode.pins, {side: 'Out', exec: true})
-    }
-    const inputs = {
-      In: _.find(newNode.pins, p => p.side === 'In' && !p.exec),
-      Out: _.find(newNode.pins, p => p.side === 'Out' && !p.exec)
-    }
-    let nodes = null
-    //connect exec pins
-    if (socket.side === 'Out') {
-      if (!socket.exec && inputs.In && !inputs.In.pinned) {
-        nodes = ConnectPins({...funcNodes, ...nodesToUpdate}, {node: source, pin: socket}, {node: newNode, pin: inputs.In})
-        nodes && nodes.map(n => nodesToUpdate[n.uuid] = n)
-      }
-      if (exec.In) {
-        source = nodesToUpdate[source.uuid] || source
-        newNode = nodesToUpdate[newNode.uuid] || newNode
-        const pin = _.find(source.pins, {exec: true, side: 'Out'})
-        if (pin) {
-          nodes = ConnectPins({...funcNodes, ...nodesToUpdate}, {node: source, pin: socket.exec ? socket : pin}, {node: newNode, pin: exec.In})
-          nodes && nodes.map(n => nodesToUpdate[n.uuid] = n)
-        }
-      }
-    } else {
-      if (!socket.exec && inputs.Out && !inputs.Out.pinned) {
-        nodes = ConnectPins({...funcNodes, ...nodesToUpdate}, {node: source, pin: socket}, {node: newNode, pin: inputs.Out})
-        nodes && nodes.map(n => nodesToUpdate[n.uuid] = n)
-      }
-      if (exec.Out) {
-        source = nodesToUpdate[source.uuid] || source
-        newNode = nodesToUpdate[newNode.uuid] || newNode
-        const pin = _.find(source.pins, {exec: true, side: 'In'})
-        if (pin) {
-          nodes = ConnectPins({...funcNodes, ...nodesToUpdate}, {node: source, pin: socket.exec ? socket : pin}, {node: newNode, pin: exec.Out})
-          nodes && nodes.map(n => nodesToUpdate[n.uuid] = n)
-        }
-      }
-    }
+    const nodes = ConnectRelatedPin(funcNodes, newNode, source, socket)
 
     if (nodes) {
       changeNodes(nodes)
@@ -206,13 +180,11 @@ export default function GraphEditor({
     node.position = {x: left, y: top}
   }
 
-  let conn = null
   const createLine = (position, right, type, dataType) => {
     let x = (position.x - svgOffset.x + (ref.current.scrollLeft)) / zoom
     let y = (position.y - svgOffset.y + 4 + (ref.current.scrollTop)) / zoom
     setTemp({begin: {x, y}, end: {x, y}, right, offset: {x:0, y:0}, type, dataType})
     offset = null
-    return conn
   }
 
   const renderNode = (node) => {
@@ -230,7 +202,9 @@ export default function GraphEditor({
       connect={connect}
       removeNode={removeNode}
       changeNode={changeNode}
-      disconnectPins={disconnectPins}
+      disconnectPin={disconnectPin}
+      disconnectAllPins={disconnectAllPins}
+      changePins={changePins}
     />
   }
 

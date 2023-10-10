@@ -19,10 +19,14 @@ export const PinOut = (args) => ({
   ...args,
 })
 
-export const PinIn = (args) => ({
+export const Pin = (args) => ({
   uuid: uuid(),
-  side: 'In',
   ...args,
+})
+
+export const PinIn = (args) => ({
+  ...Pin(args),
+  side: 'In',
 })
 
 const Entry = ({inputs = []} = {}, args = {}) => ({

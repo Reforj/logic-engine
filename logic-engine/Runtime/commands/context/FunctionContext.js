@@ -1,8 +1,11 @@
+const MAX_CALL_STACK = 1000
+
 export default class FunctionContext {
   constructor (contextData) {
     this.nodeResults = {}
     this.userData = contextData
     this.callers = {}
+    this.callstack = []
   }
 
   getResult (uuid) {
@@ -19,5 +22,12 @@ export default class FunctionContext {
 
   getCaller(node) {
     return this.callers[node.uuid]
+  }
+
+  pushCall(node) {
+    this.callstack.push(node)
+    if (this.callstack.length > MAX_CALL_STACK) {
+      throw `Maximum call stack size exceeded (${MAX_CALL_STACK} calls)`
+    }
   }
 }

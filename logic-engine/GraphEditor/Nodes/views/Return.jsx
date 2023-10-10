@@ -4,7 +4,7 @@ import css from '../Node.less'
 import _ from 'lodash'
 
 const Return = (props) => {
-  const { node, inputPin, outputPin, changeNode, disconnectPins } = props
+  const { node, inputPin } = props
 
   return <div className={css.selectWrapper}>
     <div className={css.node}>
