@@ -1,5 +1,6 @@
 # Reforj / Logic engine
 
+The library provides base wysiwyg logic builder with ui and js runtime.
 
 ## Instalation
 `yarn add @reforj/logic-engine`
