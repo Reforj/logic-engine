@@ -3,12 +3,12 @@ export default {
     '<rootDir>/',
   ],
   testMatch: [
-    '**/__tests__/**/*.+(ts|tsx)',
+    '__tests__/**/*.+(ts|tsx|js)',
     '**/?(*.)+(spec|test).+(ts|tsx|js)',
   ],
   transform: {
     '^.+\\.js?$': 'babel-jest',
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': ['ts-jest', {tsconfig: 'tsconfig.json'}],
   },
   preset: 'ts-jest',
   moduleDirectories: [
@@ -17,11 +17,5 @@ export default {
   globals: {
     window: {},
     __DEV__: {},
-    __TEST__: {},
-    __PROD__: {},
-    __DISABLE_LOGGER_: {},
-    'ts-jest': {
-      tsConfig: 'tsconfig.json',
-    },
   },
 }
