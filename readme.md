@@ -9,10 +9,10 @@ The library provides base wysiwyg logic builder with ui and js runtime.
 
 Requirements as peer dependencies
 ```
-react
-react-redux
-react-dnd
-react-dnd-html5-backend
+"react": "^16.14.0",
+"react-redux": "^7.1.0",
+"react-dnd": "^11.0.0",
+"react-dnd-html5-backend": "^11.0.0",
 ```
 
 By defaul LogicEngine creates DnDProvder, you can pass `useDndProvider={false}` to disabled it.
@@ -47,6 +47,8 @@ const runtime = new Runtime()
 const fn = runtime.build(data) // data represents getState from @reforj/logic-engine
 fn()
 ```
+
+[codesandbox Example](https://codesandbox.io/s/base-usage-example-3kw7hx?file=/src/App.js)
 
 ## Contributing
 

@@ -170,13 +170,16 @@ export default function GraphEditor({
       if (!socket.exec && inputs.In && !inputs.In.pinned) {
         nodes = ConnectPins({...funcNodes, ...nodesToUpdate}, {node: source, pin: socket}, {node: newNode, pin: inputs.In})
         nodes && nodes.map(n => nodesToUpdate[n.uuid] = n)
+        console.log(3333)
       }
       if (exec.In) {
         source = nodesToUpdate[source.uuid] || source
         newNode = nodesToUpdate[newNode.uuid] || newNode
         const pin = _.find(source.pins, {exec: true, side: 'Out'})
-        nodes = ConnectPins({...funcNodes, ...nodesToUpdate}, {node: source, pin: socket.exec ? socket : pin}, {node: newNode, pin: exec.In})
-        nodes && nodes.map(n => nodesToUpdate[n.uuid] = n)
+        if (pin) {
+          nodes = ConnectPins({...funcNodes, ...nodesToUpdate}, {node: source, pin: socket.exec ? socket : pin}, {node: newNode, pin: exec.In})
+          nodes && nodes.map(n => nodesToUpdate[n.uuid] = n)
+        }
       }
     } else {
       if (!socket.exec && inputs.Out && !inputs.Out.pinned) {
@@ -187,8 +190,10 @@ export default function GraphEditor({
         source = nodesToUpdate[source.uuid] || source
         newNode = nodesToUpdate[newNode.uuid] || newNode
         const pin = _.find(source.pins, {exec: true, side: 'In'})
-        nodes = ConnectPins({...funcNodes, ...nodesToUpdate}, {node: source, pin: socket.exec ? socket : pin}, {node: newNode, pin: exec.Out})
-        nodes && nodes.map(n => nodesToUpdate[n.uuid] = n)
+        if (pin) {
+          nodes = ConnectPins({...funcNodes, ...nodesToUpdate}, {node: source, pin: socket.exec ? socket : pin}, {node: newNode, pin: exec.Out})
+          nodes && nodes.map(n => nodesToUpdate[n.uuid] = n)
+        }
       }
     }
 
