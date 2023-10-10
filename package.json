@@ -21,6 +21,15 @@
     "react-dnd-html5-backend": "^11.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.12",
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.5.5",
+    "@babel/runtime": "^7.5.5",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.0.0",
+    "babel-jest": "^29.5.0",
     "@vitejs/plugin-react": "^4.1.0",
     "typescript": "^5.2.2",
     "vite": "^4.4.11",
