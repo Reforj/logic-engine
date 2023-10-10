@@ -4,6 +4,7 @@
   "type": "module",
   "main": "index.js",
   "version": "0.1.0-prealpha5",
+  "typings": "./public/index.d.ts",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",

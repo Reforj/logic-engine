@@ -51,7 +51,7 @@ const TempConnection = ({temp: {begin: b, end: e, offset, right, type, dataType}
   return <path id="path" className={cs(css.tempLine, css[type], css[dataType])} d={d} fill="none"/>
 }
 
-export default function Connections ({nodes, offset, temp, removeConnection, ui, scrollTop=0, scrollLeft=0, zoom}) {
+export default function Connections ({nodes, offset, temp, removeConnection, scrollTop=0, scrollLeft=0, zoom}) {
   const connections = _.map(nodes, node => ({node, pins: _.filter(node.pins, p => p.pinned && p.side === 'Out' )}))
 
   return <svg style={{width: '100%', height: '100%'}} xmlns="http://www.w3.org/2000/svg" >

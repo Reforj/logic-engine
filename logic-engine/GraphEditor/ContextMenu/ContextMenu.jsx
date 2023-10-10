@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { TreeMenu } from './TreeMenu'
 
 export default function ContextMenu (props) {
-  const { func, nodeList, left, top, close, addNode, ui, socket, connect, nodePos, node: source } = props
+  const { func, nodeList, left, top, close, addNode, socket, connect, nodePos, node: source } = props
   const ref = useRef()
 
   const click = (e) => {

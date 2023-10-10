@@ -23,8 +23,20 @@ export interface State {
   nodes: {[uuid:string]: StateNode}
 }
 
+interface CustomComponentProps {
+  node: Node
+  sockets: ReactNode
+  inputSockets: Pin[]
+  outputSockets: Pin[]
+  disconnectPin: (pin: Pin) => void
+  disconnectAllPins: () => void
+  changePins: (pins: Pin[]) => void
+  createPin: (pin: Pin) => void
+  changeData: (data: any) => void
+}
+
 export declare class NodesRegister {
-  define (name: string, node: Node) {}
+  define (category: string, node: Node, Component: React.FC<CustomComponentProps>) {}
 }
 
 export declare const LogicEngine: React.ForwardRefExoticComponent<{
@@ -35,3 +47,5 @@ export declare const LogicEngine: React.ForwardRefExoticComponent<{
 }>
 
 export declare function getState(): State
+
+export declare function Pin(args:Pin): Pin

@@ -6,11 +6,12 @@ import SocketInput from './sockets/SocketInput'
 import SocketOutput from './sockets/SocketOutput'
 import ExecInput from './sockets/ExecInput'
 import ExecOutput from './sockets/ExecOutput'
-import { PinIn } from '../../../registers/NodeTypes'
+import { Pin, PinIn } from '../../../registers/NodeTypes'
+
 
 const NodeHOC = (Component) => {
   return (props) => {
-    const {id, node, ui} = props
+    const {id, node} = props
 
     const [{ isDragging }, drag, preview] = useDrag({
       item: { id, node, type: "NODE", position: {...node.position} },
@@ -22,12 +23,12 @@ const NodeHOC = (Component) => {
     const click = (e) => {
       if(node.canNotDelete) { return }
       if (e.altKey) {
-        props.removeNode(node.uuid, ui)
+        props.removeNode(node.uuid)
       }
     }
 
     const changeNode = (node) => {
-      props.changeNode(node, ui)
+      props.changeNode(node)
     }
 
     const addPin = (pin) => {
@@ -45,6 +46,27 @@ const NodeHOC = (Component) => {
       return <Pin key={pin.uuid} socket={pin} {...props} changeNode={changeNode} />
     }
 
+    const disconnectPin = (pin) => {
+      props.disconnectPin(node, pin)
+    }
+
+    const disconnectAllPins = () => {
+      props.disconnectAllPins(node)
+    }
+
+    const changePins = (pins) => {
+      props.changePins(node, pins)
+    }
+
+    const createPin = (args) => {
+      const pin = Pin(args)
+      props.changeNode({...node, pins: [...node.pins, pin]})
+    }
+
+    const changeData = (data) => {
+      changeNode({...node, data})
+    }
+
     const style = {
       left: node.position.x,
       top: node.position.y,
@@ -53,7 +75,17 @@ const NodeHOC = (Component) => {
     return <>
       <DragPreviewImage connect={preview} src={img} />
       <div ref={drag} style={style} onDoubleClick={click} className={`${css.nodeWrapper}`} onContextMenu={(e) => e.stopPropagation()}>
-        <Component {...props} inputPin={inputPin} outputPin={outputPin} addPin={addPin} changeNode={changeNode} />
+        <Component {...props}
+          inputPin={inputPin}
+          outputPin={outputPin}
+          addPin={addPin}
+          changeNode={changeNode}
+          disconnectPin={disconnectPin}
+          disconnectAllPins={disconnectAllPins}
+          changePins={changePins}
+          createPin={createPin}
+          changeData={changeData}
+        />
       </div>
     </>
   }
