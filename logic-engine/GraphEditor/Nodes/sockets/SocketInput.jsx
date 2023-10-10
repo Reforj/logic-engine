@@ -5,7 +5,7 @@ import img from '../pixel'
 import cs from 'classnames'
 
 const SocketInput = ({
-  id, node, socket, createLine, connect, ui, title, changeNode,
+  id, node, socket, createLine, connect, title, changeNode,
 }) => {
   const ref = useRef(null)
   const circle = useRef(null)

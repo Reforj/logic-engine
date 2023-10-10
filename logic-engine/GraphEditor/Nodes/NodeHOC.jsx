@@ -10,7 +10,7 @@ import { PinIn } from '../../../registers/NodeTypes'
 
 const NodeHOC = (Component) => {
   return (props) => {
-    const {id, node, ui} = props
+    const {id, node} = props
 
     const [{ isDragging }, drag, preview] = useDrag({
       item: { id, node, type: "NODE", position: {...node.position} },
@@ -22,12 +22,12 @@ const NodeHOC = (Component) => {
     const click = (e) => {
       if(node.canNotDelete) { return }
       if (e.altKey) {
-        props.removeNode(node.uuid, ui)
+        props.removeNode(node.uuid)
       }
     }
 
     const changeNode = (node) => {
-      props.changeNode(node, ui)
+      props.changeNode(node)
     }
 
     const addPin = (pin) => {

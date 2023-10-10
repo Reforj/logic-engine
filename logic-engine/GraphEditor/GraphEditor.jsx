@@ -15,7 +15,7 @@ const SOCKET_TYPES = ['OUTPUT_SOCKET', 'INPUT_SOCKET', 'EXEC_OUTPUT', 'EXEC_INPU
 const isSocket = (type) => SOCKET_TYPES.includes(type)
 
 export default function GraphEditor({
-  funcNodes, engine, addConnection, addNode, removeNode, ui,
+  funcNodes, engine, addConnection, addNode, removeNode,
   nodeList, changeNode, changeNodes, onClick, userNodesRegister
 }) {
   const [context, setContext] = useState(false)
@@ -133,14 +133,14 @@ export default function GraphEditor({
   const connect = (left, right) => {
     const nodes = ConnectPins(funcNodes, left, right)
     if (nodes) {
-      changeNodes(nodes, ui)
+      changeNodes(nodes)
     }
   }
 
   // disconnect all related pins to node or pin
   const disconnectPins = (pins) => {
     const nodes = DisconnectConnectedPins(funcNodes, pins)
-    if (nodes) { changeNodes(nodes, ui) }
+    if (nodes) { changeNodes(nodes) }
   }
 
   const onRemoveConnection = (node, pin, index, dest) => {
@@ -148,11 +148,11 @@ export default function GraphEditor({
     const destPin = _.find(destNode.pins, {uuid: _.isArray(pin.pinned) ? pin.pinned[index].socket : pin.pinned.socket})
     const nodes = RemoveConnection({node, pin}, {node: destNode, pin: destPin})
 
-    changeNodes(nodes, ui)
+    changeNodes(nodes)
   }
 
   const onAddNode = (newNode, source, socket) => {
-    addNode(newNode ,ui)
+    addNode(newNode)
 
     if (!socket) { return }
     const nodesToUpdate = {[source.uuid]: source, [newNode.uuid]: newNode}
@@ -170,7 +170,6 @@ export default function GraphEditor({
       if (!socket.exec && inputs.In && !inputs.In.pinned) {
         nodes = ConnectPins({...funcNodes, ...nodesToUpdate}, {node: source, pin: socket}, {node: newNode, pin: inputs.In})
         nodes && nodes.map(n => nodesToUpdate[n.uuid] = n)
-        console.log(3333)
       }
       if (exec.In) {
         source = nodesToUpdate[source.uuid] || source
@@ -198,7 +197,7 @@ export default function GraphEditor({
     }
 
     if (nodes) {
-      changeNodes(nodes, ui)
+      changeNodes(nodes)
       setTimeout(() => setSvgUpdate(new Date()), 0) // no clue why it does not rerender
     }
   }
@@ -226,7 +225,6 @@ export default function GraphEditor({
       key={node.uuid}
       node={node}
       engine={engine}
-      ui={ui}
       userNodesRegister={userNodesRegister}
       createLine={createLine}
       connect={connect}
@@ -351,7 +349,6 @@ export default function GraphEditor({
             nodes={funcNodes}
             temp={temp}
             addConnection={addConnection}
-            ui={ui}
             scrollTop={ref.current && ref.current.scrollTop}
             scrollLeft={ref.current && ref.current.scrollLeft}
             removeConnection={onRemoveConnection}
@@ -364,7 +361,6 @@ export default function GraphEditor({
         {context && <ContextMenu
             left={context.left}
             top={context.top}
-            ui={ui}
             nodeList={nodeList}
             node={context.node}
             nodePos={context.nodePos}
