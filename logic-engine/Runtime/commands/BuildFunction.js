@@ -1,7 +1,7 @@
 import _ from 'lodash'
-import FunctionContext from "./context/FunctionContext"
+import FunctionContext from './context/FunctionContext'
 import NodeFactory from './Nodes/NodeFactory'
-import {reduce, reduceUuid} from '../../../utils/reduce'
+import { reduce, reduceUuid } from '../../../utils/reduce'
 
 export const NodesToResolveArgs = (node, nodes) => {
   if (!node.inputs || !node.inputs.length) { return [] }
@@ -19,26 +19,25 @@ export const resolveNodeArgs = (node, context, nodes) => {
 
   context.pushCall(node)
 
-  const nodesToResolve = NodesToResolveArgs(node, nodes)  // [{node: Node, socket: uuid}]
+  const nodesToResolve = NodesToResolveArgs(node, nodes) // [{node: Node, socket: uuid}]
   const caller = node
 
   const results = reduce(nodesToResolve, (obj, node) => {
     if (!node) { return obj }
     if (node.executable) {
-      return {...obj, [node.uuid]: context.getResult(node.uuid)}
+      return { ...obj, [node.uuid]: context.getResult(node.uuid) }
     }
 
     const args = resolveNodeArgs(node, context, nodes) // {[socketUuid]: val}
 
     if (context.getCaller(node) === caller.uuid) {
-      return {...obj, [node.uuid]: context.getResult(node.uuid)}
-    } else {
-      context.setCaller(node, caller)
-      const result = node.exec(context, args, caller)
-      const combinedOutput = context.setResult(node, result.outputs)
-      return {...obj, [node.uuid]: combinedOutput}
+      return { ...obj, [node.uuid]: context.getResult(node.uuid) }
     }
-  })  // { [nodeUuid]: {[socketUuid]: value} }
+    context.setCaller(node, caller)
+    const result = node.exec(context, args, caller)
+    const combinedOutput = context.setResult(node, result.outputs)
+    return { ...obj, [node.uuid]: combinedOutput }
+  }) // { [nodeUuid]: {[socketUuid]: value} }
   return node.inputs.map((pin) => {
     if (!pin.pinned) { return }
     return _.get(results, [pin.pinned.node, pin.pinned.socket])
@@ -46,11 +45,9 @@ export const resolveNodeArgs = (node, context, nodes) => {
 }
 
 const BuildFunction = (func, runtime) => {
-  const nodes = reduceUuid(func.nodes, (node) => {
-    return NodeFactory(node, runtime)
-  })
+  const nodes = reduceUuid(func.nodes, (node) => NodeFactory(node, runtime))
 
-  const entry = _.find(nodes, {type: 'Entry'})
+  const entry = _.find(nodes, { type: 'Entry' })
 
   return (contextData, ...args) => {
     const context = new FunctionContext(contextData)

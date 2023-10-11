@@ -1,25 +1,26 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import cs from 'classnames'
-import css from './EditorDock.less'
 import { useDrop } from 'react-dnd'
+import _ from 'lodash'
+import css from './EditorDock.less'
 import './Nodes'
 import ContextMenu from './ContextMenu'
 import Connections from './Connections'
 import { ConnectPins } from './commands/ConnectPins'
 import { DisconnectAllPins } from './commands/DisconnectAllPins'
 import { RemoveConnection } from './commands/RemoveConnection'
-import _ from 'lodash'
 import NodeRegister from '../../registers/NodeRegister'
 import { SIZE } from '../../consts/Editor'
 import { ConnectRelatedPin } from './commands/ConnecteRelatedPin'
 import { DisconnectPin } from './commands/DisconnectPin'
 import { DisconnectConnectedPins } from './commands/DisconnectConnectedPins'
+
 const SOCKET_TYPES = ['OUTPUT_SOCKET', 'INPUT_SOCKET', 'EXEC_OUTPUT', 'EXEC_INPUT']
 const isSocket = (type) => SOCKET_TYPES.includes(type)
 
-export default function GraphEditor({
+export default function GraphEditor ({
   funcNodes, engine, addConnection, addNode, removeNode,
-  nodeList, changeNode, changeNodes, onClick, userNodesRegister
+  nodeList, changeNode, changeNodes, onClick, userNodesRegister,
 }) {
   const [context, setContext] = useState(false)
   const [temp, setTemp] = useState(false)
@@ -28,7 +29,7 @@ export default function GraphEditor({
   const camera = useRef()
   const ref = useRef()
 
-  let svgOffset = {x: 244, y: 66}
+  let svgOffset = { x: 244, y: 66 }
   if (ref.current) {
     svgOffset = ref.current.getBoundingClientRect()
   }
@@ -53,7 +54,7 @@ export default function GraphEditor({
     window.addEventListener('contextmenu', stopMoving)
     window.addEventListener('keypress', onKeyPress)
     document.body.addEventListener('wheel', preventZoom, { passive: false })
-    ref.current.addEventListener('wheel', wheel,  { passive: false })
+    ref.current.addEventListener('wheel', wheel, { passive: false })
     return () => {
       window.removeEventListener('blur', stopMoving)
       window.removeEventListener('contextmenu', stopMoving)
@@ -70,6 +71,7 @@ export default function GraphEditor({
   }
 
   const updateZoom = (val) => {
+    // eslint-disable-next-line no-nested-ternary
     const v = val < 0.3 ? 0.3 : (val > 2 ? 2 : val)
     ref.current.scrollLeft += (ref.current.scrollLeft * ((v - zoom) / zoom))
     ref.current.scrollTop += (ref.current.scrollTop * ((v - zoom) / zoom))
@@ -79,7 +81,7 @@ export default function GraphEditor({
 
   const onShowContext = (e) => {
     e.preventDefault()
-    showContext( e.clientX , e.clientY)
+    showContext(e.clientX, e.clientY)
   }
 
   const showContext = (x, y, opts) => {
@@ -89,38 +91,42 @@ export default function GraphEditor({
       x: ((x + ref.current.scrollLeft - svgOffset.x) / zoom),
       y: ((y + ref.current.scrollTop - svgOffset.y) / zoom),
     }
-    setContext({left, top, nodePos, ...opts})
+    setContext({
+      left, top, nodePos, ...opts,
+    })
   }
 
   let offset = null
   const [, drop] = useDrop({
-    accept: ["NODE", 'OUTPUT_SOCKET', 'INPUT_SOCKET', 'EXEC_INPUT', 'EXEC_OUTPUT'],
+    accept: ['NODE', 'OUTPUT_SOCKET', 'INPUT_SOCKET', 'EXEC_INPUT', 'EXEC_OUTPUT'],
 
-    hover({node, type, position}, monitor) {
+    hover ({ node, type, position }, monitor) {
       const delta = monitor.getDifferenceFromInitialOffset()
-      if (type === "NODE" && offset) {
+      if (type === 'NODE' && offset) {
         moveBox(node, position.x + (delta.x / zoom), position.y + (delta.y / zoom))
         setSvgUpdate(new Date())
       }
 
       if (temp && offset) {
-        setTemp({...temp, offset: {x: delta.x / zoom, y: delta.y / zoom}})
+        setTemp({ ...temp, offset: { x: delta.x / zoom, y: delta.y / zoom } })
       }
       offset = delta
     },
-    drop({node: n, type, position, socket}, monitor) {
+    drop ({
+      node: n, type, position, socket,
+    }, monitor) {
       if (isSocket(type)) {
         if (monitor.getClientOffset()) {
-          const {x, y} = monitor.getClientOffset()
-          showContext(x, y, {temp, node: n, socket})
+          const { x, y } = monitor.getClientOffset()
+          showContext(x, y, { temp, node: n, socket })
         }
         setTemp(null)
         offset = null
         return
       }
       if (type !== 'NODE') {
-        const {x, y} = monitor.getClientOffset()
-        setContext({left: x - svgOffset.x, top: y - svgOffset.y})
+        const { x, y } = monitor.getClientOffset()
+        setContext({ left: x - svgOffset.x, top: y - svgOffset.y })
         offset = null
         return
       }
@@ -129,7 +135,6 @@ export default function GraphEditor({
         moveBox(n, position.x + (delta.x / zoom), position.y + (delta.y / zoom))
       }
       offset = null
-      return
     },
   })
 
@@ -152,16 +157,19 @@ export default function GraphEditor({
 
   const onRemoveConnection = (node, pin, index, dest) => {
     const destNode = funcNodes[dest.node]
-    const destPin = _.find(destNode.pins, {uuid: _.isArray(pin.pinned) ? pin.pinned[index].socket : pin.pinned.socket})
-    const nodes = RemoveConnection({node, pin}, {node: destNode, pin: destPin})
+    const destPin = _.find(
+      destNode.pins,
+      { uuid: _.isArray(pin.pinned) ? pin.pinned[index].socket : pin.pinned.socket },
+    )
+    const nodes = RemoveConnection({ node, pin }, { node: destNode, pin: destPin })
 
     changeNodes(nodes)
   }
 
   const changePins = (node, pins) => {
-    const pinsToDisconnect = node.pins.filter(p => p.pinned && !_.find(pins, {uuid: p.uuid}))
+    const pinsToDisconnect = node.pins.filter((p) => p.pinned && !_.find(pins, { uuid: p.uuid }))
     const nodes = DisconnectConnectedPins(funcNodes, pinsToDisconnect)
-    changeNodes([...nodes, {...node, pins}])
+    changeNodes([...nodes, { ...node, pins }])
   }
 
   const onAddNode = (newNode, source, socket) => {
@@ -177,82 +185,48 @@ export default function GraphEditor({
   }
 
   const moveBox = (node, left, top) => {
-    node.position = {x: left, y: top}
+    node.position = { x: left, y: top }
   }
 
   const createLine = (position, right, type, dataType) => {
-    let x = (position.x - svgOffset.x + (ref.current.scrollLeft)) / zoom
-    let y = (position.y - svgOffset.y + 4 + (ref.current.scrollTop)) / zoom
-    setTemp({begin: {x, y}, end: {x, y}, right, offset: {x:0, y:0}, type, dataType})
+    const x = (position.x - svgOffset.x + (ref.current.scrollLeft)) / zoom
+    const y = (position.y - svgOffset.y + 4 + (ref.current.scrollTop)) / zoom
+    setTemp({
+      begin: { x, y }, end: { x, y }, right, offset: { x: 0, y: 0 }, type, dataType,
+    })
     offset = null
   }
 
   const renderNode = (node) => {
     const Node = NodeRegister.getView(node.type)
 
-    if (!Node) { throw("Missing node component in '/Nodes/types/" + node.type)}
+    if (!Node) { throw new Error(`Missing node component in '/Nodes/types/${node.type}`) }
 
-    return <Node
-      id={node.uuid}
-      key={node.uuid}
-      node={node}
-      engine={engine}
-      userNodesRegister={userNodesRegister}
-      createLine={createLine}
-      connect={connect}
-      removeNode={removeNode}
-      changeNode={changeNode}
-      disconnectPin={disconnectPin}
-      disconnectAllPins={disconnectAllPins}
-      changePins={changePins}
-    />
+    return (
+      <Node
+        id={node.uuid}
+        key={node.uuid}
+        node={node}
+        engine={engine}
+        userNodesRegister={userNodesRegister}
+        createLine={createLine}
+        connect={connect}
+        removeNode={removeNode}
+        changeNode={changeNode}
+        disconnectPin={disconnectPin}
+        disconnectAllPins={disconnectAllPins}
+        changePins={changePins}
+      />
+    )
   }
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     setContext(false)
     onClick && onClick()
   }
 
-  let mouse
-  let mouseDown = false
-
   const stopMoving = () => {
-    mouseDown = false
-    mouse = null
-  }
 
-  const cameraDown = (e) => {
-    if (e.button === 2) {
-      e.preventDefault()
-      e.stopPropagation()
-      _.delay(() => {
-        mouseDown = true
-        ref.current.style.cursor = 'grabbing'
-      }, 200)
-    }
-  }
-
-  const cameraMove = (e) => {
-    if (mouseDown) {
-      if (!mouse) {
-        mouse = {x: e.clientX, y: e.clientY}
-        return
-      }
-      const dx = mouse.x - e.clientX
-      const dy = mouse.y - e.clientY
-      ref.current.scrollTop += dy
-      ref.current.scrollLeft += dx
-      mouse = {x: e.clientX, y: e.clientY}
-    }
-  }
-
-  const cameraUp = (e) => {
-    if (mouseDown) {
-      ref.current.style.cursor = ''
-      e.preventDefault()
-      e.stopPropagation()
-    }
-    stopMoving()
   }
 
   const wheel = (e) => {
@@ -265,22 +239,18 @@ export default function GraphEditor({
     }
     if (e.ctrlKey) {
       updateZoom(zoom + (e.deltaY / -1000))
-    } else {
-      if (e.deltaX) {
-        const dx = e.deltaX / 2
-        ref.current.scrollLeft += dx
+    } else if (e.deltaX) {
+      const dx = e.deltaX / 2
+      ref.current.scrollLeft += dx
 
-        const dy = e.deltaY / 2
-        ref.current.scrollTop += dy
-      } else {
-        if (e.shiftKey) {
-          const dx = e.deltaY / 2
-          ref.current.scrollLeft += dx
-        } else {
-          const dy = e.deltaY / 2
-          ref.current.scrollTop += dy
-        }
-      }
+      const dy = e.deltaY / 2
+      ref.current.scrollTop += dy
+    } else if (e.shiftKey) {
+      const dx = e.deltaY / 2
+      ref.current.scrollLeft += dx
+    } else {
+      const dy = e.deltaY / 2
+      ref.current.scrollTop += dy
     }
   }
 
@@ -288,7 +258,7 @@ export default function GraphEditor({
     const positions = _.map(funcNodes, 'position')
     if (!positions.length) { return }
 
-    const pos = {x: _.minBy(positions, 'x').x, y: _.minBy(positions, 'y').y}
+    const pos = { x: _.minBy(positions, 'x').x, y: _.minBy(positions, 'y').y }
     ref.current.scrollLeft = pos.x * zoom - 100
     ref.current.scrollTop = pos.y * zoom - 100
   }
@@ -299,23 +269,23 @@ export default function GraphEditor({
     if (e.code === 'Space') {
       e.preventDefault()
     }
-    if(e.code === 'KeyF') {
+    if (e.code === 'KeyF') {
       focusNodes()
     }
   }
 
   return (
     <div className={cs(css.editorWrapper)}>
-      <div ref={drop(ref)}
+      <div
+        ref={drop(ref)}
         onMouseDown={(e) => handleClick(e)}
         className={cs(css.editor)}
         onContextMenu={(e) => onShowContext(e)}
       >
-        <div ref={camera}
-          className={css.camera} style={{width: SIZE.width, height: SIZE.height, transform: `scale(${zoom})`}}
-          // onMouseDown={cameraDown}
-          // onMouseMove={cameraMove}
-          // onContextMenu={cameraUp}
+        <div
+          ref={camera}
+          className={css.camera}
+          style={{ width: SIZE.width, height: SIZE.height, transform: `scale(${zoom})` }}
         >
           <Connections
             zoom={zoom}
@@ -326,30 +296,36 @@ export default function GraphEditor({
             scrollTop={ref.current && ref.current.scrollTop}
             scrollLeft={ref.current && ref.current.scrollLeft}
             removeConnection={onRemoveConnection}
-            update={svgUpdate} />
+            update={svgUpdate}
+          />
           <div>
             {_.map(funcNodes, renderNode)}
           </div>
         </div>
 
-        {context && <ContextMenu
-            left={context.left}
-            top={context.top}
-            nodeList={nodeList}
-            node={context.node}
-            nodePos={context.nodePos}
-            socket={context.socket}
-            connection={context.temp}
-            close={() => setContext(false)}
-            addNode={onAddNode}
-            connect={connect}
-          />}
+        {context && (
+        <ContextMenu
+          left={context.left}
+          top={context.top}
+          nodeList={nodeList}
+          node={context.node}
+          nodePos={context.nodePos}
+          socket={context.socket}
+          connection={context.temp}
+          close={() => setContext(false)}
+          addNode={onAddNode}
+          connect={connect}
+        />
+        )}
         <div id="overlayContainer" />
       </div>
       <div className={css.zoomControls}>
         <div onClick={() => focusNodes()} className={css.label}>[ ]</div>
         <div onClick={() => updateZoom(zoom - 0.1)} className={css.btn}>-</div>
-        <div onClick={() => updateZoom(1)} className={css.label}>Zoom: {Math.round(zoom * 10 - 10)}</div>
+        <div onClick={() => updateZoom(1)} className={css.label}>
+          Zoom:
+          {Math.round(zoom * 10 - 10)}
+        </div>
         <div onClick={() => updateZoom(zoom + 0.1)} className={css.btn}>+</div>
       </div>
     </div>

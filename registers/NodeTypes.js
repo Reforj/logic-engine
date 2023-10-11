@@ -1,15 +1,15 @@
-import {v4 as uuid} from 'uuid'
-import { SIZE } from '../consts/Editor'
+import { v4 as uuid } from 'uuid'
 import _ from 'lodash'
+import { SIZE } from '../consts/Editor'
 
-const defaultPos = {x: SIZE.width / 2 - 300, y: SIZE.height / 2 - 100 }
+const defaultPos = { x: SIZE.width / 2 - 300, y: SIZE.height / 2 - 100 }
 
 export const PinExecIn = (args) => ({
-  ...PinIn({exec: true, multiple: true, ...args})
+  ...PinIn({ exec: true, multiple: true, ...args }),
 })
 
 export const PinExecOut = (args) => ({
-  ...PinOut({exec: true, multiple: false, ...args})
+  ...PinOut({ exec: true, multiple: false, ...args }),
 })
 
 export const PinOut = (args) => ({
@@ -29,47 +29,38 @@ export const PinIn = (args) => ({
   side: 'In',
 })
 
-const Entry = ({inputs = []} = {}, args = {}) => ({
+const Entry = (_, args = {}) => ({
   uuid: uuid(),
-  type: "Entry",
+  type: 'Entry',
   canNotDelete: true,
   executable: true,
   pins: [
     PinExecOut(),
   ],
-  position: args.position || defaultPos
+  position: args.position || defaultPos,
 })
 
-const Begin = ({inputs = []} = {}, args = {}) => ({
+const Return = (_, args = { offset: { x: 200 } }) => ({
   uuid: uuid(),
-  type: "Begin",
-  canNotDelete: true,
-  executable: true,
-  pins: [
-    PinExecOut(),
-  ],
-  position: args.position || defaultPos
-})
-
-const Return = ({outputs = []} = {}, args = {offset: {x: 200}}) => ({
-  uuid: uuid(),
-  type: "Return",
+  type: 'Return',
   pins: [
     PinExecIn(),
-    PinIn({outputUuid: 'result', name: 'Result', dataType: 'boolean', defaultValue: false})
+    PinIn({
+      outputUuid: 'result', name: 'Result', dataType: 'boolean', defaultValue: false,
+    }),
   ],
-  position: args.position || { x: defaultPos.x + (args.offset.x), y: defaultPos.y }
+  position: args.position || { x: defaultPos.x + (args.offset.x), y: defaultPos.y },
 })
 
 const Operator = (func, args = {}) => ({
   uuid: uuid(),
-  type: "Operator",
+  type: 'Operator',
   nodeTitle: args.nodeTitle,
   path: args.path,
   pure: args.pure || false,
   pins: [
-    ..._.map(args.inputs, input => PinIn({dataType: input.dataType, defaultValue: input.defaultValue})),
-    ..._.map(args.outputs, output => PinOut({dataType: output.dataType})),
+    ..._.map(args.inputs, (input) => PinIn({ dataType: input.dataType, defaultValue: input.defaultValue })),
+    ..._.map(args.outputs, (output) => PinOut({ dataType: output.dataType })),
   ],
   position: args.position || defaultPos,
   canAddInputs: args.canAddInputs || false,
@@ -77,7 +68,7 @@ const Operator = (func, args = {}) => ({
 
 const CallLibrary = (func, args = {}) => ({
   uuid: uuid(),
-  type: "CallLibrary",
+  type: 'CallLibrary',
   nodeTitle: args.nodeTitle,
   title: args.title,
   pure: args.pure || false,
@@ -85,39 +76,38 @@ const CallLibrary = (func, args = {}) => ({
   pins: [
     ...(args.pure ? [] : [PinExecIn(), PinExecOut()]),
     ..._.map(args.inputs || [], (s) => PinIn(s)),
-    ..._.map(args.outputs || [], (s) => PinOut(s))
+    ..._.map(args.outputs || [], (s) => PinOut(s)),
   ],
-  position: args.position || defaultPos
+  position: args.position || defaultPos,
 })
 
 const Branch = (func, args) => ({
   uuid: uuid(),
-  type: "Branch",
+  type: 'Branch',
   pins: [
     PinExecIn(),
-    PinExecOut({name: 'True'}),
-    PinExecOut({name: 'False'}),
-    PinIn({name: 'Condition', dataType: 'boolean', defaultValue: false})
+    PinExecOut({ name: 'True' }),
+    PinExecOut({ name: 'False' }),
+    PinIn({ name: 'Condition', dataType: 'boolean', defaultValue: false }),
   ],
-  position: args.position || defaultPos
+  position: args.position || defaultPos,
 })
 
 const UserNode = (func, args = {}) => ({
   uuid: uuid(),
-  type: "UserNode",
+  type: 'UserNode',
   name: args.name,
   title: args.title,
   executable: args.executable || false,
   pins: [
     ...(args.executable ? [PinExecIn(), PinExecOut()] : []),
-    ..._.map(args.pins, (pin) => pin.side === 'In' ? PinIn(pin) : PinOut(pin))
+    ..._.map(args.pins, (pin) => (pin.side === 'In' ? PinIn(pin) : PinOut(pin))),
   ],
   position: args.position || defaultPos,
-  data: args.data
+  data: args.data,
 })
 
 export default {
-  Begin,
   Entry,
   Return,
   Operator,

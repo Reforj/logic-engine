@@ -72,4 +72,4 @@ describe('Func with arguments and pin with multiple connections', function () {
   it('should return passed arg', () => {
     expect(func({func: data}, 5, 10)).toStrictEqual([5, 5])
   })
-});
+})

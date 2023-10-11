@@ -36,7 +36,7 @@ interface CustomComponentProps {
 }
 
 export declare class NodesRegister {
-  define (category: string, node: Node, Component: React.FC<CustomComponentProps>) {}
+  define (category: string, node: Node, Component: React.FC<CustomComponentProps>): void
 }
 
 export declare const LogicEngine: React.ForwardRefExoticComponent<{

@@ -18,8 +18,7 @@ export default {
   call (name, args) {
     if (functions[name]) {
       return functions[name](...args)
-    } else {
-      console.error('LibraryRegister: undefined function: '+name)
     }
+    console.error(`LibraryRegister: undefined function: ${name}`)
   },
 }

@@ -12,14 +12,14 @@ export default class UserNode extends Node {
   }
 
   exec (context, socketArgs = []) {
-    const args = _.map(this.inputs, (input, i) => input.pinned ? socketArgs[i] : input.defaultValue)
+    const args = _.map(this.inputs, (input, i) => (input.pinned ? socketArgs[i] : input.defaultValue))
     const cb = this.runtime.getNodeHandler(this.node.name)
-    if (!cb) { throw 'Missing handler for node: '+ this.node.name }
+    if (!cb) { throw new Error(`Missing handler for node: ${this.node.name}`) }
 
-    const results = cb({node: this.node, context: context.userData}, ...args)
+    const results = cb({ node: this.node, context: context.userData }, ...args)
     const outputs = this.getOutputs().map((pin, i) => results[i])
 
-    return  {
+    return {
       outputs,
       next: this.next?.pinned ? { uuid: this.next.pinned.node } : null,
     }

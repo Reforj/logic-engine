@@ -1,4 +1,4 @@
-import { addPinned} from "../../../logic-engine/GraphEditor/commands/AddPinned";
+import { addPinned} from "../../../logic-engine/GraphEditor/commands/AddPinned"
 
 
 describe('addPinned', function () {
@@ -73,7 +73,16 @@ describe('addPinned', function () {
   }
 
   it('for multiple should set pinned object', () => {
-    expect(addPinned(nodes.entry.pins, 'arg_pin', {node: 'return', socket: 'return_in'})).toStrictEqual([{"pinned": null, "side": "Out", "type": "Exec"}, {"multiple": true, "name": "input", "pinned": [{"node": "return", "socket": "return_in"}], "side": "Out", "type": "Var", "uuid": "arg_pin"}, {"multiple": true, "name": "input2", "pinned": [{"node": "return", "socket": "out1"}], "side": "Out", "type": "Var", "uuid": "arg_pin2"}])
-    expect(addPinned(nodes.entry.pins, 'arg_pin2', {node: 'return', socket: 'return_in'})).toStrictEqual([{"pinned": null, "side": "Out", "type": "Exec"}, {"multiple": true, "name": "input", "side": "Out", "type": "Var", "uuid": "arg_pin"}, {"multiple": true, "name": "input2", "pinned": [{"node": "return", "socket": "out1"}, {"node": "return", "socket": "return_in"}], "side": "Out", "type": "Var", "uuid": "arg_pin2"}])
+    expect(addPinned(nodes.entry.pins, 'arg_pin', {node: 'return', socket: 'return_in'})).toStrictEqual(
+      [{"pinned": null, "side": "Out", "type": "Exec"},
+      {"multiple": true, "name": "input", "pinned": [{"node": "return", "socket": "return_in"}], "side": "Out", "type": "Var", "uuid": "arg_pin"}, {"multiple": true, "name": "input2", "pinned": [{"node": "return", "socket": "out1"}], "side": "Out", "type": "Var", "uuid": "arg_pin2"}
+    ])
+    expect(addPinned(nodes.entry.pins, 'arg_pin2', {node: 'return', socket: 'return_in'})).toStrictEqual(
+      [
+        {"pinned": null, "side": "Out", "type": "Exec"},
+        {"multiple": true, "name": "input", "side": "Out", "type": "Var", "uuid": "arg_pin"},
+        {"multiple": true, "name": "input2", "pinned": [{"node": "return", "socket": "out1"},
+        {"node": "return", "socket": "return_in"}], "side": "Out", "type": "Var", "uuid": "arg_pin2"}]
+    )
   })
-});
+})

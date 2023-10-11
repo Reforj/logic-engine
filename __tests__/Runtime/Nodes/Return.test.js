@@ -42,4 +42,4 @@ describe('Return arguments', function () {
   const node = new Return(data, func)
   expect(node.exec(func, [])).toStrictEqual({return: true, outputs: [10]})
   })
-});
+})

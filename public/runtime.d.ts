@@ -1,4 +1,4 @@
-import {State} from './index.d.ts'
+import { State } from './index.d.ts'
 
 interface Node {
   name: string
@@ -8,12 +8,12 @@ interface Node {
   executable?: boolean
 }
 
-type Handler = ({context, node}:{context: any, node: Node} , ...args: any[]) => any[]
+type Handler = ({ context, node }:{context: any, node: Node}, ...args: any[]) => any[]
 
 type Func = (context: any, ...args: any) => any[]
 
 export declare class Runtime {
-  defineNodeHandler (name: string, handler: Handler) {}
+  defineNodeHandler (name: string, handler: Handler): void
 
   build (state: State): (userData: any, ...args:any) => any
 }

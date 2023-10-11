@@ -74,4 +74,4 @@ describe('Func with arguments and binidings', function () {
   it('should return passed arg', () => {
     expect(func({}, 5, 10)).toStrictEqual([5, 10])
   })
-});
+})

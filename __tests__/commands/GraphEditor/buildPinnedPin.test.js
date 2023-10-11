@@ -1,4 +1,4 @@
-import {  AddConnection, buildPinnedPin, addPinned} from "../../../logic-engine/GraphEditor/commands/AddPinned";
+import {  AddConnection, buildPinnedPin, addPinned} from "../../../logic-engine/GraphEditor/commands/AddPinned"
 
 
 describe('buildPinnedPin', function () {
@@ -83,4 +83,4 @@ describe('buildPinnedPin', function () {
     expect(buildPinnedPin(nodes.entry.pins[2], {node: 'return', socket: 'out1'}).pinned).toBe(nodes.entry.pins[2].pinned)
     expect(buildPinnedPin(nodes.return.pins[1], {node: 'entry', socket: 'arg_pin'}).pinned).toStrictEqual({"node": "entry", "socket": "arg_pin"})
   })
-});
+})

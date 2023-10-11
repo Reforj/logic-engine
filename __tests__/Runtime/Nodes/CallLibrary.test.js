@@ -28,4 +28,4 @@ describe('CallLibrary with arguments', function () {
   it('should call lib method and return result', () => {
     expect(node.exec({}, [5, 10])).toStrictEqual({next: null, outputs: [15]})
   })
-});
+})

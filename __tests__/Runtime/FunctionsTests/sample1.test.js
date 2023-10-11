@@ -22,4 +22,4 @@ describe('Empty Function', function () {
   it('should return empty array', () => {
     expect(func(data)).toStrictEqual([])
   })
-});
+})

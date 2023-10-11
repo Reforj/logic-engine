@@ -1,20 +1,20 @@
-import {useState, useEffect, useRef} from 'react'
+import { useState, useEffect, useRef } from 'react'
 import css from './TreeMenu.less'
 
-export const TreeMenu = ({treeData, onSelect}) => {
-  const [search, setSearch] = useState("")
+export function TreeMenu ({ treeData, onSelect }) {
+  const [search, setSearch] = useState('')
   const ref = useRef()
   useEffect(() => {
     ref.current.focus()
   }, [])
 
-  let searchedData = []
+  const searchedData = []
 
   if (search) {
     treeData.forEach((item) => {
       if (item.category) {
         let addCategory = false
-        let children = []
+        const children = []
 
         item.children.forEach((item) => {
           if (item.title.toLowerCase().includes(search)) {
@@ -23,13 +23,11 @@ export const TreeMenu = ({treeData, onSelect}) => {
           }
         })
 
-        if(addCategory) {
-          searchedData.push({...item, children})
+        if (addCategory) {
+          searchedData.push({ ...item, children })
         }
-      } else {
-        if (item.title.toLowerCase().includes(search)) {
-          searchedData.push(item)
-        }
+      } else if (item.title.toLowerCase().includes(search)) {
+        searchedData.push(item)
       }
     })
   }
@@ -40,24 +38,33 @@ export const TreeMenu = ({treeData, onSelect}) => {
     }
   }
 
-  return <div className={css.menu}>
-    <input onKeyDown={keyDown} ref={ref} className={css.search} placeholder="Search" onChange={(e) => setSearch(e.currentTarget.value)} />
-    <div className={css.list}>
-      {(search ? searchedData : treeData).map((item) => {
-        return <div key={item.key} className={css.category}>
-          {item.title}
-          {item.category
-            ? item.children.map((item) => {
-              return <div key={item.key} className={css.menuItem}  onClick={() => onSelect(item)}>
-                {item.title}
-              </div>
-            })
-          : <div className={css.menuItem} key={item.key} onClick={() => onSelect(item)}>
+  return (
+    <div className={css.menu}>
+      <input
+        onKeyDown={keyDown}
+        ref={ref}
+        className={css.search}
+        placeholder="Search"
+        onChange={(e) => setSearch(e.currentTarget.value)}
+      />
+      <div className={css.list}>
+        {(search ? searchedData : treeData).map((item) => (
+          <div key={item.key} className={css.category}>
             {item.title}
-          </div>}
-        </div>
-      })}
+            {item.category
+              ? item.children.map((item) => (
+                <div key={item.key} className={css.menuItem} onClick={() => onSelect(item)}>
+                  {item.title}
+                </div>
+              ))
+              : (
+                <div className={css.menuItem} key={item.key} onClick={() => onSelect(item)}>
+                  {item.title}
+                </div>
+              )}
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-
+  )
 }

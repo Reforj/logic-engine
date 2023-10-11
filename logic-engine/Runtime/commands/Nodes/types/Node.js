@@ -8,19 +8,19 @@ export default class Node {
     this.runtime = runtime
   }
 
-  getNext() {
-    return this.pins.find(p => p.exec && p.side === 'Out')
+  getNext () {
+    return this.pins.find((p) => p.exec && p.side === 'Out')
   }
 
   getInputs () {
-    return this.pins.filter(p => !p.exec && p.side === 'In')
+    return this.pins.filter((p) => !p.exec && p.side === 'In')
   }
 
   getOutputs () {
-    return this.pins.filter(p => !p.exec && p.side === 'Out')
+    return this.pins.filter((p) => !p.exec && p.side === 'Out')
   }
 
   exec () {
-    throw 'Exec method must be implemented'
+    throw new Error('Exec method must be implemented')
   }
 }

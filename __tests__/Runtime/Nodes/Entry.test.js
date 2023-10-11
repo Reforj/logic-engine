@@ -44,4 +44,4 @@ describe('Func with arguments', function () {
   it('should return next null', () => {
     expect(new Entry({pins: [{uuid: 'entry_out', exec: true, side: 'Out'}]}, {inputs: []}).exec({}, [])).toStrictEqual({next: null, outputs: []})
   })
-});
+})

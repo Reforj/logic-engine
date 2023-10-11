@@ -79,4 +79,4 @@ describe('Func with arguments and cross connections', function () {
   it('should return passed arg', () => {
     expect(func({func: data}, 5, 10)).toStrictEqual([10, 5])
   })
-});
+})
