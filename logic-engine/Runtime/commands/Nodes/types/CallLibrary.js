@@ -14,15 +14,14 @@ export default class CallLibrary extends Node {
     }
   }
 
-  exec (context, socketArgs = {}) {
-    const args = _.map(this.inputs, (input, i) => input.pinned ? socketArgs[input.uuid] : input.defaultValue )
+  exec (context, socketArgs = []) {
+
+    const args = _.map(this.inputs, (input, i) => input.pinned ? socketArgs[i] : input.defaultValue )
     const result = Library.call(this.name, args)
 
     return  {
       next: this.next?.pinned ? { uuid: this.next.pinned.node } : null,
-      outputs: this.output ? {
-        [this.output.uuid]: result
-      } : null,
+      outputs: this.output ? [result] : []
     }
   }
 }

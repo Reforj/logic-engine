@@ -4,11 +4,14 @@ import NodeFactory from './Nodes/NodeFactory'
 import {reduce, reduceUuid} from '../../../utils/reduce'
 
 export const NodesToResolveArgs = (node, nodes) => {
-  if (!node.inputs || !node.inputs.length) { return {} }
-
-  return _.map(node.inputs, (pin) => {
-    return pin.pinned && nodes[pin.pinned.node]
+  if (!node.inputs || !node.inputs.length) { return [] }
+  const result = []
+  _.each(node.inputs, (pin) => {
+    if (pin.pinned && !result.includes(nodes[pin.pinned.node])) {
+      result.push(nodes[pin.pinned.node])
+    }
   })
+  return result
 }
 
 export const resolveNodeArgs = (node, context, nodes) => {
@@ -26,19 +29,19 @@ export const resolveNodeArgs = (node, context, nodes) => {
     }
 
     const args = resolveNodeArgs(node, context, nodes) // {[socketUuid]: val}
+
     if (context.getCaller(node) === caller.uuid) {
       return {...obj, [node.uuid]: context.getResult(node.uuid)}
     } else {
       context.setCaller(node, caller)
       const result = node.exec(context, args, caller)
-      context.setResult(node.uuid, result.outputs)
-      return {...obj, [node.uuid]: result.outputs}
+      const combinedOutput = context.setResult(node, result.outputs)
+      return {...obj, [node.uuid]: combinedOutput}
     }
   })  // { [nodeUuid]: {[socketUuid]: value} }
-
-  return reduce(node.inputs, (obj, pin) => {
-    if (!pin.pinned) { return obj }
-    return { ...obj, [pin.uuid]: _.get(results, [pin.pinned.node, pin.pinned.socket]) }
+  return node.inputs.map((pin) => {
+    if (!pin.pinned) { return }
+    return _.get(results, [pin.pinned.node, pin.pinned.socket])
   })
 }
 
@@ -53,7 +56,7 @@ const BuildFunction = (func, runtime) => {
     const context = new FunctionContext(contextData)
     let node = entry
     let result = node.exec(context, args)
-    context.setResult(entry.uuid, result.outputs)
+    context.setResult(entry, result.outputs)
 
     while (result.next) {
       node = nodes[result.next.uuid]
@@ -61,7 +64,7 @@ const BuildFunction = (func, runtime) => {
       result = node.exec(context, args)
       if (result.return) { return result.outputs }
       if (!result.next) { return [] }
-      context.setResult(node.uuid, result.outputs)
+      context.setResult(node, result.outputs)
     }
 
     return []

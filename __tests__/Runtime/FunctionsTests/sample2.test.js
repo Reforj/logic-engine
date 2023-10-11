@@ -6,7 +6,7 @@ describe('Func with connection to return', function () {
       'entry': {
         uuid: 'entry',
         type: 'Entry',
-        pins: [{uuid: 'entry_out', exec: true}]
+        pins: [{uuid: 'entry_out', exec: true, side: 'Out'}]
       },
       'return': {
         uuid: 'return',

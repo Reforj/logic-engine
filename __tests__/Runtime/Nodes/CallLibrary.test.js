@@ -26,6 +26,6 @@ describe('CallLibrary with arguments', function () {
   const node = new CallLibrary(data)
 
   it('should call lib method and return result', () => {
-    expect(node.exec({}, {input1: 5, input2: 10})).toStrictEqual({next: null, outputs: {'out1': 15}})
+    expect(node.exec({}, [5, 10])).toStrictEqual({next: null, outputs: [15]})
   })
 });

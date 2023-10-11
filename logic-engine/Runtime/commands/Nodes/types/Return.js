@@ -8,8 +8,8 @@ export default class Return extends Node {
     this.inputs = _.filter(node.pins, p => !p.exec && p.side === 'In')
   }
 
-  exec (context, args) {
-    const outputs = _.map(this.inputs, (pin) => pin.pinned ? args[pin.uuid] : pin.defaultValue)
+  exec (context, args = []) {
+    const outputs = _.map(this.inputs, (pin, i) => pin.pinned ? args[i] : pin.defaultValue)
     return  {
       return: true,
       outputs,

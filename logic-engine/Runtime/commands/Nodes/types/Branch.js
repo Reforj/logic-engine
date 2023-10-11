@@ -11,8 +11,8 @@ export default class Branch extends Node {
     this.nextFalse = _.find(node.pins, { exec: true, name: 'False' })
   }
 
-  exec (context, socketArgs = {}) {
-    const condition = this.inputs[0].pinned ? socketArgs[this.inputs[0].uuid] : this.inputs[0].defaultValue
+  exec (context, socketArgs = []) {
+    const condition = this.inputs[0].pinned ? socketArgs[0] : this.inputs[0].defaultValue
 
     let next = condition ? this.nextTrue : this.nextFalse
 

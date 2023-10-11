@@ -18,7 +18,6 @@ describe('Func with arguments', function () {
         {
           uuid: 'arg1',
           side: 'Out',
-          type: 'Var',
           name: 'input',
           pinned: {
             node: 'return',
@@ -28,7 +27,6 @@ describe('Func with arguments', function () {
         {
           uuid: 'arg2',
           side: 'Out',
-          type: 'Var',
           name: 'input2',
           pinned: {
             node: 'return',

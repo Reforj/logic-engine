@@ -7,6 +7,7 @@ describe('Func with arguments', function () {
         uuid: 'entry',
         type: 'Entry',
         pins: [{
+          uuid: 'exec_out',
           side: 'Out',
           exec: true,
           pinned: {
@@ -33,14 +34,14 @@ describe('Func with arguments', function () {
   const node = new Entry(func.nodes.entry, func)
 
   it('should exec should return next node and socekt outputs', () => {
-    expect(node.exec(func, ['hello'])).toStrictEqual({next: {uuid: 'return'}, outputs: {'input_arg': 'hello'}})
+    expect(node.exec(func, ['hello'])).toStrictEqual({next: {uuid: 'return'}, outputs: ['hello']})
   })
 
   it('should ignore extra params', () => {
-    expect(node.exec(func, ['hello', 'world'])).toStrictEqual({next: {uuid: 'return'}, outputs: {'input_arg': 'hello'}})
+    expect(node.exec(func, ['hello', 'world'])).toStrictEqual({next: {uuid: 'return'}, outputs: ['hello']})
   })
 
   it('should return next null', () => {
-    expect(new Entry({pins: []}, {inputs: []}).exec({})).toStrictEqual({next: null, outputs: {}})
+    expect(new Entry({pins: [{uuid: 'entry_out', exec: true, side: 'Out'}]}, {inputs: []}).exec({}, [])).toStrictEqual({next: null, outputs: []})
   })
 });

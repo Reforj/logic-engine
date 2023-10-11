@@ -6,7 +6,11 @@ describe('Empty Function', function () {
       'entry1': {
         uuid: 'entry1',
         type: 'Entry',
-        pins: []
+        pins: [{
+          uuid: 'exec_out',
+          exec: true,
+          side: 'Out'
+        }]
       }
     },
     inputs: [],

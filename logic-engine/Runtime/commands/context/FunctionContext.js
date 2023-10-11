@@ -12,8 +12,12 @@ export default class FunctionContext {
     return this.nodeResults[uuid]
   }
 
-  setResult (uuid, data) {
-    this.nodeResults[uuid] = data
+  setResult (node, outputs) {
+    const combinedOutput = node.getOutputs().reduce((res, pin, i) => {
+      return {...res, [pin.uuid]: outputs[i]}
+    }, {})
+    this.nodeResults[node.uuid] = combinedOutput
+    return combinedOutput
   }
 
   setCaller (node, caller) {
