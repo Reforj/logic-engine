@@ -4,9 +4,8 @@ import Node from './Node'
 export default class Branch extends Node {
   constructor (node) {
     super(node)
-    this.inputs = _.filter(node.pins, (p) => !p.exec && p.side === 'In')
+    this.inputs = this.getInputs()
 
-    this.next = _.find(node.pins, { exec: true, side: 'Out' })
     this.nextTrue = _.find(node.pins, { exec: true, name: 'True' })
     this.nextFalse = _.find(node.pins, { exec: true, name: 'False' })
   }

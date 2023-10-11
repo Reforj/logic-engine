@@ -4,19 +4,23 @@ import { SIZE } from '../consts/Editor'
 
 const defaultPos = { x: SIZE.width / 2 - 300, y: SIZE.height / 2 - 100 }
 
-export const PinExecIn = (args) => ({
-  ...PinIn({ exec: true, multiple: true, ...args }),
-})
+export enum PinSide {
+  In = 0,
+  Out = 1
+}
 
-export const PinExecOut = (args) => ({
-  ...PinOut({ exec: true, multiple: false, ...args }),
-})
-
-export const PinOut = (args) => ({
-  uuid: uuid(),
-  side: 'Out',
+export const PinExecIn = (args = {}) => ({
+  ...PinIn({
+    exec: true, ...args,
+  }),
   multiple: true,
-  ...args,
+})
+
+export const PinExecOut = (args = {}) => ({
+  ...PinOut({
+    exec: true, ...args,
+  }),
+  multiple: false,
 })
 
 export const Pin = (args) => ({
@@ -24,12 +28,18 @@ export const Pin = (args) => ({
   ...args,
 })
 
-export const PinIn = (args) => ({
+export const PinOut = (args) => ({
   ...Pin(args),
-  side: 'In',
+  side: PinSide.Out,
+  multiple: true,
 })
 
-const Entry = (_, args = {}) => ({
+export const PinIn = (args) => ({
+  ...Pin(args),
+  side: PinSide.In,
+})
+
+const Entry = (_, args:any = {}) => ({
   uuid: uuid(),
   type: 'Entry',
   canNotDelete: true,
@@ -40,7 +50,7 @@ const Entry = (_, args = {}) => ({
   position: args.position || defaultPos,
 })
 
-const Return = (_, args = { offset: { x: 200 } }) => ({
+const Return = (_, args:any = { offset: { x: 200 } }) => ({
   uuid: uuid(),
   type: 'Return',
   pins: [
@@ -52,7 +62,7 @@ const Return = (_, args = { offset: { x: 200 } }) => ({
   position: args.position || { x: defaultPos.x + (args.offset.x), y: defaultPos.y },
 })
 
-const Operator = (func, args = {}) => ({
+const Operator = (func, args:any = {}) => ({
   uuid: uuid(),
   type: 'Operator',
   nodeTitle: args.nodeTitle,
@@ -66,7 +76,7 @@ const Operator = (func, args = {}) => ({
   canAddInputs: args.canAddInputs || false,
 })
 
-const CallLibrary = (func, args = {}) => ({
+const CallLibrary = (func, args:any = {}) => ({
   uuid: uuid(),
   type: 'CallLibrary',
   nodeTitle: args.nodeTitle,
@@ -81,7 +91,7 @@ const CallLibrary = (func, args = {}) => ({
   position: args.position || defaultPos,
 })
 
-const Branch = (func, args) => ({
+const Branch = (func, args:any) => ({
   uuid: uuid(),
   type: 'Branch',
   pins: [
@@ -93,7 +103,7 @@ const Branch = (func, args) => ({
   position: args.position || defaultPos,
 })
 
-const UserNode = (func, args = {}) => ({
+const UserNode = (func, args:any = {}) => ({
   uuid: uuid(),
   type: 'UserNode',
   name: args.name,
@@ -101,7 +111,7 @@ const UserNode = (func, args = {}) => ({
   executable: args.executable || false,
   pins: [
     ...(args.executable ? [PinExecIn(), PinExecOut()] : []),
-    ..._.map(args.pins, (pin) => (pin.side === 'In' ? PinIn(pin) : PinOut(pin))),
+    ..._.map(args.pins, (pin) => (pin.side === PinSide.In ? PinIn(pin) : PinOut(pin))),
   ],
   position: args.position || defaultPos,
   data: args.data,

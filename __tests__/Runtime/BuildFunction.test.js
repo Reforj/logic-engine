@@ -8,7 +8,7 @@ describe('Func with arguments', function () {
         type: 'Entry',
         execOutputs: [{uuid: 'entry_out'}],
         pins: [{
-          side: "Out",
+          side: 1,
           exec: true,
           pinned: {
             node: 'return',
@@ -17,7 +17,7 @@ describe('Func with arguments', function () {
         },
         {
           uuid: 'arg1',
-          side: 'Out',
+          side: 1,
           name: 'input',
           pinned: {
             node: 'return',
@@ -26,7 +26,7 @@ describe('Func with arguments', function () {
         },
         {
           uuid: 'arg2',
-          side: 'Out',
+          side: 1,
           name: 'input2',
           pinned: {
             node: 'return',
@@ -39,7 +39,7 @@ describe('Func with arguments', function () {
         type: 'Return',
         execInputs: [{uuid: 'return_in'}],
         pins: [{
-          side: "In",
+          side: 0,
           exec: true,
           pinned: {
             node: 'entry',
@@ -48,8 +48,7 @@ describe('Func with arguments', function () {
         },
         {
           uuid: 'res1',
-          side: 'In',
-          type: 'Var',
+          side: 0,
           name: 'result',
           pinned: {
             node: 'entry',
@@ -58,8 +57,7 @@ describe('Func with arguments', function () {
         },
         {
           uuid: 'res2',
-          side: 'In',
-          type: 'Var',
+          side: 0,
           name: 'result2',
           pinned: {
             node: 'entry',

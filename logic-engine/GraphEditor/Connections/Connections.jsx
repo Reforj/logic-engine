@@ -2,6 +2,7 @@
 import cs from 'classnames'
 import _ from 'lodash'
 import css from './Connections.less'
+import { PinSide } from '../../../registers/NodeTypes'
 
 const Connection = ({
   node, pin, offset, onRemove, scrollTop, scrollLeft, zoom,
@@ -68,7 +69,7 @@ function TempConnection ({
 export default function Connections ({
   nodes, offset, temp, removeConnection, scrollTop = 0, scrollLeft = 0, zoom,
 }) {
-  const connections = _.map(nodes, (node) => ({ node, pins: _.filter(node.pins, (p) => p.pinned && p.side === 'Out') }))
+  const connections = _.map(nodes, (node) => ({ node, pins: _.filter(node.pins, (p) => p.pinned && p.side === PinSide.Out) }))
 
   return (
     <svg style={{ width: '100%', height: '100%' }} xmlns="http://www.w3.org/2000/svg">

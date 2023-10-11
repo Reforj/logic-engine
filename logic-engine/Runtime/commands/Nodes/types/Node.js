@@ -1,3 +1,5 @@
+import { PinSide } from '../../../../../registers/NodeTypes'
+
 export default class Node {
   constructor (node, runtime) {
     this.uuid = node.uuid
@@ -9,15 +11,15 @@ export default class Node {
   }
 
   getNext () {
-    return this.pins.find((p) => p.exec && p.side === 'Out')
+    return this.pins.find((p) => p.exec && p.side === PinSide.Out)
   }
 
   getInputs () {
-    return this.pins.filter((p) => !p.exec && p.side === 'In')
+    return this.pins.filter((p) => !p.exec && p.side === PinSide.In)
   }
 
   getOutputs () {
-    return this.pins.filter((p) => !p.exec && p.side === 'Out')
+    return this.pins.filter((p) => !p.exec && p.side === PinSide.Out)
   }
 
   exec () {

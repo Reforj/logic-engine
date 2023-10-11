@@ -38,6 +38,7 @@ export const resolveNodeArgs = (node, context, nodes) => {
     const combinedOutput = context.setResult(node, result.outputs)
     return { ...obj, [node.uuid]: combinedOutput }
   }) // { [nodeUuid]: {[socketUuid]: value} }
+
   return node.inputs.map((pin) => {
     if (!pin.pinned) { return }
     return _.get(results, [pin.pinned.node, pin.pinned.socket])

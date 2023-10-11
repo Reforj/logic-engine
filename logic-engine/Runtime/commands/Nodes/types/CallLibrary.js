@@ -6,11 +6,11 @@ export default class CallLibrary extends Node {
   constructor (node) {
     super(node)
     this.name = node.path
-    this.inputs = _.filter(node.pins, (p) => !p.exec && p.side === 'In')
-    this.output = _.find(node.pins, (p) => !p.exec && p.side === 'Out')
+    this.inputs = this.getInputs()
+    this.output = this.getOutputs()
 
     if (!node.pure) {
-      this.next = _.find(node.pins, { exec: true, side: 'Out' })
+      this.next = this.getNext()
     }
   }
 

@@ -7,7 +7,7 @@ describe('Func with arguments and pin with multiple connections', function () {
         uuid: 'entry',
         type: 'Entry',
         pins: [{
-          side: "Out",
+          side: 1,
           exec: true,
           pinned: {
             node: 'return',
@@ -16,7 +16,7 @@ describe('Func with arguments and pin with multiple connections', function () {
         },
         {
           uuid: 'arg_pin',
-          side: 'Out',
+          side: 1,
           type: 'Var',
           inputUuid: 'arg1',
           name: 'input',
@@ -34,7 +34,7 @@ describe('Func with arguments and pin with multiple connections', function () {
         type: 'Return',
         exec: true,
         pins: [{
-          side: "In",
+          side: 0,
           exec: true,
           pinned: {
             node: 'entry',
@@ -43,8 +43,7 @@ describe('Func with arguments and pin with multiple connections', function () {
         },
         {
           uuid: 'result_pin',
-          side: 'In',
-          type: 'Var',
+          side: 0,
           outputUuid: 'out1',
           pinned: {
             node: 'entry',
@@ -53,8 +52,7 @@ describe('Func with arguments and pin with multiple connections', function () {
         },
         {
           uuid: 'result_pin2',
-          side: 'In',
-          type: 'Var',
+          side: 0,
           outputUuid: 'out2',
           pinned: {
             node: 'entry',

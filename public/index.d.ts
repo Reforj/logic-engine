@@ -1,5 +1,7 @@
+export { PinSide } from '../registers/NodeTypes'
+
 interface Pin {
-  side: 'In' | 'Out'
+  side: PinSide
   name?: string
   dataType?: 'boolean' | 'number' | 'string' | 'object'
   defaultValue?: any

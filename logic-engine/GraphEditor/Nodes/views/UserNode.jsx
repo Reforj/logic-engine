@@ -2,6 +2,7 @@ import cs from 'classnames'
 import _ from 'lodash'
 import Node from '../NodeHOC'
 import css from '../Node.less'
+import { PinSide } from '../../../../registers/NodeTypes'
 
 function UserNode (props) {
   const {
@@ -13,10 +14,10 @@ function UserNode (props) {
   const sockets = (
     <div className={css.sockets}>
       <div className={css.left}>
-        {_.filter(node.pins, { side: 'In' }).map((pin) => inputPin(pin))}
+        {_.filter(node.pins, { side: PinSide.In }).map((pin) => inputPin(pin))}
       </div>
       <div className={css.right}>
-        {_.filter(node.pins, { side: 'Out' }).map((pin) => outputPin(pin))}
+        {_.filter(node.pins, { side: PinSide.Out }).map((pin) => outputPin(pin))}
       </div>
     </div>
   )
@@ -31,8 +32,8 @@ function UserNode (props) {
           ? (
             <Component
               node={node}
-              inputPins={node.pins.filter((p) => p.side === 'In')}
-              outputPins={node.pins.filter((p) => p.side === 'Out')}
+              inputPins={node.pins.filter((p) => p.side === PinSide.In)}
+              outputPins={node.pins.filter((p) => p.side === PinSide.Out)}
               sockets={sockets}
               disconnectPin={disconnectPin}
               disconnectAllPins={disconnectAllPins}
@@ -41,16 +42,7 @@ function UserNode (props) {
               changeData={changeData}
             />
           )
-          : (
-            <div className={css.sockets}>
-              <div className={css.left}>
-                {_.filter(node.pins, { side: 'In' }).map((pin) => inputPin(pin))}
-              </div>
-              <div className={css.right}>
-                {_.filter(node.pins, { side: 'Out' }).map((pin) => outputPin(pin))}
-              </div>
-            </div>
-          )}
+          : sockets}
       </div>
     </div>
   )

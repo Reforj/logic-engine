@@ -11,7 +11,7 @@ import { DisconnectAllPins } from './commands/DisconnectAllPins'
 import { RemoveConnection } from './commands/RemoveConnection'
 import NodeRegister from '../../registers/NodeRegister'
 import { SIZE } from '../../consts/Editor'
-import { ConnectRelatedPin } from './commands/ConnecteRelatedPin'
+import { ConnectRelatedPin } from './commands/ConnectRelatedPin'
 import { DisconnectPin } from './commands/DisconnectPin'
 import { DisconnectConnectedPins } from './commands/DisconnectConnectedPins'
 

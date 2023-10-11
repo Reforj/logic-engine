@@ -9,7 +9,7 @@ describe('Empty Function', function () {
         pins: [{
           uuid: 'exec_out',
           exec: true,
-          side: 'Out'
+          side: 1
         }]
       }
     },
