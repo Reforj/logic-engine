@@ -5,9 +5,6 @@ export default class UserNode extends Node {
   constructor (node, runtime) {
     super(node, runtime)
     this.name = node.path
-    this.inputs = this.getInputs()
-    this.outputs = this.getOutputs()
-    this.next = this.getNext()
   }
 
   exec (context, socketArgs = []) {

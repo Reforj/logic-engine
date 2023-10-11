@@ -13,7 +13,7 @@ export default class FunctionContext {
   }
 
   setResult (node, outputs) {
-    const combinedOutput = node.getOutputs().reduce((res, pin, i) => ({ ...res, [pin.uuid]: outputs[i] }), {})
+    const combinedOutput = node.outputs.reduce((res, pin, i) => ({ ...res, [pin.uuid]: outputs[i] }), {})
     this.nodeResults[node.uuid] = combinedOutput
     return combinedOutput
   }

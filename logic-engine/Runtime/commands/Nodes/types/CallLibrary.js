@@ -6,12 +6,6 @@ export default class CallLibrary extends Node {
   constructor (node) {
     super(node)
     this.name = node.path
-    this.inputs = this.getInputs()
-    this.output = this.getOutputs()
-
-    if (!node.pure) {
-      this.next = this.getNext()
-    }
   }
 
   exec (context, socketArgs = []) {
@@ -20,7 +14,7 @@ export default class CallLibrary extends Node {
 
     return {
       next: this.next?.pinned ? { uuid: this.next.pinned.node } : null,
-      outputs: this.output ? [result] : [],
+      outputs: [result],
     }
   }
 }

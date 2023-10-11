@@ -166,6 +166,11 @@ export default function GraphEditor ({
     changeNodes(nodes)
   }
 
+  const changePin = (node, pin) => {
+    const pins = node.pins.map((p) => (p.uuid === pin.uuid ? pin : p))
+    changeNode({ ...node, pins })
+  }
+
   const changePins = (node, pins) => {
     const pinsToDisconnect = node.pins.filter((p) => p.pinned && !_.find(pins, { uuid: p.uuid }))
     const nodes = DisconnectConnectedPins(funcNodes, pinsToDisconnect)
@@ -215,6 +220,7 @@ export default function GraphEditor ({
         changeNode={changeNode}
         disconnectPin={disconnectPin}
         disconnectAllPins={disconnectAllPins}
+        changePin={changePin}
         changePins={changePins}
       />
     )

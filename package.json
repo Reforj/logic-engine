@@ -5,6 +5,17 @@
   "main": "index.js",
   "version": "0.1.0-prealpha5",
   "typings": "./public/index.d.ts",
+  "exports": {
+    ".": "./index.js",
+    "./runtime": "./runtime.js",
+    "./style.css": "./style.css"
+  },
+  "typesVersions": {
+    "*": {
+      ".": ["./public/index.d.ts"],
+      "runtime": ["./public/runtime.d.ts"]
+    }
+  },
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",

@@ -53,6 +53,7 @@ const Entry = (_, args:any = {}) => ({
 const Return = (_, args:any = { offset: { x: 200 } }) => ({
   uuid: uuid(),
   type: 'Return',
+  executable: true,
   pins: [
     PinExecIn(),
     PinIn({

@@ -5,7 +5,6 @@ export default class Return extends Node {
   constructor (node) {
     super(node)
     this.executable = true
-    this.inputs = this.getInputs()
   }
 
   exec (context, args = []) {

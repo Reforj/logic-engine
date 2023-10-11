@@ -6,7 +6,9 @@ import SocketInput from './sockets/SocketInput'
 import SocketOutput from './sockets/SocketOutput'
 import ExecInput from './sockets/ExecInput'
 import ExecOutput from './sockets/ExecOutput'
-import { Pin, PinIn } from '../../../registers/NodeTypes'
+import {
+  PinSide, PinIn, PinExecIn, PinExecOut, PinOut,
+} from '../../../registers/NodeTypes'
 
 const NodeHOC = (Component) => function (props) {
   const { id, node } = props
@@ -54,13 +56,23 @@ const NodeHOC = (Component) => function (props) {
     props.disconnectAllPins(node)
   }
 
+  const changePin = (pin) => {
+    props.changePin(node, pin)
+  }
+
   const changePins = (pins) => {
     props.changePins(node, pins)
   }
 
   const createPin = (args) => {
-    const pin = Pin(args)
+    let pin
+    if (args.side === PinSide.In) {
+      pin = args.exec ? PinExecIn(args) : PinIn(args)
+    } else {
+      pin = args.exec ? PinExecOut(args) : PinOut(args)
+    }
     props.changeNode({ ...node, pins: [...node.pins, pin] })
+    return pin
   }
 
   const changeData = (data) => {
@@ -90,6 +102,7 @@ const NodeHOC = (Component) => function (props) {
           changeNode={changeNode}
           disconnectPin={disconnectPin}
           disconnectAllPins={disconnectAllPins}
+          changePin={changePin}
           changePins={changePins}
           createPin={createPin}
           changeData={changeData}

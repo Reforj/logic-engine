@@ -8,6 +8,13 @@ export default class Node {
     this.executable = node.executable
     this.node = node
     this.runtime = runtime
+
+    this.inputs = this.getInputs()
+    this.outputs = this.getOutputs()
+
+    if (node.executable || !node.pure) {
+      this.next = this.getNext()
+    }
   }
 
   getNext () {

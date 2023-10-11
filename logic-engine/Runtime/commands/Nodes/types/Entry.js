@@ -3,8 +3,6 @@ import Node from './Node'
 export default class Entry extends Node {
   constructor (node) {
     super(node)
-    this.next = this.getNext()
-    this.outputs = this.getOutputs()
     this.executable = true
   }
 
