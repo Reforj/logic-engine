@@ -100,7 +100,7 @@ const CallLibrary = (func, args:any = {}) => ({
   position: args.position || defaultPos,
 })
 
-const Branch = (func, args:any) => ({
+const Branch = (func, args:any = {}) => ({
   uuid: uuid(),
   type: 'Branch',
   pins: [
