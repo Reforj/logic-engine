@@ -5,8 +5,8 @@ import NodeTypes from '../registers/NodeTypes'
 import { ConnectPins } from './GraphEditor/commands/ConnectPins'
 import { reduceUuid } from '../utils/reduce'
 
-const initialFunc = () => {
-  const entry = NodeTypes.Entry()
+const initialFunc = (entryArgs = []) => {
+  const entry = NodeTypes.Entry({ inputs: entryArgs })
   const end = NodeTypes.Return()
   let nodes = ConnectPins({}, { node: entry, pin: entry.pins[0] }, { node: end, pin: end.pins[0] })
   nodes = reduceUuid(nodes, (n) => n)
@@ -14,14 +14,14 @@ const initialFunc = () => {
 }
 
 const LogicEngine = connect(({
-  init, data = {}, userNodesRegister, ...userData
+  init, data = {}, userNodesRegister, entryArgs,
 }) => {
   useEffect(() => {
     let { nodes } = data
     if (!data.nodes) {
-      nodes = initialFunc()
+      nodes = initialFunc(entryArgs)
     }
-    init({ nodes, userData })
+    init({ nodes })
   }, [])
 
   return <LogicEditor userNodesRegister={userNodesRegister} />

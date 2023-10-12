@@ -8,6 +8,12 @@ interface Pin {
   exec?: boolean
 }
 
+interface EntryPin {
+  name: string
+  dataType?: 'boolean' | 'number' | 'string' | 'object'
+  defaultValue?: any
+}
+
 interface ExistsPin extends Pin {
   uuid: string
 }
@@ -57,6 +63,7 @@ export declare const LogicEngine: React.ForwardRefExoticComponent<{
   data?: State,
   headerContent?: React.ReactNode
   useDndProvider?: boolean
+  entryArgs?: EntryPin[]
 }>
 
 export declare function getState(): State

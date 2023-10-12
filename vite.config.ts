@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import loadCssModulePlugin from 'vite-plugin-load-css-module'
 import react from '@vitejs/plugin-react'
+import pkt from './package.json'
 
 export default defineConfig({
   plugins: [
@@ -15,6 +16,9 @@ export default defineConfig({
       },
     }),
   ],
+  define: {
+    "_VERSION_": pkt.version,
+  },
   build: {
     lib: {
       entry: [resolve(__dirname, 'index.js'), resolve(__dirname, 'runtime.js')],

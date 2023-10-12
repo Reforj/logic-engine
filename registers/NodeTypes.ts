@@ -46,13 +46,14 @@ export const PinIn = (args) => ({
   side: PinSide.In,
 })
 
-const Entry = (_, args:any = {}) => ({
+const Entry = (args:any = {}) => ({
   uuid: uuid(),
   type: 'Entry',
   canNotDelete: true,
   executable: true,
   pins: [
     PinExecOut(),
+    ...(args.inputs || []).map((pin) => PinOut(pin)),
   ],
   position: args.position || defaultPos,
 })
