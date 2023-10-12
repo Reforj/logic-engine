@@ -8,7 +8,7 @@ describe('Func with arguments', function () {
         type: 'Entry',
         pins: [{
           uuid: 'exec_out',
-          side: 'Out',
+          side: 1,
           exec: true,
           pinned: {
             node: 'return',
@@ -16,7 +16,7 @@ describe('Func with arguments', function () {
           }
         },
         {
-          side: 'Out',
+          side: 1,
           inputUuid: 'arg1',
           uuid: 'input_arg'
         }]
@@ -42,6 +42,6 @@ describe('Func with arguments', function () {
   })
 
   it('should return next null', () => {
-    expect(new Entry({pins: [{uuid: 'entry_out', exec: true, side: 'Out'}]}, {inputs: []}).exec({}, [])).toStrictEqual({next: null, outputs: []})
+    expect(new Entry({pins: [{uuid: 'entry_out', exec: true, side: 1}]}, {inputs: []}).exec({}, [])).toStrictEqual({next: null, outputs: []})
   })
-});
+})

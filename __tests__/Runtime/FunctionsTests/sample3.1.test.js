@@ -8,7 +8,7 @@ describe('Func with arguments and cross connections', function () {
         type: 'Entry',
         execOutputs: [{uuid: 'entry_out'}],
         pins: [{
-          side: "Out",
+          side: 1,
           exec: true,
           pinned: {
             node: 'return',
@@ -17,7 +17,7 @@ describe('Func with arguments and cross connections', function () {
         },
         {
           uuid: 'arg_pin',
-          side: 'Out',
+          side: 1,
           type: 'Var',
           name: 'input',
           pinned: {
@@ -27,7 +27,7 @@ describe('Func with arguments and cross connections', function () {
         },
         {
           uuid: 'arg_pin2',
-          side: 'Out',
+          side: 1,
           type: 'Var',
           name: 'input2',
           pinned: {
@@ -41,7 +41,7 @@ describe('Func with arguments and cross connections', function () {
         type: 'Return',
         execInputs: [{uuid: 'return_in'}],
         pins: [{
-          side: "In",
+          side: 0,
           exec: true,
           pinned: {
             node: 'entry',
@@ -50,7 +50,7 @@ describe('Func with arguments and cross connections', function () {
         },
         {
           uuid: 'result_pin',
-          side: 'In',
+          side: 0,
           type: 'Var',
           outputUuid: 'out1',
           pinned: {
@@ -60,7 +60,7 @@ describe('Func with arguments and cross connections', function () {
         },
         {
           uuid: 'result_pin2',
-          side: 'In',
+          side: 0,
           type: 'Var',
           outputUuid: 'out2',
           pinned: {
@@ -70,8 +70,6 @@ describe('Func with arguments and cross connections', function () {
         }]
       }
     },
-    inputs: [{uuid: 'arg1', name: 'input'}, {name: 'input2'}],
-    outputs: [{uuid: 'out1', name: 'result'}, {uuid: 'out2', name: 'result2'}],
   }
 
   const func = BuildFunction(data)
@@ -79,4 +77,4 @@ describe('Func with arguments and cross connections', function () {
   it('should return passed arg', () => {
     expect(func({func: data}, 5, 10)).toStrictEqual([10, 5])
   })
-});
+})

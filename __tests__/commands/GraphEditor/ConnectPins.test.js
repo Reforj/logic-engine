@@ -1,4 +1,4 @@
-import { ConnectPins } from "../../../logic-engine/GraphEditor/commands/ConnectPins";
+import { ConnectPins } from "../../../logic-engine/GraphEditor/commands/ConnectPins"
 
 describe('ConnectPins', function () {
   const nodes = {
@@ -98,4 +98,4 @@ describe('ConnectPins', function () {
     expect(newNodes[0].pins[2].pinned).toStrictEqual([{"node": "return", "socket": "result_pin"}, {"node": "return", "socket": "result_pin2"}])
     expect(newNodes[1].pins[2].pinned).toStrictEqual({"node": "entry", "socket": "arg_pin2"})
   })
-});
+})

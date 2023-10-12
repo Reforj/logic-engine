@@ -13,9 +13,7 @@ export default class FunctionContext {
   }
 
   setResult (node, outputs) {
-    const combinedOutput = node.getOutputs().reduce((res, pin, i) => {
-      return {...res, [pin.uuid]: outputs[i]}
-    }, {})
+    const combinedOutput = node.outputs.reduce((res, pin, i) => ({ ...res, [pin.uuid]: outputs[i] }), {})
     this.nodeResults[node.uuid] = combinedOutput
     return combinedOutput
   }
@@ -24,14 +22,14 @@ export default class FunctionContext {
     this.callers[node.uuid] = caller.uuid
   }
 
-  getCaller(node) {
+  getCaller (node) {
     return this.callers[node.uuid]
   }
 
-  pushCall(node) {
+  pushCall (node) {
     this.callstack.push(node)
     if (this.callstack.length > MAX_CALL_STACK) {
-      throw `Maximum call stack size exceeded (${MAX_CALL_STACK} calls)`
+      throw new Error(`Maximum call stack size exceeded (${MAX_CALL_STACK} calls)`)
     }
   }
 }

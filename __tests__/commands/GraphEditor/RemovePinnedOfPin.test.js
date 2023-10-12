@@ -1,4 +1,4 @@
-import { RemovePinnedOfPin } from "../../../logic-engine/GraphEditor/commands/RemovePinnedOfPin";
+import { RemovePinnedOfPin } from "../../../logic-engine/GraphEditor/commands/RemovePinnedOfPin"
 
 
 describe('RemovePinnedOfPin', function () {
@@ -100,4 +100,4 @@ describe('RemovePinnedOfPin', function () {
     expect(newNode.pins[2].pinned).toStrictEqual(nodes.entry.pins[2].pinned)
   })
 
-});
+})

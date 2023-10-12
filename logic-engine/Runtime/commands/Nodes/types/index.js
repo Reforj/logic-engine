@@ -4,8 +4,7 @@ import Entry from './Entry'
 import Return from './Return'
 import CallLibrary from './CallLibrary'
 import UserNode from './UserNode'
-import Branch from './Branch'  // legacy
-
+import Branch from './Branch' // legacy
 
 NodeRegister.define('Entry', Entry)
 NodeRegister.define('Return', Return)

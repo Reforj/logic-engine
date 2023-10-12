@@ -1,38 +1,39 @@
-import React, { useState, useEffect } from "react"
+import { useEffect } from 'react'
 import { Provider } from 'react-redux'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import {LogicEngine} from '../logic-engine'
+import { LogicEngine } from '../logic-engine'
 import Header from './Header'
 import css from './LogicEngine.less'
-import _ from 'lodash'
-import  store from '../store'
+import store from '../store'
 
 export const getState = () => store.getState().engine
 
-export default (props) => {
-  const { useDndProvider = true } = props
+export default function (props) {
+  const { useDndProvider = true, data, headerContent } = props
   useEffect(() => {
-    store.dispatch({type: 'engine/INIT', ...props.data})
+    store.dispatch({ type: 'engine/INIT', ...data })
     return () => {
-      store.dispatch({type: 'engine/RESET'})
+      store.dispatch({ type: 'engine/RESET' })
     }
   }, [])
 
-  const withDndProvider = (children) => {
-    return <DndProvider backend={HTML5Backend}>
+  const withDndProvider = (children) => (
+    <DndProvider backend={HTML5Backend}>
       {children}
     </DndProvider>
-  }
+  )
 
-  const content = <Provider store={store}>
-    <div className={css.main}>
-      <div className={css.editor}>
-        <Header headerContent={props.headerContent} />
-        <LogicEngine {...props}/>
+  const content = (
+    <Provider store={store}>
+      <div className={css.main}>
+        <div className={css.editor}>
+          <Header headerContent={headerContent} />
+          <LogicEngine {...props} />
+        </div>
       </div>
-    </div>
-  </Provider>
+    </Provider>
+  )
 
   return (
     useDndProvider ? withDndProvider(content) : content

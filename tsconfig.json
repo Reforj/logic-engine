@@ -32,7 +32,7 @@
       "~/*": ["*"]
     },
     "typeRoots": [
-      "./",
+      "./public",
       "./node_modules/@types"
     ]
   },

@@ -10,10 +10,10 @@ import _ from 'lodash'
 
 export const RemovePinnedOfPin = (node, pin) => {
   if (!pin) { return node }
-  const pins = node.pins.map(p => {
-    if(p.uuid !== pin.pinned.socket) { return p }
-    const pinned = _.isArray(p.pinned) ? _.filter(p.pinned, p => p.socket !== pin.uuid) : null
-    return {...p, pinned: pinned && pinned.length ? pinned : null }
+  const pins = node.pins.map((p) => {
+    if (p.uuid !== pin.pinned.socket) { return p }
+    const pinned = _.isArray(p.pinned) ? _.filter(p.pinned, (p) => p.socket !== pin.uuid) : null
+    return { ...p, pinned: pinned && pinned.length ? pinned : null }
   })
-  return {...node, pins}
+  return { ...node, pins }
 }

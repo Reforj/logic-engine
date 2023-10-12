@@ -1,8 +1,15 @@
+export { PinSide } from '../registers/NodeTypes'
+
 interface Pin {
-  side: 'In' | 'Out'
+  side: PinSide
   name?: string
   dataType?: 'boolean' | 'number' | 'string' | 'object'
   defaultValue?: any
+  exec?: boolean
+}
+
+interface ExistsPin extends Pin {
+  uuid: string
 }
 
 interface Node {
@@ -16,7 +23,7 @@ interface Node {
 interface StateNode {
   uuid: string
   name: string
-  pins: Pin[]
+  pins: ExistsPin[]
 }
 
 export interface State {
@@ -24,19 +31,22 @@ export interface State {
 }
 
 interface CustomComponentProps {
-  node: Node
+  node: StateNode
   sockets: ReactNode
-  inputSockets: Pin[]
-  outputSockets: Pin[]
-  disconnectPin: (pin: Pin) => void
-  disconnectAllPins: () => void
-  changePins: (pins: Pin[]) => void
-  createPin: (pin: Pin) => void
-  changeData: (data: any) => void
+  inputPins: ExistsPin[]
+  outputPins: ExistsPin[]
+  renderInputPin(pin: ExistsPin): ReactNode
+  renderOutputPin(pin: ExistsPin): ReactNode
+  disconnectPin(pin: ExistsPin): void
+  disconnectAllPins(): void
+  changePin(pin: ExistsPin): void
+  changePins(pins: ExistsPin[]): void
+  createPin(pin: Pin): ExistsPin
+  changeData(data: any): void
 }
 
 export declare class NodesRegister {
-  define (category: string, node: Node, Component: React.FC<CustomComponentProps>) {}
+  define (category: string, node: Node, Component: React.FC<CustomComponentProps>): void
 }
 
 export declare const LogicEngine: React.ForwardRefExoticComponent<{
@@ -48,4 +58,4 @@ export declare const LogicEngine: React.ForwardRefExoticComponent<{
 
 export declare function getState(): State
 
-export declare function Pin(args:Pin): Pin
+export declare function Pin(args:Pin): ExistsPin

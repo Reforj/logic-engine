@@ -9,7 +9,7 @@ describe('Empty Function', function () {
         pins: [{
           uuid: 'exec_out',
           exec: true,
-          side: 'Out'
+          side: 1
         }]
       }
     },
@@ -22,4 +22,4 @@ describe('Empty Function', function () {
   it('should return empty array', () => {
     expect(func(data)).toStrictEqual([])
   })
-});
+})

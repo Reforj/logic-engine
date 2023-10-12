@@ -1,4 +1,3 @@
-import React from 'react'
 import BuildFunction from './commands/BuildFunction'
 
 export default class Runtime {
@@ -14,8 +13,8 @@ export default class Runtime {
     return this.userHandlers[name]
   }
 
-  build({nodes}) {
-    const func = BuildFunction({nodes}, this)
+  build ({ nodes }) {
+    const func = BuildFunction({ nodes }, this)
     return func
   }
 }

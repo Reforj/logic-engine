@@ -7,7 +7,7 @@ describe('Return arguments', function () {
         uuid: 'reutnr',
         type: 'Return',
         pins: [{
-          side: 'In',
+          side: 0,
           exec: true,
           pinned: {
             node: 'return',
@@ -15,7 +15,7 @@ describe('Return arguments', function () {
           }
         },
         {
-          side: 'In',
+          side: 0,
           type: 'Var',
           outputUuid: 'output',
           uuid: 'output_arg',
@@ -42,4 +42,4 @@ describe('Return arguments', function () {
   const node = new Return(data, func)
   expect(node.exec(func, [])).toStrictEqual({return: true, outputs: [10]})
   })
-});
+})

@@ -3,13 +3,14 @@ import rootReducers from '../redux/reducers'
 
 let composeEnhancers = compose
 
-// if (window.__DEV__) {
-//   if (typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === 'function') {
-//     composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ name: 'Logic Engine' })
-//   }
-// }
+// eslint-disable-next-line no-underscore-dangle
+if (window.__DEV__) {
+  if (typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === 'function') {
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ name: 'Logic Engine' })
+  }
+}
 
-let store = create(
+const store = create(
   rootReducers(),
   {},
   composeEnhancers(),

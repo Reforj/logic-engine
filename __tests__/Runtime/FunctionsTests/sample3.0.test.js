@@ -7,7 +7,7 @@ describe('Func with arguments and binidings', function () {
         uuid: 'entry',
         type: 'Entry',
         pins: [{
-          side: "Out",
+          side: 1,
           exec: true,
           pinned: {
             node: 'return',
@@ -16,7 +16,7 @@ describe('Func with arguments and binidings', function () {
         },
         {
           uuid: 'arg_pin',
-          side: 'Out',
+          side: 1,
           type: 'Var',
           name: 'input',
           pinned: {
@@ -26,7 +26,7 @@ describe('Func with arguments and binidings', function () {
         },
         {
           uuid: 'arg_pin2',
-          side: 'Out',
+          side: 1,
           type: 'Var',
           name: 'input2',
           pinned: {
@@ -40,7 +40,7 @@ describe('Func with arguments and binidings', function () {
         type: 'Return',
         pins: [{
           uuid: 'return_in',
-          side: "In",
+          side: 0,
           exec: true,
           pinned: {
             node: 'entry',
@@ -49,7 +49,7 @@ describe('Func with arguments and binidings', function () {
         },
         {
           uuid: 'res1',
-          side: 'In',
+          side: 0,
           outputUuid: 'out1',
           pinned: {
             node: 'entry',
@@ -58,7 +58,7 @@ describe('Func with arguments and binidings', function () {
         },
         {
           uuid: 'res2',
-          side: 'In',
+          side: 0,
           outputUuid: 'out2',
           pinned: {
             node: 'entry',
@@ -74,4 +74,4 @@ describe('Func with arguments and binidings', function () {
   it('should return passed arg', () => {
     expect(func({}, 5, 10)).toStrictEqual([5, 10])
   })
-});
+})

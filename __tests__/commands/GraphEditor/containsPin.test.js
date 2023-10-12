@@ -1,4 +1,4 @@
-import {  containsPin } from "../../../logic-engine/GraphEditor/commands/AddPinned";
+import {  containsPin } from "../../../logic-engine/GraphEditor/commands/AddPinned"
 
 
 describe('containsPin', function () {
@@ -81,4 +81,4 @@ describe('containsPin', function () {
     expect(containsPin(nodes.entry.pins[1].pinned, {node: 'return', socket: 'out2'})).toBe(true)
     expect(containsPin(nodes.entry.pins[1].pinned, {node: 'return', socket: 'out3'})).toBe(false)
   })
-});
+})

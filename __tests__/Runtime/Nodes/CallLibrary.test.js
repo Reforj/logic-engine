@@ -7,19 +7,16 @@ describe('CallLibrary with arguments', function () {
     path: 'Operator.Plus',
     pins: [{
       uuid: 'input1',
-      side: 'In',
-      type: 'Var',
+      side: 0,
       pinned: {},
     },
     {
       uuid: 'input2',
-      side: 'In',
-      type: 'Var',
+      side: 0,
       pinned: {},
     },{
       uuid: 'out1',
-      side: 'Out',
-      type: 'Var',
+      side: 1,
     }],
   }
 
@@ -28,4 +25,4 @@ describe('CallLibrary with arguments', function () {
   it('should call lib method and return result', () => {
     expect(node.exec({}, [5, 10])).toStrictEqual({next: null, outputs: [15]})
   })
-});
+})
