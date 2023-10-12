@@ -18,7 +18,8 @@
   },
   "typesVersions": {
     "*": {
-      "*": ["*"]
+      ".": ["./index.d.ts"],
+      "runtime": ["./runtime.d.ts"]
     }
   },
   "typings": "./index.d.ts",

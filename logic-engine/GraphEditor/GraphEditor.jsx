@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import cs from 'classnames'
 import { useDrop } from 'react-dnd'
 import _ from 'lodash'
 import css from './EditorDock.less'
@@ -132,7 +131,7 @@ export default function GraphEditor ({
       }
       const delta = monitor.getDifferenceFromInitialOffset()
       if (delta) {
-        moveBox(n, position.x + (delta.x / zoom), position.y + (delta.y / zoom))
+        moveBox(n, position.x + (delta.x / zoom), position.y + (delta.y / zoom), true)
       }
       offset = null
     },
@@ -189,8 +188,11 @@ export default function GraphEditor ({
     }
   }
 
-  const moveBox = (node, left, top) => {
-    node.position = { x: left, y: top }
+  const moveBox = (node, left, top, save) => {
+    node.position = { x: Math.round(left), y: Math.round(top) }
+    if (save) {
+      changeNode({ ...node })
+    }
   }
 
   const createLine = (position, right, type, dataType) => {
@@ -281,11 +283,11 @@ export default function GraphEditor ({
   }
 
   return (
-    <div className={cs(css.editorWrapper)}>
+    <div className={css.editorWrapper}>
       <div
         ref={drop(ref)}
         onMouseDown={(e) => handleClick(e)}
-        className={cs(css.editor)}
+        className={css.editor}
         onContextMenu={(e) => onShowContext(e)}
       >
         <div

@@ -18,6 +18,10 @@ export default function ContextMenu (props) {
     const Node = NodeTypes[node.type]
 
     if (!Node) { throw new Error(`Missing registered node type: ${node.type} in registers/NodeTypes.js`) }
+    if (socket?.side === 0) {
+      nodePos.x -= 170
+      nodePos.y -= 20
+    }
 
     const newNode = Node(func, { ...node, position: nodePos })
 

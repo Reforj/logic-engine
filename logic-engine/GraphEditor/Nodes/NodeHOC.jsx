@@ -6,9 +6,7 @@ import SocketInput from './sockets/SocketInput'
 import SocketOutput from './sockets/SocketOutput'
 import ExecInput from './sockets/ExecInput'
 import ExecOutput from './sockets/ExecOutput'
-import {
-  PinSide, PinIn, PinExecIn, PinExecOut, PinOut,
-} from '../../../registers/NodeTypes'
+import { newPin, PinSide } from '../../../registers/NodeTypes'
 
 const NodeHOC = (Component) => function (props) {
   const { id, node } = props
@@ -34,7 +32,7 @@ const NodeHOC = (Component) => function (props) {
   }
 
   const addPin = (pin) => {
-    const newPin = PinIn({ ...pin, extra: true })
+    const newPin = newPin({ side: PinSide.In, ...pin, extra: true })
     props.changeNode({ ...node, pins: [...node.pins, newPin] })
   }
 
@@ -65,18 +63,18 @@ const NodeHOC = (Component) => function (props) {
   }
 
   const createPin = (args) => {
-    let pin
-    if (args.side === PinSide.In) {
-      pin = args.exec ? PinExecIn(args) : PinIn(args)
-    } else {
-      pin = args.exec ? PinExecOut(args) : PinOut(args)
-    }
+    const pin = newPin(args)
     props.changeNode({ ...node, pins: [...node.pins, pin] })
     return pin
   }
 
   const changeData = (data) => {
     changeNode({ ...node, data })
+  }
+
+  const removePin = (pin) => {
+    const pins = node.filter((p) => p.uuid !== pin.uuid)
+    changePins(node, pins)
   }
 
   const style = {
@@ -106,6 +104,7 @@ const NodeHOC = (Component) => function (props) {
           changePins={changePins}
           createPin={createPin}
           changeData={changeData}
+          removePin={removePin}
         />
       </div>
     </>

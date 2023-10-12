@@ -24,6 +24,8 @@ interface StateNode {
   uuid: string
   name: string
   pins: ExistsPin[]
+  data?: any
+  executable?: boolean
 }
 
 export interface State {
@@ -42,6 +44,7 @@ interface CustomComponentProps {
   changePin(pin: ExistsPin): void
   changePins(pins: ExistsPin[]): void
   createPin(pin: Pin): ExistsPin
+  removePin(data: ExistsPin): void
   changeData(data: any): void
 }
 
@@ -58,4 +61,4 @@ export declare const LogicEngine: React.ForwardRefExoticComponent<{
 
 export declare function getState(): State
 
-export declare function Pin(args:Pin): ExistsPin
+export declare function newPin(args:Pin): ExistsPin

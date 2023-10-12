@@ -23,6 +23,13 @@ export const PinExecOut = (args = {}) => ({
   multiple: false,
 })
 
+export const newPin = (data) => {
+  if (data.side === PinSide.In) {
+    return data.exec ? PinExecIn(data) : PinIn(data)
+  }
+  return data.exec ? PinExecOut(data) : PinOut(data)
+}
+
 export const Pin = (args) => ({
   uuid: uuid(),
   ...args,
