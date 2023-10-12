@@ -22,7 +22,7 @@
     }
   },
   "typings": "./index.d.ts",
-  "version": "0.1.0-prealpha5",
+  "version": "0.1.0-prealpha6",
   "scripts": {
     "publish": ""
   },
