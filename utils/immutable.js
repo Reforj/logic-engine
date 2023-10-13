@@ -1,7 +1,7 @@
-import { get } from 'lodash'
-import { set } from 'lodash/fp'
+import get from 'lodash/get'
+import set from 'lodash/fp/set'
 
-export { merge } from 'lodash/fp'
+export { default as merge } from 'lodash/fp/merge'
 
 export const getIn = get
 export const setIn = (object, path, value) => set(path, value, object)

@@ -1,9 +1,9 @@
-import _ from 'lodash'
+import _toArray from 'lodash/toArray'
 import { RemovePinnedOfPin } from './RemovePinnedOfPin'
 
 export const DisconnectPin = (node, pin, nodes) => {
   const nodesToUpdate = { [node.uuid]: node }
-  const pinnedPins = _.isArray(pin.pinned) ? pin.pinned : [pin.pinned]
+  const pinnedPins = Array.isArray(pin.pinned) ? pin.pinned : [pin.pinned]
   pinnedPins.map((pinned) => {
     if (!pinned) { return }
     const node = nodesToUpdate[pinned.node] || nodes[pinned.node]
@@ -11,5 +11,5 @@ export const DisconnectPin = (node, pin, nodes) => {
   })
   pin.pinned = null
 
-  return _.toArray(nodesToUpdate)
+  return _toArray(nodesToUpdate)
 }

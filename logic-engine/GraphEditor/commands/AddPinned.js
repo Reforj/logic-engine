@@ -1,8 +1,6 @@
-import _ from 'lodash'
-
 export const containsPin = (pinned, pin) => {
   if (!pinned || !pin) { return false }
-  if (!_.isArray(pinned)) { return pinned.node === pin.node && pinned.socket === pin.socket }
+  if (!Array.isArray(pinned)) { return pinned.node === pin.node && pinned.socket === pin.socket }
 
   for (let i = 0; i < pinned.length; i++) {
     const p = pinned[i]

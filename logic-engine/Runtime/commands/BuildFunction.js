@@ -1,4 +1,5 @@
-import _ from 'lodash'
+import _find from 'lodash/find'
+import _get from 'lodash/get'
 import FunctionContext from './context/FunctionContext'
 import NodeFactory from './Nodes/NodeFactory'
 import { reduce, reduceUuid } from '../../../utils/reduce'
@@ -6,7 +7,7 @@ import { reduce, reduceUuid } from '../../../utils/reduce'
 export const NodesToResolveArgs = (node, nodes) => {
   if (!node.inputs || !node.inputs.length) { return [] }
   const result = []
-  _.each(node.inputs, (pin) => {
+  node.inputs.forEach((pin) => {
     if (pin.pinned && !result.includes(nodes[pin.pinned.node])) {
       result.push(nodes[pin.pinned.node])
     }
@@ -41,14 +42,14 @@ export const resolveNodeArgs = (node, context, nodes) => {
 
   return node.inputs.map((pin) => {
     if (!pin.pinned) { return }
-    return _.get(results, [pin.pinned.node, pin.pinned.socket])
+    return _get(results, [pin.pinned.node, pin.pinned.socket])
   })
 }
 
 const BuildFunction = (func, runtime) => {
   const nodes = reduceUuid(func.nodes, (node) => NodeFactory(node, runtime))
 
-  const entry = _.find(nodes, { type: 'Entry' })
+  const entry = _find(nodes, { type: 'Entry' })
 
   return (contextData, ...args) => {
     const context = new FunctionContext(contextData)

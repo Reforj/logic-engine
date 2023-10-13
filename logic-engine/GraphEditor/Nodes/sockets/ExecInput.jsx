@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { DragPreviewImage, useDrag, useDrop } from 'react-dnd'
-import _ from 'lodash'
+import _find from 'lodash/find'
 import css from './Sockets.less'
 import img from '../pixel'
 import arrow from '../../../../assets/arrow.png'
@@ -15,7 +15,7 @@ function ExecInput ({
   const [{ isOver }, drop] = useDrop({
     accept: 'EXEC_OUTPUT',
     drop ({ node: target, socket: pin }) {
-      if (_.find(socket.pinned, { socket: pin.uuid })) { return } // prevent recconnect same pin
+      if (_find(socket.pinned, { socket: pin.uuid })) { return } // prevent recconnect same pin
       connect({ node, pin: socket }, { node: target, pin })
     },
     collect: (monitor) => ({

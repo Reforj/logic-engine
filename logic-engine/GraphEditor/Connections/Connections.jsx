@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import cs from 'classnames'
-import _ from 'lodash'
+import _map from 'lodash/map'
 import css from './Connections.less'
 import { PinSide } from '../../../registers/NodeTypes'
 
@@ -45,7 +45,7 @@ const Connection = ({
     )
   }
 
-  if (_.isArray(pin.pinned)) {
+  if (Array.isArray(pin.pinned)) {
     return pin.pinned.map((dest, index) => path(pin, dest, index))
   }
   return path(pin, pin.pinned)
@@ -69,7 +69,7 @@ function TempConnection ({
 export default function Connections ({
   nodes, offset, temp, removeConnection, scrollTop = 0, scrollLeft = 0, zoom,
 }) {
-  const connections = _.map(nodes, (node) => ({ node, pins: _.filter(node.pins, (p) => p.pinned && p.side === PinSide.Out) }))
+  const connections = _map(nodes, (node) => ({ node, pins: node.pins.filter((p) => p.pinned && p.side === PinSide.Out) }))
 
   return (
     <svg style={{ width: '100%', height: '100%' }} xmlns="http://www.w3.org/2000/svg">
@@ -88,7 +88,7 @@ export default function Connections ({
 
       <rect width="100%" height="100%" fill="#262626" />
       <rect width="100%" height="100%" fill="url(#grid)" />
-      {offset && _.map(connections, (c) => _.map(c.pins, (p) => (
+      {offset && _map(connections, (c) => _map(c.pins, (p) => (
         <Connection
           node={c.node}
           key={p.uuid}

@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import Node from './Node'
 
 export default class UserNode extends Node {
@@ -8,7 +7,7 @@ export default class UserNode extends Node {
   }
 
   exec (context, socketArgs = []) {
-    const args = _.map(this.inputs, (input, i) => (input.pinned ? socketArgs[i] : input.defaultValue))
+    const args = this.inputs.map((input, i) => (input.pinned ? socketArgs[i] : input.defaultValue))
     const cb = this.runtime.getNodeHandler(this.node.name)
     if (!cb) { throw new Error(`Missing handler for node: ${this.node.name}`) }
 

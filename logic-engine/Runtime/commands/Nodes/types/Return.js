@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import Node from './Node'
 
 export default class Return extends Node {
@@ -8,7 +7,7 @@ export default class Return extends Node {
   }
 
   exec (context, args = []) {
-    const outputs = _.map(this.inputs, (pin, i) => (pin.pinned ? args[i] : pin.defaultValue))
+    const outputs = this.inputs.map((pin, i) => (pin.pinned ? args[i] : pin.defaultValue))
     return {
       return: true,
       outputs,

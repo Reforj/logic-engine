@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _toArray from 'lodash/toArray'
 import { RemovePinnedOfPin } from './RemovePinnedOfPin'
 import { addPinned } from './AddPinned'
 
@@ -31,5 +31,5 @@ export const ConnectPins = (nodes, left, right) => {
   connectPins(left, right)
   connectPins(right, left)
 
-  return _.toArray(nodesToUpdate)
+  return _toArray(nodesToUpdate)
 }

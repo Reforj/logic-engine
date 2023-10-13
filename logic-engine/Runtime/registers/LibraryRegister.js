@@ -15,6 +15,10 @@ export default {
     functions[name] = func
   },
 
+  get (name) {
+    return functions[name]
+  },
+
   call (name, args) {
     if (functions[name]) {
       return functions[name](...args)

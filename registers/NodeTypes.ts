@@ -1,5 +1,4 @@
 import { v4 as uuid } from 'uuid'
-import _ from 'lodash'
 import { SIZE } from '../consts/Editor'
 
 const defaultPos = { x: SIZE.width / 2 - 300, y: SIZE.height / 2 - 100 }
@@ -78,8 +77,8 @@ const Operator = (func, args:any = {}) => ({
   path: args.path,
   pure: args.pure || false,
   pins: [
-    ..._.map(args.inputs, (input) => PinIn({ dataType: input.dataType, defaultValue: input.defaultValue })),
-    ..._.map(args.outputs, (output) => PinOut({ dataType: output.dataType })),
+    ...args.inputs.map((input) => PinIn({ dataType: input.dataType, defaultValue: input.defaultValue })),
+    ...args.outputs.map((output) => PinOut({ dataType: output.dataType })),
   ],
   position: args.position || defaultPos,
   canAddInputs: args.canAddInputs || false,
@@ -94,8 +93,8 @@ const CallLibrary = (func, args:any = {}) => ({
   path: args.path,
   pins: [
     ...(args.pure ? [] : [PinExecIn(), PinExecOut()]),
-    ..._.map(args.inputs || [], (s) => PinIn(s)),
-    ..._.map(args.outputs || [], (s) => PinOut(s)),
+    ...(args.inputs || []).map((s) => PinIn(s)),
+    ...(args.outputs || []).map((s) => PinOut(s)),
   ],
   position: args.position || defaultPos,
 })
@@ -120,7 +119,7 @@ const UserNode = (func, args:any = {}) => ({
   executable: args.executable || false,
   pins: [
     ...(args.executable ? [PinExecIn(), PinExecOut()] : []),
-    ..._.map(args.pins, (pin) => (pin.side === PinSide.In ? PinIn(pin) : PinOut(pin))),
+    ...args.pins.map((pin) => (pin.side === PinSide.In ? PinIn(pin) : PinOut(pin))),
   ],
   position: args.position || defaultPos,
   data: args.data,

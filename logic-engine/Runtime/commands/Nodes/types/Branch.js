@@ -1,11 +1,11 @@
-import _ from 'lodash'
+import _find from 'lodash/find'
 import Node from './Node'
 
 export default class Branch extends Node {
   constructor (node) {
     super(node)
-    this.nextTrue = _.find(node.pins, { exec: true, name: 'True' })
-    this.nextFalse = _.find(node.pins, { exec: true, name: 'False' })
+    this.nextTrue = _find(node.pins, { exec: true, name: 'True' })
+    this.nextFalse = _find(node.pins, { exec: true, name: 'False' })
   }
 
   exec (context, socketArgs = []) {

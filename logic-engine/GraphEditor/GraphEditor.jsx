@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
-import _ from 'lodash'
+import _find from 'lodash/find'
+import _minBy from 'lodash/minBy'
 import css from './EditorDock.less'
 import './Nodes'
 import ContextMenu from './ContextMenu'
@@ -156,9 +157,9 @@ export default function GraphEditor ({
 
   const onRemoveConnection = (node, pin, index, dest) => {
     const destNode = funcNodes[dest.node]
-    const destPin = _.find(
+    const destPin = _find(
       destNode.pins,
-      { uuid: _.isArray(pin.pinned) ? pin.pinned[index].socket : pin.pinned.socket },
+      { uuid: Array.isArray(pin.pinned) ? pin.pinned[index].socket : pin.pinned.socket },
     )
     const nodes = RemoveConnection({ node, pin }, { node: destNode, pin: destPin })
 
@@ -171,7 +172,7 @@ export default function GraphEditor ({
   }
 
   const changePins = (node, pins) => {
-    const pinsToDisconnect = node.pins.filter((p) => p.pinned && !_.find(pins, { uuid: p.uuid }))
+    const pinsToDisconnect = node.pins.filter((p) => p.pinned && !_find(pins, { uuid: p.uuid }))
     const nodes = DisconnectConnectedPins(funcNodes, pinsToDisconnect)
     changeNodes([...nodes, { ...node, pins }])
   }
@@ -263,10 +264,10 @@ export default function GraphEditor ({
   }
 
   const focusNodes = () => {
-    const positions = _.map(funcNodes, 'position')
+    const positions = funcNodes.map((n) => n.position)
     if (!positions.length) { return }
 
-    const pos = { x: _.minBy(positions, 'x').x, y: _.minBy(positions, 'y').y }
+    const pos = { x: _minBy(positions, 'x').x, y: _minBy(positions, 'y').y }
     ref.current.scrollLeft = pos.x * zoom - 100
     ref.current.scrollTop = pos.y * zoom - 100
   }
@@ -307,7 +308,7 @@ export default function GraphEditor ({
             update={svgUpdate}
           />
           <div>
-            {_.map(funcNodes, renderNode)}
+            {funcNodes.map(renderNode)}
           </div>
         </div>
 

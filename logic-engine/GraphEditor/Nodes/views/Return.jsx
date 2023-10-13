@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import Node from '../NodeHOC'
 import css from '../Node.less'
 import { PinSide } from '../../../../registers/NodeTypes'
@@ -12,7 +11,7 @@ function Return (props) {
         <div className={`${css.header} ${css.entry}`}>{node.type}</div>
         <div className={css.sockets}>
           <div className={css.left}>
-            {_.filter(node.pins, { side: PinSide.In }).map((pin) => inputPin(pin))}
+            {node.pins.filter((p) => p.side === PinSide.In).map((pin) => inputPin(pin))}
           </div>
         </div>
       </div>

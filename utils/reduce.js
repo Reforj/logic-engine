@@ -1,5 +1,5 @@
-import _ from 'lodash'
+import _reduce from 'lodash/reduce'
 
-export const reduce = (data, cb, initial = {}) => _.reduce(data, cb, initial)
+export const reduce = (data, cb, initial = {}) => _reduce(data, cb, initial)
 
-export const reduceUuid = (data, cb) => _.reduce(data, (obj, item, i) => ({ ...obj, [item.uuid]: cb(item, i) }), {})
+export const reduceUuid = (data, cb) => _reduce(data, (obj, item, i) => ({ ...obj, [item.uuid]: cb(item, i) }), {})
