@@ -11,7 +11,7 @@ function UserNode (props) {
   const Component = userNodesRegister.getView(node.name)
 
   const sockets = (
-    <div className={css.sockets}>
+    <div className={cs(css.sockets, nodeInfo.socketsClassName)}>
       <div className={css.left}>
         {node.pins.filter((p) => p.side === PinSide.In).map((pin) => inputPin(pin))}
       </div>
@@ -23,8 +23,8 @@ function UserNode (props) {
 
   return (
     <div className={css.selectWrapper}>
-      <div className={cs(css.node, css.customNode)}>
-        <div className={cs(css.header, css.userNode)}>
+      <div className={cs(css.node, css.customNode, nodeInfo.nodeClassName)}>
+        <div className={cs(css.header, css.userNode, nodeInfo.headerClassName)}>
           <div className={css.name}>{nodeInfo.title}</div>
         </div>
         {Component

@@ -33,8 +33,14 @@ interface Node {
   name: string
   title: string
   pins: Pin[]
-  data?: any
   executable?: boolean
+}
+
+interface CustomNode extends Node {
+  nodeClassName?: string
+  headerClassName?: string
+  socketsClassName?: string
+  data?: any
 }
 
 interface StateNode {
@@ -65,7 +71,7 @@ interface CustomComponentProps {
 }
 
 export declare class NodesRegister {
-  define (category: string, node: Node, Component: React.FC<CustomComponentProps>): void
+  define (category: string, node: CustomNode, Component: React.FC<CustomComponentProps>): void
 }
 
 export declare const LogicEngine: React.ForwardRefExoticComponent<{
