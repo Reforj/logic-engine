@@ -1,20 +1,13 @@
 import BuildFunction from '../../../logic-engine/Runtime/commands/BuildFunction'
+import {Entry as EntryNode, Return} from '../../../registers/NodeTypes'
 
 describe('Empty Function', function () {
+  const entry = EntryNode({inputs: [{name: 'arg1'}, {name: 'arg2'}]})
+
   const data = {
     nodes: {
-      'entry1': {
-        uuid: 'entry1',
-        type: 'Entry',
-        pins: [{
-          uuid: 'exec_out',
-          exec: true,
-          side: 1
-        }]
-      }
-    },
-    inputs: [],
-    outputs: [],
+      entry,
+    }
   }
 
   const func = BuildFunction(data)

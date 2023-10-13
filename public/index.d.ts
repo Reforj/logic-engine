@@ -1,16 +1,18 @@
-export { PinSide } from '../registers/NodeTypes'
+import { DataType, PinSide } from '../interfaces/Pin'
+
+export { DataType, PinSide }
 
 interface Pin {
   side: PinSide
   name?: string
-  dataType?: 'boolean' | 'number' | 'string' | 'object'
+  dataType?: DataType
   defaultValue?: any
   exec?: boolean
 }
 
 interface EntryPin {
   name: string
-  dataType?: 'boolean' | 'number' | 'string' | 'object'
+  dataType?: DataType
   defaultValue?: any
 }
 

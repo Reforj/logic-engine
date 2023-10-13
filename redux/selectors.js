@@ -1,4 +1,5 @@
-import _each from 'lodash/each'
+import _map from 'lodash/map'
+import { NodeType } from '../consts/NodesData'
 import NodeList from '../registers/NodeList'
 
 export const getState = (state) => state
@@ -6,17 +7,15 @@ export const getState = (state) => state
 export const getNodeList = (state, nodeRegister) => {
   let list = NodeList
   if (nodeRegister) {
-    _each(nodeRegister.all(), (nodes, category) => {
+    _map(nodeRegister.all(), (nodes, category) => {
       list = [...list, {
         title: category,
         key: category,
         category: true,
         selectable: false,
-        children: nodes.map((node, name) => ({
-          key: name,
-          title: node.title,
+        children: _map(nodes, (node) => ({
+          type: NodeType.UserNode,
           ...node,
-          type: 'UserNode',
         })),
       }]
     })

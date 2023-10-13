@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
+import _map from 'lodash/map'
 import _find from 'lodash/find'
-import _minBy from 'lodash/minBy'
+import _throttle from 'lodash/throttle'
 import css from './EditorDock.less'
 import './Nodes'
 import ContextMenu from './ContextMenu'
@@ -14,6 +15,7 @@ import { SIZE } from '../../consts/Editor'
 import { ConnectRelatedPin } from './commands/ConnectRelatedPin'
 import { DisconnectPin } from './commands/DisconnectPin'
 import { DisconnectConnectedPins } from './commands/DisconnectConnectedPins'
+import { NodesData } from '../../consts/NodesData'
 
 const SOCKET_TYPES = ['OUTPUT_SOCKET', 'INPUT_SOCKET', 'EXEC_OUTPUT', 'EXEC_INPUT']
 const isSocket = (type) => SOCKET_TYPES.includes(type)
@@ -28,6 +30,10 @@ export default function GraphEditor ({
   const [zoom, setZoom] = useState(1)
   const camera = useRef()
   const ref = useRef()
+
+  const update = _throttle(() => {
+    setSvgUpdate(new Date())
+  }, 16, { leading: false })
 
   let svgOffset = { x: 244, y: 66 }
   if (ref.current) {
@@ -104,7 +110,7 @@ export default function GraphEditor ({
       const delta = monitor.getDifferenceFromInitialOffset()
       if (type === 'NODE' && offset) {
         moveBox(node, position.x + (delta.x / zoom), position.y + (delta.y / zoom))
-        setSvgUpdate(new Date())
+        update()
       }
 
       if (temp && offset) {
@@ -190,7 +196,8 @@ export default function GraphEditor ({
   }
 
   const moveBox = (node, left, top, save) => {
-    node.position = { x: Math.round(left), y: Math.round(top) }
+    node.p = [Math.round(left), Math.round(top)]
+
     if (save) {
       changeNode({ ...node })
     }
@@ -206,9 +213,9 @@ export default function GraphEditor ({
   }
 
   const renderNode = (node) => {
-    const Node = NodeRegister.getView(node.type)
+    const Node = NodeRegister.getView(node.type || NodesData[node.code].type)
 
-    if (!Node) { throw new Error(`Missing node component in '/Nodes/types/${node.type}`) }
+    if (!Node) { throw new Error(`Missing node component in '/Nodes/types/${node.code}`) }
 
     return (
       <Node
@@ -264,10 +271,9 @@ export default function GraphEditor ({
   }
 
   const focusNodes = () => {
-    const positions = funcNodes.map((n) => n.position)
+    const positions = _map(funcNodes, (n) => n.p)
     if (!positions.length) { return }
-
-    const pos = { x: _minBy(positions, 'x').x, y: _minBy(positions, 'y').y }
+    const pos = { x: Math.min(...positions.map((p) => p[0])), y: Math.min(...positions.map((p) => p[1])) }
     ref.current.scrollLeft = pos.x * zoom - 100
     ref.current.scrollTop = pos.y * zoom - 100
   }
@@ -308,7 +314,7 @@ export default function GraphEditor ({
             update={svgUpdate}
           />
           <div>
-            {funcNodes.map(renderNode)}
+            {_map(funcNodes, renderNode)}
           </div>
         </div>
 

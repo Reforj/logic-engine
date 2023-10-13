@@ -4,10 +4,10 @@ import Library from '../../../registers/LibraryRegister'
 export default class CallLibrary extends Node {
   constructor (node) {
     super(node)
-    this.name = node.path
-    this.func = Library.get(this.name)
+    this.opcode = this.nodeInfo.opcode
+    this.func = Library.get(this.opcode)
 
-    if (!this.func) { throw new Error(`LibraryRegister: undefined function: ${this.name}`) }
+    if (!this.func) { throw new Error(`LibraryRegister: undefined function: ${this.opcode}`) }
   }
 
   exec (context, socketArgs = []) {

@@ -1,0 +1,124 @@
+{
+  "nodes": {
+      "c8aa8cd1-0ad6-4fde-a966-453466b9a6ec": {
+          "uuid": "c8aa8cd1-0ad6-4fde-a966-453466b9a6ec",
+          "code": 17,
+          "pins": [
+              {
+                  "uuid": "1219fe91-d828-44e6-b07d-dd0ef3860d9f",
+                  "exec": true,
+                  "side": 1,
+                  "multiple": false,
+                  "pinned": {
+                      "node": "d67e9284-467c-4a3a-98ab-182ccd53c5c5",
+                      "socket": "1ea713e6-3537-4799-9b7e-00877176b3b7"
+                  }
+              }
+          ],
+          "p": [
+              3700,
+              2150
+          ]
+      },
+      "d67e9284-467c-4a3a-98ab-182ccd53c5c5": {
+          "uuid": "d67e9284-467c-4a3a-98ab-182ccd53c5c5",
+          "code": 18,
+          "pins": [
+              {
+                  "uuid": "1ea713e6-3537-4799-9b7e-00877176b3b7",
+                  "exec": true,
+                  "side": 0,
+                  "multiple": true,
+                  "pinned": [
+                      {
+                          "node": "c8aa8cd1-0ad6-4fde-a966-453466b9a6ec",
+                          "socket": "1219fe91-d828-44e6-b07d-dd0ef3860d9f"
+                      }
+                  ]
+              },
+              {
+                  "uuid": "937faf1c-04df-49c9-9051-9c684ad733eb",
+                  "name": "Result",
+                  "dataType": 0,
+                  "defaultValue": false,
+                  "side": 0,
+                  "pinned": {
+                      "node": "d95b9d06-17be-4a3d-bec0-a706b973d507",
+                      "socket": "2f975405-c545-4de6-b25e-b4d62b27ed5e"
+                  }
+              }
+          ],
+          "p": [
+              3900,
+              2150
+          ]
+      },
+      "d95b9d06-17be-4a3d-bec0-a706b973d507": {
+          "uuid": "d95b9d06-17be-4a3d-bec0-a706b973d507",
+          "code": 2,
+          "pins": [
+              {
+                  "uuid": "759c1830-f3a4-49bd-af5c-d4dee7f174b7",
+                  "dataType": 0,
+                  "defaultValue": true,
+                  "side": 0,
+                  "pinned": {
+                      "node": "20566c4e-837d-492b-804a-2df60ab864bc",
+                      "socket": "c8d95a11-d259-4209-999a-23d20211dee1"
+                  }
+              },
+              {
+                  "uuid": "e773c03f-c190-4de0-8300-ca7e3ad7065e",
+                  "dataType": 0,
+                  "defaultValue": true,
+                  "side": 0
+              },
+              {
+                  "uuid": "2f975405-c545-4de6-b25e-b4d62b27ed5e",
+                  "dataType": 0,
+                  "side": 1,
+                  "multiple": true,
+                  "pinned": [
+                      {
+                          "node": "d67e9284-467c-4a3a-98ab-182ccd53c5c5",
+                          "socket": "937faf1c-04df-49c9-9051-9c684ad733eb"
+                      }
+                  ]
+              }
+          ],
+          "p": [
+              3374,
+              2192
+          ]
+      },
+      "20566c4e-837d-492b-804a-2df60ab864bc": {
+          "uuid": "20566c4e-837d-492b-804a-2df60ab864bc",
+          "code": 1,
+          "pins": [
+              {
+                  "uuid": "ec04b796-9c28-45eb-9616-461890637606",
+                  "dataType": 0,
+                  "defaultValue": false,
+                  "side": 0
+              },
+              {
+                  "uuid": "c8d95a11-d259-4209-999a-23d20211dee1",
+                  "dataType": 0,
+                  "side": 1,
+                  "multiple": true,
+                  "pinned": [
+                      {
+                          "node": "d95b9d06-17be-4a3d-bec0-a706b973d507",
+                          "socket": "759c1830-f3a4-49bd-af5c-d4dee7f174b7"
+                      }
+                  ]
+              }
+          ],
+          "p": [
+              3143.5,
+              2111
+          ]
+      }
+  },
+  "version": "_VERSION_"
+}

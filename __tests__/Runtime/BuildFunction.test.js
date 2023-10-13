@@ -1,76 +1,24 @@
 import BuildFunction from '../../logic-engine/Runtime/commands/BuildFunction'
+import {Entry as EntryNode, Return} from '../../registers/NodeTypes'
 
 describe('Func with arguments', function () {
+  const entry = EntryNode({inputs: [{name: 'arg1'}, {name: 'arg2'}]})
+  const ret = Return()
+  entry.pins[0].pinned = {node: ret.uuid, socket: ret.pins[0].uuid}
+  entry.pins[1].pinned = {node: ret.uuid, socket: ret.pins[1].uuid}
+  ret.pins[1].pinned = {node: entry.uuid, socket: entry.pins[1].uuid}
+
   const data = {
     nodes: {
-      'entry': {
-        uuid: 'entry',
-        type: 'Entry',
-        execOutputs: [{uuid: 'entry_out'}],
-        pins: [{
-          side: 1,
-          exec: true,
-          pinned: {
-            node: 'return',
-            socket: 'return_in'
-          },
-        },
-        {
-          uuid: 'arg1',
-          side: 1,
-          name: 'input',
-          pinned: {
-            node: 'return',
-            socket: 'res1'
-          }
-        },
-        {
-          uuid: 'arg2',
-          side: 1,
-          name: 'input2',
-          pinned: {
-            node: 'return',
-            socket: 'res2'
-          }
-        }]
-      },
-      'return': {
-        uuid: 'return',
-        type: 'Return',
-        execInputs: [{uuid: 'return_in'}],
-        pins: [{
-          side: 0,
-          exec: true,
-          pinned: {
-            node: 'entry',
-            socket: 'entry_out'
-          }
-        },
-        {
-          uuid: 'res1',
-          side: 0,
-          name: 'result',
-          pinned: {
-            node: 'entry',
-            socket: 'arg1'
-          }
-        },
-        {
-          uuid: 'res2',
-          side: 0,
-          name: 'result2',
-          pinned: {
-            node: 'entry',
-            socket: 'arg2'
-          }
-        }]
-      }
-    },
+      'entry': entry,
+      'return': ret,
+    }
   }
+
 
   const func = BuildFunction(data)
 
   it('should return passed arg', () => {
-    expect(func({}, 5, 10)).toStrictEqual([5, 10])
+    expect(func({}, 'hello', 10)).toStrictEqual(['hello'])
   })
 })

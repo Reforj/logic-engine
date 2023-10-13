@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { DragPreviewImage, useDrag, useDrop } from 'react-dnd'
 import cs from 'classnames'
+import { DataType } from '../../../../interfaces/Pin'
 import css from './Sockets.less'
 import img from '../pixel'
 
@@ -54,9 +55,9 @@ function SocketInput ({
   }
 
   const defaultValue = () => {
-    if (!socket.dataType) { return }
+    if (socket.dataType === undefined) { return }
 
-    if (socket.dataType === 'boolean') {
+    if (socket.dataType === DataType.Boolean) {
       return (
         <div className={css.defaultValue}>
           <input
@@ -68,7 +69,7 @@ function SocketInput ({
       )
     }
 
-    if (socket.dataType === 'number') {
+    if (socket.dataType === DataType.Number) {
       return (
         <div className={css.defaultValue}>
           <input
@@ -81,7 +82,7 @@ function SocketInput ({
       )
     }
 
-    if (socket.dataType === 'string') {
+    if (socket.dataType === DataType.String) {
       return (
         <div className={css.defaultValue}>
           <input
@@ -99,10 +100,11 @@ function SocketInput ({
 
   const type = socket.type || 'Single'
   const pinned = socket.multiple ? socket.pinned && socket.pinned.length : socket.pinned
+
   return (
     <>
       <DragPreviewImage connect={preview} src={img} />
-      <div className={cs(css.socket, css[socket.dataType])}>
+      <div className={cs(css.socket, css[DataType[socket.dataType]])}>
         <div
           ref={ref}
           onClick={onClick}

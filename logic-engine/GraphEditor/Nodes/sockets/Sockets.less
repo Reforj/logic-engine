@@ -70,7 +70,7 @@
     }
   }
 
-  &.boolean {
+  &.Boolean {
     .handler {
       &:hover {
         background-color: #f200388f;
@@ -92,7 +92,29 @@
     }
   }
 
-  &.any {
+  &.Object {
+    .handler {
+      &:hover {
+        background-color: #f2b1008f;
+
+        .circle {
+          background-color: #f2b100;
+        }
+      }
+    }
+    .circle {
+      border-color: #f2b100;
+      .arrow {
+        border-color: #f2b100;
+      }
+
+      &.active {
+        background-color: #f2b100;
+      }
+    }
+  }
+
+  &.Any {
     .handler {
       &:hover {
         background-color: #00f2698f;
@@ -114,7 +136,7 @@
     }
   }
 
-  &.string {
+  &.String {
     .handler {
       &:hover {
         background-color: #f200a58f;

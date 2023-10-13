@@ -5,7 +5,7 @@ import { PinSide } from '../../../../registers/NodeTypes'
 
 function UserNode (props) {
   const {
-    node, inputPin, outputPin, userNodesRegister,
+    node, inputPin, outputPin, userNodesRegister, nodeInfo,
     disconnectPin, disconnectAllPins, changePin, changePins, createPin, changeData,
   } = props
   const Component = userNodesRegister.getView(node.name)
@@ -25,7 +25,7 @@ function UserNode (props) {
     <div className={css.selectWrapper}>
       <div className={cs(css.node, css.customNode)}>
         <div className={cs(css.header, css.userNode)}>
-          <div className={css.name}>{node.title}</div>
+          <div className={css.name}>{nodeInfo.title}</div>
         </div>
         {Component
           ? (

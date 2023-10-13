@@ -7,13 +7,15 @@ import SocketOutput from './sockets/SocketOutput'
 import ExecInput from './sockets/ExecInput'
 import ExecOutput from './sockets/ExecOutput'
 import { newPin, PinSide } from '../../../registers/NodeTypes'
+import { NodeType, NodesData } from '../../../consts/NodesData'
 
 const NodeHOC = (Component) => function (props) {
-  const { id, node } = props
+  const { id, node, userNodesRegister } = props
+  const nodeInfo = node.type === NodeType.UserNode ? userNodesRegister.nodeInfo[node.name] : NodesData[node.code]
 
   const [, drag, preview] = useDrag({
     item: {
-      id, node, type: 'NODE', position: { ...node.position },
+      id, node, type: 'NODE', position: { x: node.p[0], y: node.p[1] },
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -21,7 +23,7 @@ const NodeHOC = (Component) => function (props) {
   })
 
   const click = (e) => {
-    if (node.canNotDelete) { return }
+    if (nodeInfo.canNotDelete) { return }
     if (e.altKey) {
       props.removeNode(node.uuid)
     }
@@ -32,8 +34,8 @@ const NodeHOC = (Component) => function (props) {
   }
 
   const addPin = (pin) => {
-    const newPin = newPin({ side: PinSide.In, ...pin, extra: true })
-    props.changeNode({ ...node, pins: [...node.pins, newPin] })
+    const p = newPin({ side: PinSide.In, ...pin, extra: true })
+    props.changeNode({ ...node, pins: [...node.pins, p] })
   }
 
   const inputPin = (pin) => {
@@ -78,8 +80,8 @@ const NodeHOC = (Component) => function (props) {
   }
 
   const style = {
-    left: node.position.x,
-    top: node.position.y,
+    left: node.p[0],
+    top: node.p[1],
   }
 
   return (
@@ -94,6 +96,7 @@ const NodeHOC = (Component) => function (props) {
       >
         <Component
           {...props}
+          nodeInfo={nodeInfo}
           inputPin={inputPin}
           outputPin={outputPin}
           addPin={addPin}

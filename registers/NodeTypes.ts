@@ -1,7 +1,9 @@
 import { v4 as uuid } from 'uuid'
 import { SIZE } from '../consts/Editor'
+import { NodeCode, NodeType, NodesData } from '../consts/NodesData'
+import { Pin as IPin } from '../interfaces/Pin'
 
-const defaultPos = { x: SIZE.width / 2 - 300, y: SIZE.height / 2 - 100 }
+const defaultPos = [SIZE.width / 2 - 300, SIZE.height / 2 - 100]
 
 export enum PinSide {
   In = 0,
@@ -45,91 +47,54 @@ export const PinIn = (args) => ({
   side: PinSide.In,
 })
 
-const Entry = (args:any = {}) => ({
+interface Args {
+  code: NodeCode,
+  pins: IPin[]
+  position: [x: number, y: number]
+}
+
+export const Entry = (args:any = {}) => ({
   uuid: uuid(),
-  type: 'Entry',
-  canNotDelete: true,
-  executable: true,
+  code: NodeCode.ENTRY,
   pins: [
-    PinExecOut(),
+    ...NodesData[NodeCode.ENTRY].pins.map((p) => newPin(p)),
     ...(args.inputs || []).map((pin) => PinOut(pin)),
   ],
-  position: args.position || defaultPos,
+  p: args.position || defaultPos,
 })
 
-const Return = (_, args:any = { offset: { x: 200 } }) => ({
+export const Return = (_, args:any = { offset: { x: 200 } }) => ({
   uuid: uuid(),
-  type: 'Return',
-  executable: true,
-  pins: [
-    PinExecIn(),
-    PinIn({
-      outputUuid: 'result', name: 'Result', dataType: 'boolean', defaultValue: false,
-    }),
-  ],
-  position: args.position || { x: defaultPos.x + (args.offset.x), y: defaultPos.y },
+  code: NodeCode.RETURN,
+  pins: NodesData[NodeCode.RETURN].pins.map((p) => newPin(p)),
+  p: args.position || [defaultPos[0] + (args.offset.x), defaultPos[1]],
 })
 
-const Operator = (func, args:any = {}) => ({
+export const RegularNode = (func, args:Args) => ({
   uuid: uuid(),
-  type: 'Operator',
-  nodeTitle: args.nodeTitle,
-  path: args.path,
-  pure: args.pure || false,
-  pins: [
-    ...args.inputs.map((input) => PinIn({ dataType: input.dataType, defaultValue: input.defaultValue })),
-    ...args.outputs.map((output) => PinOut({ dataType: output.dataType })),
-  ],
-  position: args.position || defaultPos,
-  canAddInputs: args.canAddInputs || false,
-})
-
-const CallLibrary = (func, args:any = {}) => ({
-  uuid: uuid(),
-  type: 'CallLibrary',
-  nodeTitle: args.nodeTitle,
-  title: args.title,
-  pure: args.pure || false,
-  path: args.path,
-  pins: [
-    ...(args.pure ? [] : [PinExecIn(), PinExecOut()]),
-    ...(args.inputs || []).map((s) => PinIn(s)),
-    ...(args.outputs || []).map((s) => PinOut(s)),
-  ],
-  position: args.position || defaultPos,
-})
-
-const Branch = (func, args:any = {}) => ({
-  uuid: uuid(),
-  type: 'Branch',
-  pins: [
-    PinExecIn(),
-    PinExecOut({ name: 'True' }),
-    PinExecOut({ name: 'False' }),
-    PinIn({ name: 'Condition', dataType: 'boolean', defaultValue: false }),
-  ],
-  position: args.position || defaultPos,
+  code: args.code,
+  pins: args.pins.map((p) => newPin(p)),
+  p: args.position || defaultPos,
 })
 
 const UserNode = (func, args:any = {}) => ({
   uuid: uuid(),
-  type: 'UserNode',
+  type: NodeType.UserNode,
   name: args.name,
-  title: args.title,
   executable: args.executable || false,
+  data: args.data,
   pins: [
     ...(args.executable ? [PinExecIn(), PinExecOut()] : []),
-    ...args.pins.map((pin) => (pin.side === PinSide.In ? PinIn(pin) : PinOut(pin))),
+    ...args.pins.map((pin) => newPin(pin)),
   ],
-  position: args.position || defaultPos,
-  data: args.data,
+  p: args.position || defaultPos,
 })
 
 export default {
-  Entry,
-  Return,
-  Operator,
-  CallLibrary,
-  Branch,
-  UserNode,
+  [NodeType.Entry]: Entry,
+  [NodeType.Return]: Return,
+  [NodeType.Operator]: RegularNode,
+  [NodeType.CallLibrary]: RegularNode,
+  [NodeType.Branch]: RegularNode,
+  [NodeType.UserNode]: UserNode,
 }

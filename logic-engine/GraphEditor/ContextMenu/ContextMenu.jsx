@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react'
 import cs from 'classnames'
 import css from './ContextMenu.less'
 import NodeTypes from '../../../registers/NodeTypes'
+import { NodeType, NodesData } from '../../../consts/NodesData'
 import { TreeMenu } from './TreeMenu'
 
 export default function ContextMenu (props) {
@@ -15,7 +16,8 @@ export default function ContextMenu (props) {
   }
 
   const add = (node) => {
-    const Node = NodeTypes[node.type]
+    let nodeInfo = NodesData[node.code]
+    const Node = NodeTypes[node.type || nodeInfo.type]
 
     if (!Node) { throw new Error(`Missing registered node type: ${node.type} in registers/NodeTypes.js`) }
     if (socket?.side === 0) {
@@ -23,7 +25,13 @@ export default function ContextMenu (props) {
       nodePos.y -= 20
     }
 
-    const newNode = Node(func, { ...node, position: nodePos })
+    if (node.type === NodeType.UserNode) {
+      nodeInfo = { ...nodeInfo, ...node }
+    } else {
+      nodeInfo = { ...nodeInfo, code: node.code }
+    }
+
+    const newNode = Node(func, { ...nodeInfo, position: [nodePos.x, nodePos.y] })
 
     addNode(newNode, source, socket)
     close()

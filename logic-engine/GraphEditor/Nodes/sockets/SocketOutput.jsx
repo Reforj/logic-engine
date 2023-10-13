@@ -4,6 +4,7 @@ import cs from 'classnames'
 import _find from 'lodash/find'
 import img from '../pixel'
 import css from './Sockets.less'
+import { DataType } from '../../../../interfaces/Pin'
 
 function Node ({
   node, socket, createLine, connect,
@@ -42,7 +43,7 @@ function Node ({
   return (
     <>
       <DragPreviewImage connect={preview} src={img} />
-      <div className={cs(css.socket, css.output, { [css.deleted]: socket.deleted }, css[socket.dataType])}>
+      <div className={cs(css.socket, css.output, { [css.deleted]: socket.deleted }, css[DataType[socket.dataType]])}>
         <div className={css.socketName}>{socket.deleted ? 'Deleted' : socket.name}</div>
         <div ref={ref} className={`${css.handler} ${isOver ? css.over : ''}`} data-uuid={socket.uuid} data-shift="9, 8">
           {type === 'Single' && (
