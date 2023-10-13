@@ -31,7 +31,7 @@ export default function ContextMenu (props) {
       nodeInfo = { ...nodeInfo, code: node.code }
     }
 
-    const newNode = Node(func, { ...nodeInfo, p: [nodePos.x, nodePos.y] })
+    const newNode = Node(func, { ...nodeInfo, position: [nodePos.x, nodePos.y] })
 
     addNode(newNode, source, socket)
     close()
