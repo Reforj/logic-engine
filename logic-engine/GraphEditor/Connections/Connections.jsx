@@ -2,7 +2,7 @@
 import cs from 'classnames'
 import _map from 'lodash/map'
 import css from './Connections.less'
-import { PinSide } from '../../../registers/NodeTypes'
+import { PinSide, DataType } from '../../../interfaces/Pin'
 
 const Connection = ({
   node, pin, offset, onRemove, scrollTop, scrollLeft, zoom,
@@ -38,7 +38,7 @@ const Connection = ({
         key={destPin.socket}
         onClick={click}
         id="path"
-        className={cs(css.line, css[pin.exec ? 'exec' : 'call'], css[pin.dataType])}
+        className={cs(css.line, css[pin.exec ? 'exec' : 'call'], css[DataType[pin.dataType]])}
         d={d}
         fill="none"
       />
@@ -63,7 +63,7 @@ function TempConnection ({
   if (right) {
     d = `M${b.x} ${b.y} C ${b.x + Math.abs(dx / 2)} ${b.y}, ${ex - (dx > 0 ? Math.abs(dx / 2) : -dx / 2)} ${ey}, ${ex} ${ey}`
   }
-  return <path id="path" className={cs(css.tempLine, css[type], css[dataType])} d={d} fill="none" />
+  return <path id="path" className={cs(css.tempLine, css[type], css[DataType[dataType]])} d={d} fill="none" />
 }
 
 export default function Connections ({

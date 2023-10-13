@@ -1,4 +1,4 @@
-import NodeRegister from '../../../registers/NodeHandlerRegister'
+import { NodeType } from '../../../../../consts/NodesData'
 
 import Entry from './Entry'
 import Return from './Return'
@@ -6,9 +6,11 @@ import CallLibrary from './CallLibrary'
 import UserNode from './UserNode'
 import Branch from './Branch' // legacy
 
-NodeRegister.define('Entry', Entry)
-NodeRegister.define('Return', Return)
-NodeRegister.define('CallLibrary', CallLibrary)
-NodeRegister.define('UserNode', UserNode)
-NodeRegister.define('Operator', CallLibrary)
-NodeRegister.define('Branch', Branch)
+export default {
+  [NodeType.Entry]: Entry,
+  [NodeType.Return]: Return,
+  [NodeType.CallLibrary]: CallLibrary,
+  [NodeType.Operator]: CallLibrary,
+  [NodeType.Branch]: Branch,
+  [NodeType.UserNode]: UserNode,
+}

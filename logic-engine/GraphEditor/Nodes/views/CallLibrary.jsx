@@ -4,11 +4,13 @@ import css from '../Node.less'
 import { PinSide } from '../../../../registers/NodeTypes'
 
 function CallLibrary (props) {
-  const { node, inputPin, outputPin } = props
+  const {
+    node, inputPin, outputPin, nodeInfo,
+  } = props
   return (
     <div className={css.selectWrapper}>
       <div className={cs(css.node)}>
-        <div className={cs(css.header, { [css.pure]: node.pure })}>{node.title}</div>
+        <div className={cs(css.header, { [css.pure]: node.pure })}>{nodeInfo.nodeTitle}</div>
         <div className={css.sockets}>
           <div className={css.left}>
             {node.pins.filter((p) => p.side === PinSide.In).map((pin) => inputPin(pin))}

@@ -1,4 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import {
+  Fragment, useState, useEffect, useRef,
+} from 'react'
 import css from './TreeMenu.less'
 
 export function TreeMenu ({ treeData, onSelect }) {
@@ -49,16 +51,19 @@ export function TreeMenu ({ treeData, onSelect }) {
       />
       <div className={css.list}>
         {(search ? searchedData : treeData).map((item) => (
-          <div key={item.key} className={css.category}>
-            {item.title}
+          <div key={item.key || item.code} className={css.category}>
             {item.category
-              ? item.children.map((item) => (
-                <div key={item.key} className={css.menuItem} onClick={() => onSelect(item)}>
+              ? (
+                <Fragment key={item.key}>
                   {item.title}
-                </div>
-              ))
-              : (
-                <div className={css.menuItem} key={item.key} onClick={() => onSelect(item)}>
+                  {item.children.map((item) => (
+                    <div key={item.code || item.name} className={css.menuItem} onClick={() => onSelect(item)}>
+                      {item.title}
+                    </div>
+                  ))}
+                </Fragment>
+              ) : (
+                <div className={css.menuItem} key={`s_${item.code || item.name}`} onClick={() => onSelect(item)}>
                   {item.title}
                 </div>
               )}

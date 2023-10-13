@@ -1,8 +1,9 @@
 import BranchNode from '../../../logic-engine/Runtime/commands/Nodes/types/Branch'
-import Nodes from '../../../registers/NodeTypes'
+import {RegularNode} from '../../../registers/NodeTypes'
+import { NodeCode, NodeType, NodesData } from '../../../consts/NodesData'
 
 describe('Branch with arguments', function () {
-  const data = Nodes.Branch()
+  const data = RegularNode({}, {code: NodeCode.BRANCH, ...NodesData[NodeCode.BRANCH]})
 
   const node = new BranchNode(data)
   node.pins[3].pinned = {node: 'dummy_uuid'}

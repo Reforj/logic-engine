@@ -1,6 +1,8 @@
+import { Opcode } from '../../../consts/Opcodes'
+
 export default {
-  'Logic.Not': (x) => !x,
-  'Logic.And': (...args) => {
+  [Opcode.NOT]: (x) => !x,
+  [Opcode.AND]: (...args) => {
     if (!args[0]) { return false }
     let res = args[0]
     for (let i = 1; i < args.length; i++) {
@@ -9,7 +11,7 @@ export default {
     }
     return res
   },
-  'Logic.Or': (...args) => {
+  [Opcode.OR]: (...args) => {
     if (args[0]) { return true }
 
     let res = args[0]
@@ -19,10 +21,10 @@ export default {
     }
     return res
   },
-  'Logic.Equal': (x, y) => x === y,
-  'Logic.NotEqual': (x, y) => x !== y,
-  'Logic.Greater': (x, y) => x > y,
-  'Logic.Less': (x, y) => x < y,
-  'Logic.GreaterEqual': (x, y) => x >= y,
-  'Logic.LessEqual': (x, y) => x <= y,
+  [Opcode.EQUAL]: (x, y) => x === y,
+  [Opcode.NOT_EQUAL]: (x, y) => x !== y,
+  [Opcode.GT]: (x, y) => x > y,
+  [Opcode.LT]: (x, y) => x < y,
+  [Opcode.GT_OR_EQ]: (x, y) => x >= y,
+  [Opcode.LT_OR_EQ]: (x, y) => x <= y,
 }

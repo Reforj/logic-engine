@@ -1,5 +1,7 @@
+import { Opcode } from '../../../consts/Opcodes'
+
 export default {
-  'Operator.Plus': (x, y) => x + y,
+  [Opcode.PLUS]: (x, y) => x + y,
   'Operator.Minus': (x, y) => x - y,
   'Operator.Multiple': (x, y) => x * y,
   'Operator.Increment': (x) => +x + 1,

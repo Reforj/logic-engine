@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import LogicEditor from './LogicEditor'
 import connect from './connect'
-import NodeTypes from '../registers/NodeTypes'
+import { Entry, Return } from '../registers/NodeTypes'
 import { ConnectPins } from './GraphEditor/commands/ConnectPins'
 import { reduceUuid } from '../utils/reduce'
 
 const initialFunc = (entryArgs = []) => {
-  const entry = NodeTypes.Entry({ inputs: entryArgs })
-  const end = NodeTypes.Return()
+  const entry = Entry({ inputs: entryArgs })
+  const end = Return()
   let nodes = ConnectPins({}, { node: entry, pin: entry.pins[0] }, { node: end, pin: end.pins[0] })
   nodes = reduceUuid(nodes, (n) => n)
   return nodes

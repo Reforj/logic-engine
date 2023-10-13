@@ -1,10 +1,10 @@
 import CallLibrary from '../../../logic-engine/Runtime/commands/Nodes/types/CallLibrary'
+import { NodeCode } from '../../../consts/NodesData'
 
 describe('CallLibrary with arguments', function () {
   const data = {
     uuid: 'plus',
-    type: 'Operator',
-    path: 'Operator.Plus',
+    code: NodeCode.OPERATOR_PLUS_NUMBER,
     pins: [{
       uuid: 'input1',
       side: 0,

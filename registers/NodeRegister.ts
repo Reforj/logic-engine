@@ -1,3 +1,4 @@
+import { NodeCode, NodesData } from '../consts/NodesData'
 // { [category]: {[name]: node} }
 
 // {type, pins: [{side: In | out}], view, handler}
@@ -6,9 +7,12 @@ export class NodesRegister {
 
   views: {}
 
+  nodeInfo: {}
+
   constructor () {
     this.categories = {}
     this.views = {}
+    this.nodeInfo = {}
   }
 
   define (category, node, component) {
@@ -17,20 +21,21 @@ export class NodesRegister {
     }
 
     this.categories[category][node.name] = node
+    this.nodeInfo[node.name] = node
 
     if (component) {
       this.defineView(node.name, component)
     }
   }
 
-  defineView (name, component) {
-    if (this.views[name]) { throw new Error(`${name} view already defined`) }
-    this.views[name] = component
+  defineView (type, component) {
+    if (this.views[type]) { throw new Error(`${type} view already defined`) }
+    this.views[type] = component
   }
 
-  getView (name) {
-    if (this.views[name]) {
-      return this.views[name]
+  getView (type) {
+    if (this.views[type]) {
+      return this.views[type]
     }
   }
 

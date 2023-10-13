@@ -8,7 +8,7 @@ function Return (props) {
   return (
     <div className={css.selectWrapper}>
       <div className={css.node}>
-        <div className={`${css.header} ${css.entry}`}>{node.type}</div>
+        <div className={`${css.header} ${css.entry}`}>Return</div>
         <div className={css.sockets}>
           <div className={css.left}>
             {node.pins.filter((p) => p.side === PinSide.In).map((pin) => inputPin(pin))}

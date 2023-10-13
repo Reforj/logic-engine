@@ -1,5 +1,6 @@
 import _find from 'lodash/find'
 import _get from 'lodash/get'
+import { NodeCode } from '../../../consts/NodesData'
 import FunctionContext from './context/FunctionContext'
 import NodeFactory from './Nodes/NodeFactory'
 import { reduce, reduceUuid } from '../../../utils/reduce'
@@ -19,7 +20,6 @@ export const resolveNodeArgs = (node, context, nodes) => {
   if (!node.inputs || !node.inputs.length) { return {} }
 
   context.pushCall(node)
-
   const nodesToResolve = NodesToResolveArgs(node, nodes) // [{node: Node, socket: uuid}]
   const caller = node
 
@@ -49,7 +49,7 @@ export const resolveNodeArgs = (node, context, nodes) => {
 const BuildFunction = (func, runtime) => {
   const nodes = reduceUuid(func.nodes, (node) => NodeFactory(node, runtime))
 
-  const entry = _find(nodes, { type: 'Entry' })
+  const entry = _find(nodes, { code: NodeCode.ENTRY })
 
   return (contextData, ...args) => {
     const context = new FunctionContext(contextData)

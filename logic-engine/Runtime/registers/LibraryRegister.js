@@ -15,14 +15,14 @@ export default {
     functions[name] = func
   },
 
-  get (name) {
-    return functions[name]
+  get (opcode) {
+    return functions[opcode]
   },
 
-  call (name, args) {
-    if (functions[name]) {
-      return functions[name](...args)
+  call (opcode, args) {
+    if (functions[opcode]) {
+      return functions[opcode](...args)
     }
-    console.error(`LibraryRegister: undefined function: ${name}`)
+    console.error(`LibraryRegister: undefined function: ${opcode}`)
   },
 }
