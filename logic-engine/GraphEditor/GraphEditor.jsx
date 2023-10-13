@@ -177,10 +177,15 @@ export default function GraphEditor ({
     changeNode({ ...node, pins })
   }
 
+  const change = (node, { data, pins }) => {
+    const nodes = changePins(node, pins || node.pins)
+
+    changeNodes([...nodes, { ...node, pins: pins || node.pins, data: data || node.data }])
+  }
+
   const changePins = (node, pins) => {
     const pinsToDisconnect = node.pins.filter((p) => p.pinned && !_find(pins, { uuid: p.uuid }))
-    const nodes = DisconnectConnectedPins(funcNodes, pinsToDisconnect)
-    changeNodes([...nodes, { ...node, pins }])
+    return DisconnectConnectedPins(funcNodes, pinsToDisconnect)
   }
 
   const onAddNode = (newNode, source, socket) => {
@@ -231,7 +236,7 @@ export default function GraphEditor ({
         disconnectPin={disconnectPin}
         disconnectAllPins={disconnectAllPins}
         changePin={changePin}
-        changePins={changePins}
+        change={change}
       />
     )
   }

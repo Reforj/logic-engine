@@ -59,10 +59,9 @@ interface CustomComponentProps {
   disconnectPin(pin: ExistsPin): void
   disconnectAllPins(): void
   changePin(pin: ExistsPin): void
-  changePins(pins: ExistsPin[]): void
+  change({ data, pins }: {data: any, pins: ExistsPin[]}): void
   createPin(pin: Pin): ExistsPin
   removePin(data: ExistsPin): void
-  changeData(data: any): void
 }
 
 export declare class NodesRegister {

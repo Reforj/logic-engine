@@ -5,8 +5,8 @@ import { PinSide } from '../../../../registers/NodeTypes'
 
 function UserNode (props) {
   const {
-    node, inputPin, outputPin, userNodesRegister, nodeInfo,
-    disconnectPin, disconnectAllPins, changePin, changePins, createPin, changeData,
+    node, inputPin, outputPin, userNodesRegister, nodeInfo, change,
+    disconnectPin, disconnectAllPins, changePin, createPin,
   } = props
   const Component = userNodesRegister.getView(node.name)
 
@@ -39,9 +39,8 @@ function UserNode (props) {
               disconnectPin={disconnectPin}
               disconnectAllPins={disconnectAllPins}
               changePin={changePin}
-              changePins={changePins}
               createPin={createPin}
-              changeData={changeData}
+              change={change}
             />
           )
           : sockets}

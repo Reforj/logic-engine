@@ -60,8 +60,8 @@ const NodeHOC = (Component) => function (props) {
     props.changePin(node, pin)
   }
 
-  const changePins = (pins) => {
-    props.changePins(node, pins)
+  const change = ({ data, pins }) => {
+    props.change(node, { data, pins })
   }
 
   const createPin = (args) => {
@@ -70,13 +70,9 @@ const NodeHOC = (Component) => function (props) {
     return pin
   }
 
-  const changeData = (data) => {
-    changeNode({ ...node, data })
-  }
-
   const removePin = (pin) => {
     const pins = node.filter((p) => p.uuid !== pin.uuid)
-    changePins(node, pins)
+    props.change(node, { pins })
   }
 
   const style = {
@@ -104,9 +100,8 @@ const NodeHOC = (Component) => function (props) {
           disconnectPin={disconnectPin}
           disconnectAllPins={disconnectAllPins}
           changePin={changePin}
-          changePins={changePins}
           createPin={createPin}
-          changeData={changeData}
+          change={change}
           removePin={removePin}
         />
       </div>
