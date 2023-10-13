@@ -1,13 +1,22 @@
-import { DataType, PinSide } from '../interfaces/Pin'
+export enum DataType {
+  Boolean,
+  String,
+  Number,
+  Object,
+  Any
+}
 
-export { DataType, PinSide }
-
+export enum PinSide {
+  In = 0,
+  Out = 1
+}
 interface Pin {
   side: PinSide
   name?: string
   dataType?: DataType
   defaultValue?: any
   exec?: boolean
+  data?: any
 }
 
 interface EntryPin {

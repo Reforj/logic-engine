@@ -13,5 +13,5 @@ type Handler = ({ context, node }:{context: any, node: Node}, ...args: any[]) =>
 export declare class Runtime {
   defineNodeHandler (name: string, handler: Handler): void
 
-  build (state: State): (contextData: any, ...args:any) => any[]
+  build (state: State): (contextData: any = {}, ...args:any) => any[]
 }
