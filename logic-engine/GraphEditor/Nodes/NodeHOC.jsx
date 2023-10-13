@@ -1,6 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
-import { DragPreviewImage, useDrag } from 'react-dnd'
-import img from './pixel'
+import { useEffect } from 'react'
+import { useDrag } from 'react-dnd'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 import css from '../EditorDock.less'
 import SocketInput from './sockets/SocketInput'
 import SocketOutput from './sockets/SocketOutput'
@@ -21,6 +22,10 @@ const NodeHOC = (Component) => function (props) {
       isDragging: monitor.isDragging(),
     }),
   })
+
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true })
+  }, [])
 
   const click = (e) => {
     if (nodeInfo.canNotDelete) { return }
@@ -81,31 +86,28 @@ const NodeHOC = (Component) => function (props) {
   }
 
   return (
-    <>
-      <DragPreviewImage connect={preview} src={img} />
-      <div
-        ref={drag}
-        style={style}
-        onDoubleClick={click}
-        className={`${css.nodeWrapper}`}
-        onContextMenu={(e) => e.stopPropagation()}
-      >
-        <Component
-          {...props}
-          nodeInfo={nodeInfo}
-          inputPin={inputPin}
-          outputPin={outputPin}
-          addPin={addPin}
-          changeNode={changeNode}
-          disconnectPin={disconnectPin}
-          disconnectAllPins={disconnectAllPins}
-          changePin={changePin}
-          createPin={createPin}
-          change={change}
-          removePin={removePin}
-        />
-      </div>
-    </>
+    <div
+      ref={drag}
+      style={style}
+      onDoubleClick={click}
+      className={`${css.nodeWrapper}`}
+      onContextMenu={(e) => e.stopPropagation()}
+    >
+      <Component
+        {...props}
+        nodeInfo={nodeInfo}
+        inputPin={inputPin}
+        outputPin={outputPin}
+        addPin={addPin}
+        changeNode={changeNode}
+        disconnectPin={disconnectPin}
+        disconnectAllPins={disconnectAllPins}
+        changePin={changePin}
+        createPin={createPin}
+        change={change}
+        removePin={removePin}
+      />
+    </div>
   )
 }
 

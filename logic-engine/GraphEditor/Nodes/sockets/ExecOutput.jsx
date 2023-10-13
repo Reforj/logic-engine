@@ -1,7 +1,7 @@
-import { useRef } from 'react'
-import { DragPreviewImage, useDrag, useDrop } from 'react-dnd'
+import { useRef, useEffect } from 'react'
+import { useDrag, useDrop } from 'react-dnd'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 import css from './Sockets.less'
-import img from '../pixel'
 import arrow from '../../../../assets/arrow.png'
 import arrowf from '../../../../assets/arrow_filled.png'
 
@@ -36,23 +36,24 @@ function ExecOutput ({
     }),
   })
 
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true })
+  }, [])
+
   drag(drop(ref))
   const pinned = socket.multiple ? socket.pinned && socket.pinned.length : socket.pinned
   return (
-    <>
-      <DragPreviewImage connect={preview} src={img} />
-      <div className={`${css.socket} ${css.output}`}>
-        <div>{socket.name}</div>
-        <div
-          ref={ref}
-          className={`${css.handler} ${css.exec} ${css.right} ${isOver ? css.over : ''}`}
-          data-uuid={socket.uuid}
-          data-shift="10, 10"
-        >
-          <img ref={icon} className={css.arrow} src={pinned ? arrowf : arrow} />
-        </div>
+    <div className={`${css.socket} ${css.output}`}>
+      <div>{socket.name}</div>
+      <div
+        ref={ref}
+        className={`${css.handler} ${css.exec} ${css.right} ${isOver ? css.over : ''}`}
+        data-uuid={socket.uuid}
+        data-shift="10, 10"
+      >
+        <img ref={icon} className={css.arrow} src={pinned ? arrowf : arrow} />
       </div>
-    </>
+    </div>
 
   )
 }

@@ -105,7 +105,6 @@ export default function GraphEditor ({
   let offset = null
   const [, drop] = useDrop({
     accept: ['NODE', 'OUTPUT_SOCKET', 'INPUT_SOCKET', 'EXEC_INPUT', 'EXEC_OUTPUT'],
-
     hover ({ node, type, position }, monitor) {
       const delta = monitor.getDifferenceFromInitialOffset()
       if (type === 'NODE' && offset) {

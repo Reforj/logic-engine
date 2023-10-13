@@ -1,9 +1,9 @@
-import { useRef } from 'react'
-import { DragPreviewImage, useDrag, useDrop } from 'react-dnd'
+import { useRef, useEffect } from 'react'
+import { useDrag, useDrop } from 'react-dnd'
 import cs from 'classnames'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 import { DataType } from '../../../../interfaces/Pin'
 import css from './Sockets.less'
-import img from '../pixel'
 
 function SocketInput ({
   node, socket, createLine, connect, title, changeNode,
@@ -36,6 +36,10 @@ function SocketInput ({
       isDragging: monitor.isDragging(),
     }),
   })
+
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true })
+  }, [])
 
   drag(drop(ref))
 
@@ -102,31 +106,28 @@ function SocketInput ({
   const pinned = socket.multiple ? socket.pinned && socket.pinned.length : socket.pinned
 
   return (
-    <>
-      <DragPreviewImage connect={preview} src={img} />
-      <div className={cs(css.socket, css[DataType[socket.dataType]])}>
-        <div
-          ref={ref}
-          onClick={onClick}
-          className={cs(css.handler, { [css.over]: isOver })}
-          data-uuid={socket.uuid}
-          data-shift="9, 8"
-        >
-          {type === 'Single' && (
+    <div className={cs(css.socket, css[DataType[socket.dataType]])}>
+      <div
+        ref={ref}
+        onClick={onClick}
+        className={cs(css.handler, { [css.over]: isOver })}
+        data-uuid={socket.uuid}
+        data-shift="9, 8"
+      >
+        {type === 'Single' && (
           <div ref={circle} className={cs(css.circle, { [css.active]: pinned })}>
             <i className={css.arrow} />
           </div>
-          )}
-          {type === 'Array' && (
+        )}
+        {type === 'Array' && (
           <div ref={circle} className={cs(css.circle, css.array, { [css.active]: pinned })}>
             <i className={css.arrow} />
           </div>
-          )}
-        </div>
-        {!pinned && defaultValue()}
-        <div>{title || socket.name}</div>
+        )}
       </div>
-    </>
+      {!pinned && defaultValue()}
+      <div>{title || socket.name}</div>
+    </div>
   )
 }
 

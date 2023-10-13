@@ -1,8 +1,8 @@
-import { useRef } from 'react'
-import { DragPreviewImage, useDrag, useDrop } from 'react-dnd'
+import { useRef, useEffect } from 'react'
+import { useDrag, useDrop } from 'react-dnd'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 import cs from 'classnames'
 import _find from 'lodash/find'
-import img from '../pixel'
 import css from './Sockets.less'
 import { DataType } from '../../../../interfaces/Pin'
 
@@ -37,28 +37,29 @@ function Node ({
     }),
   })
 
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true })
+  }, [])
+
   drag(drop(ref))
   const type = socket.type || 'Single'
   const pinned = socket.multiple ? socket.pinned && socket.pinned.length : socket.pinned
   return (
-    <>
-      <DragPreviewImage connect={preview} src={img} />
-      <div className={cs(css.socket, css.output, { [css.deleted]: socket.deleted }, css[DataType[socket.dataType]])}>
-        <div className={css.socketName}>{socket.deleted ? 'Deleted' : socket.name}</div>
-        <div ref={ref} className={`${css.handler} ${isOver ? css.over : ''}`} data-uuid={socket.uuid} data-shift="9, 8">
-          {type === 'Single' && (
+    <div className={cs(css.socket, css.output, { [css.deleted]: socket.deleted }, css[DataType[socket.dataType]])}>
+      <div className={css.socketName}>{socket.deleted ? 'Deleted' : socket.name}</div>
+      <div ref={ref} className={`${css.handler} ${isOver ? css.over : ''}`} data-uuid={socket.uuid} data-shift="9, 8">
+        {type === 'Single' && (
           <div ref={circle} className={cs(css.circle, { [css.active]: pinned })}>
             <i className={css.arrow} />
           </div>
-          )}
-          {type === 'Array' && (
+        )}
+        {type === 'Array' && (
           <div ref={circle} className={cs(css.circle, css.array, { [css.active]: pinned })}>
             <i className={css.arrow} />
           </div>
-          )}
-        </div>
+        )}
       </div>
-    </>
+    </div>
 
   )
 }
