@@ -2,14 +2,14 @@
 import cs from 'classnames'
 import _map from 'lodash/map'
 import css from './Connections.less'
-import { PinSide, DataType } from '../../../interfaces/Pin'
+import { PinType, DataType } from '../../../interfaces/Pin'
 
 const Connection = ({
   node, pin, offset, onRemove, scrollTop, scrollLeft, zoom,
 }) => {
   const path = (srcPin, destPin, index) => {
     const src = document.querySelector(`[data-uuid="${srcPin.uuid}"]`)
-    const dest = document.querySelector(`[data-uuid="${destPin.socket}"]`)
+    const dest = document.querySelector(`[data-uuid="${destPin.pin}"]`)
     if (!src || !dest) { return null }
 
     const srcRect = src.getBoundingClientRect()
@@ -35,7 +35,7 @@ const Connection = ({
 
     return (
       <path
-        key={destPin.socket}
+        key={destPin.pin}
         onClick={click}
         id="path"
         className={cs(css.line, css[pin.exec ? 'exec' : 'call'], css[DataType[pin.dataType]])}
@@ -69,7 +69,10 @@ function TempConnection ({
 export default function Connections ({
   nodes, offset, temp, removeConnection, scrollTop = 0, scrollLeft = 0, zoom,
 }) {
-  const connections = _map(nodes, (node) => ({ node, pins: node.pins.filter((p) => p.pinned && p.side === PinSide.Out) }))
+  const connections = _map(nodes, (node) => ({
+    node,
+    pins: node.pins.filter((p) => (p.type === PinType.DataOutput || p.type === PinType.FlowOutput) && p.pinned),
+  }))
 
   return (
     <svg style={{ width: '100%', height: '100%' }} xmlns="http://www.w3.org/2000/svg">

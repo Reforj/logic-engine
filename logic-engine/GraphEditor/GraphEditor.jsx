@@ -118,12 +118,12 @@ export default function GraphEditor ({
       offset = delta
     },
     drop ({
-      node: n, type, position, socket,
+      node: n, type, position, pin,
     }, monitor) {
       if (isSocket(type)) {
         if (monitor.getClientOffset()) {
           const { x, y } = monitor.getClientOffset()
-          showContext(x, y, { temp, node: n, socket })
+          showContext(x, y, { temp, node: n, pin })
         }
         setTemp(null)
         offset = null
@@ -164,7 +164,7 @@ export default function GraphEditor ({
     const destNode = funcNodes[dest.node]
     const destPin = _find(
       destNode.pins,
-      { uuid: Array.isArray(pin.pinned) ? pin.pinned[index].socket : pin.pinned.socket },
+      { uuid: Array.isArray(pin.pinned) ? pin.pinned[index].pin : pin.pinned.pin },
     )
     const nodes = RemoveConnection({ node, pin }, { node: destNode, pin: destPin })
 
@@ -329,7 +329,7 @@ export default function GraphEditor ({
           nodeList={nodeList}
           node={context.node}
           nodePos={context.nodePos}
-          socket={context.socket}
+          pin={context.pin}
           connection={context.temp}
           close={() => setContext(false)}
           addNode={onAddNode}

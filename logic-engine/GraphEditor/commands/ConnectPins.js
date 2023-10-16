@@ -1,9 +1,9 @@
 import _toArray from 'lodash/toArray'
 import { RemovePinnedOfPin } from './RemovePinnedOfPin'
-import { addPinned } from './AddPinned'
+import { addPinned, isMultiple } from './AddPinned'
 
 const addConnection = (source, target) => {
-  const pins = addPinned(source.node.pins, source.pin.uuid, { node: target.node.uuid, socket: target.pin.uuid })
+  const pins = addPinned(source.node.pins, source.pin.uuid, { node: target.node.uuid, pin: target.pin.uuid })
 
   return { ...source.node, pins }
 }
@@ -15,7 +15,7 @@ export const ConnectPins = (nodes, left, right) => {
 
   const removePinned = ({ pin }) => {
     // disconnect related not multipin pin
-    if (pin.pinned && !pin.multiple) {
+    if (pin.pinned && !isMultiple(pin)) {
       const node = nodesToUpdate[pin.pinned.node] || nodes[pin.pinned.node] // can be third node
       nodesToUpdate[node.uuid] = RemovePinnedOfPin(node, pin)
     }

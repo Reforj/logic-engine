@@ -1,9 +1,8 @@
 import Node from '../NodeHOC'
 import css from '../Node.less'
-import { PinSide } from '../../../../registers/NodeTypes'
 
 function Return (props) {
-  const { node, inputPin } = props
+  const { node, renderPin } = props
 
   return (
     <div className={css.selectWrapper}>
@@ -11,7 +10,7 @@ function Return (props) {
         <div className={`${css.header} ${css.entry}`}>Return</div>
         <div className={css.sockets}>
           <div className={css.left}>
-            {node.pins.filter((p) => p.side === PinSide.In).map((pin) => inputPin(pin))}
+            {node.pins.map((pin) => renderPin(pin))}
           </div>
         </div>
       </div>

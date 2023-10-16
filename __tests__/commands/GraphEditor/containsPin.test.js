@@ -12,7 +12,7 @@ describe('containsPin', function () {
         type: 'Exec',
         pinned: {
           node: 'return',
-          socket: 'return_in'
+          pin: 'return_in'
         },
       },
       {
@@ -22,10 +22,10 @@ describe('containsPin', function () {
         name: 'input',
         pinned: [{
           node: 'return',
-          socket: 'out1'
+          pin: 'out1'
         },{
           node: 'return',
-          socket: 'out2'
+          pin: 'out2'
         }]
       },
       {
@@ -35,7 +35,7 @@ describe('containsPin', function () {
         name: 'input2',
         pinned: {
           node: 'return2',
-          socket: 'out2'
+          pin: 'out2'
         }
       }]
     },
@@ -47,7 +47,7 @@ describe('containsPin', function () {
         type: 'Exec',
         pinned: {
           node: 'entry',
-          socket: 'entry_out'
+          pin: 'entry_out'
         }
       },
       {
@@ -57,7 +57,7 @@ describe('containsPin', function () {
         outputUuid: 'out1',
         pinned: {
           node: 'entry',
-          socket: 'arg_pin'
+          pin: 'arg_pin'
         }
       },
       {
@@ -67,18 +67,18 @@ describe('containsPin', function () {
         outputUuid: 'out2',
         pinned: {
           node: 'entry',
-          socket: 'arg_pin2'
+          pin: 'arg_pin2'
         }
       }]
     }
   }
 
   it('should return passed arg', () => {
-    expect(containsPin(null, {node: 'return', socket: 'return_in'})).toBe(false)
-    expect(containsPin(nodes.entry.pins[0].pinned, {node: 'return', socket: 'return_in'})).toBe(true)
-    expect(containsPin(nodes.entry.pins[0].pinned, {node: 'return', socket: 'return_in2'})).toBe(false)
-    expect(containsPin(nodes.entry.pins[1].pinned, {node: 'return', socket: 'out1'})).toBe(true)
-    expect(containsPin(nodes.entry.pins[1].pinned, {node: 'return', socket: 'out2'})).toBe(true)
-    expect(containsPin(nodes.entry.pins[1].pinned, {node: 'return', socket: 'out3'})).toBe(false)
+    expect(containsPin(null, {node: 'return', pin: 'return_in'})).toBe(false)
+    expect(containsPin(nodes.entry.pins[0].pinned, {node: 'return', pin: 'return_in'})).toBe(true)
+    expect(containsPin(nodes.entry.pins[0].pinned, {node: 'return', pin: 'return_in2'})).toBe(false)
+    expect(containsPin(nodes.entry.pins[1].pinned, {node: 'return', pin: 'out1'})).toBe(true)
+    expect(containsPin(nodes.entry.pins[1].pinned, {node: 'return', pin: 'out2'})).toBe(true)
+    expect(containsPin(nodes.entry.pins[1].pinned, {node: 'return', pin: 'out3'})).toBe(false)
   })
 })

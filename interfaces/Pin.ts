@@ -6,12 +6,22 @@ export enum DataType {
   Any
 }
 
-export enum PinSide {
-  In = 0,
-  Out = 1
+export enum PinType {
+  FlowInput,
+  FlowOutput,
+  DataInput,
+  DataOutput
+}
+
+export interface PinArgs {
+  type: PinType,
+  name?: string
+  dataType?: DataType
+  defaultValue?: any
 }
 
 export interface Pin {
+  type: PinType,
   dataType?: DataType
   defaultValue?: any
   name?: string
@@ -19,9 +29,7 @@ export interface Pin {
 }
 
 export interface InputPin extends Pin {
-  side: PinSide.In
 }
 
 export interface OutputPin extends Pin {
-  side: PinSide.Out
 }

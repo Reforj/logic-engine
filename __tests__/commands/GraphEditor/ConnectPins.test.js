@@ -7,33 +7,21 @@ describe('ConnectPins', function () {
       type: 'Entry',
       execOutputs: [{uuid: 'entry_out'}],
       pins: [{
-        side: "Out",
-        type: 'Exec',
+        type: 1,
         pinned: null,
       },
       {
         uuid: 'arg_pin',
-        side: 'Out',
-        type: 'Var',
+        type: 3,
         name: 'input',
-        multiple: true,
-        // pinned: [{
-        //   node: 'return',
-        //   socket: 'out1'
-        // },{
-        //   node: 'return',
-        //   socket: 'out2'
-        // }]
       },
       {
         uuid: 'arg_pin2',
-        side: 'Out',
-        type: 'Var',
+        type: 3,
         name: 'input2',
-        multiple: true,
         pinned: [{
           node: 'return',
-          socket: 'result_pin'
+          pin: 'result_pin'
         }]
       }]
     },
@@ -41,31 +29,20 @@ describe('ConnectPins', function () {
       uuid: 'return',
       type: 'Return',
       pins: [{
-        side: "In",
-        type: 'Exec',
-        // pinned: {
-        //   node: 'entry',
-        //   socket: 'entry_out'
-        // }
+        type: 0,
       },
       {
         uuid: 'result_pin',
-        side: 'In',
-        type: 'Var',
+        type: 2,
         outputUuid: 'out1',
-        // pinned: {
-        //   node: 'entry',
-        //   socket: 'arg_pin'
-        // }
       },
       {
         uuid: 'result_pin2',
-        side: 'In',
-        type: 'Var',
+        type: 2,
         outputUuid: 'out2',
         pinned: {
           node: 'entry',
-          socket: 'arg_pin2'
+          pin: 'arg_pin2'
         }
       }]
     }
@@ -75,16 +52,16 @@ describe('ConnectPins', function () {
     const newNodes = ConnectPins(nodes, {node: nodes.entry, pin: nodes.entry.pins[1]}, {node: nodes.return, pin: nodes.return.pins[1]})
     expect(newNodes[0].pins[0]).toBe(nodes.entry.pins[0])
     expect(newNodes[0].pins[2]).toBe(nodes.entry.pins[2])
-    expect(newNodes[0].pins[1].pinned).toStrictEqual([{node: 'return', socket: 'result_pin'}])
-    expect(newNodes[1].pins[1].pinned).toStrictEqual({node: 'entry', socket: 'arg_pin'})
+    expect(newNodes[0].pins[1].pinned).toStrictEqual([{node: 'return', pin: 'result_pin'}])
+    expect(newNodes[1].pins[1].pinned).toStrictEqual({node: 'entry', pin: 'arg_pin'})
   })
 
   it('for multiple should set pinned objects', () => {
     const newNodes = ConnectPins(nodes, {node: nodes.return, pin: nodes.return.pins[1]}, {node: nodes.entry, pin: nodes.entry.pins[1]})
     expect(newNodes[0].pins[0]).toBe(nodes.return.pins[0])
     expect(newNodes[0].pins[2]).toBe(nodes.return.pins[2])
-    expect(newNodes[0].pins[1].pinned).toStrictEqual({node: 'entry', socket: 'arg_pin'})
-    expect(newNodes[1].pins[1].pinned).toStrictEqual([{node: 'return', socket: 'result_pin'}])
+    expect(newNodes[0].pins[1].pinned).toStrictEqual({node: 'entry', pin: 'arg_pin'})
+    expect(newNodes[1].pins[1].pinned).toStrictEqual([{node: 'return', pin: 'result_pin'}])
   })
 
   it('should return empty if source eq destination nodes', () => {
@@ -95,7 +72,7 @@ describe('ConnectPins', function () {
   it('should add pinned to existed pinned', () => {
     const newNodes = ConnectPins(nodes, {node: nodes.entry, pin: nodes.entry.pins[2]}, {node: nodes.return, pin: nodes.return.pins[2]})
 
-    expect(newNodes[0].pins[2].pinned).toStrictEqual([{"node": "return", "socket": "result_pin"}, {"node": "return", "socket": "result_pin2"}])
-    expect(newNodes[1].pins[2].pinned).toStrictEqual({"node": "entry", "socket": "arg_pin2"})
+    expect(newNodes[0].pins[2].pinned).toStrictEqual([{"node": "return", "pin": "result_pin"}, {"node": "return", "pin": "result_pin2"}])
+    expect(newNodes[1].pins[2].pinned).toStrictEqual({"node": "entry", "pin": "arg_pin2"})
   })
 })

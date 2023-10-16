@@ -7,7 +7,7 @@ import { TreeMenu } from './TreeMenu'
 
 export default function ContextMenu (props) {
   const {
-    func, nodeList, left, top, close, addNode, socket, nodePos, node: source,
+    func, nodeList, left, top, close, addNode, pin, nodePos, node: source,
   } = props
   const ref = useRef()
 
@@ -20,7 +20,8 @@ export default function ContextMenu (props) {
     const Node = NodeTypes[node.type || nodeInfo.type]
 
     if (!Node) { throw new Error(`Missing registered node type: ${node.type} in registers/NodeTypes.js`) }
-    if (socket?.side === 0) {
+
+    if (pin && (pin.type === 0 || pin.type === 2)) {
       nodePos.x -= 170
       nodePos.y -= 20
     }
@@ -33,7 +34,7 @@ export default function ContextMenu (props) {
 
     const newNode = Node(func, { ...nodeInfo, position: [nodePos.x, nodePos.y] })
 
-    addNode(newNode, source, socket)
+    addNode(newNode, source, pin)
     close()
   }
 

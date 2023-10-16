@@ -8,33 +8,21 @@ describe('buildPinnedPin', function () {
       type: 'Entry',
       execOutputs: [{uuid: 'entry_out'}],
       pins: [{
-        side: "Out",
-        type: 'Exec',
+        type: 1,
         pinned: null,
       },
       {
         uuid: 'arg_pin',
-        side: 'Out',
-        type: 'Var',
+        type: 3,
         name: 'input',
-        multiple: true,
-        // pinned: [{
-        //   node: 'return',
-        //   socket: 'out1'
-        // },{
-        //   node: 'return',
-        //   socket: 'out2'
-        // }]
       },
       {
         uuid: 'arg_pin2',
-        side: 'Out',
-        type: 'Var',
+        type: 3,
         name: 'input2',
-        multiple: true,
         pinned: [{
           node: 'return',
-          socket: 'out1'
+          pin: 'out1'
         }]
       }]
     },
@@ -42,45 +30,30 @@ describe('buildPinnedPin', function () {
       uuid: 'return',
       type: 'Return',
       pins: [{
-        side: "In",
-        type: 'Exec',
-        // pinned: {
-        //   node: 'entry',
-        //   socket: 'entry_out'
-        // }
+        type: 0,
       },
       {
         uuid: 'result_pin',
-        side: 'In',
-        type: 'Var',
+        type: 1,
         outputUuid: 'out1',
-        // pinned: {
-        //   node: 'entry',
-        //   socket: 'arg_pin'
-        // }
       },
       {
         uuid: 'result_pin2',
-        side: 'In',
-        type: 'Var',
+        type: 1,
         outputUuid: 'out2',
-        // pinned: {
-        //   node: 'entry',
-        //   socket: 'arg_pin2'
-        // }
       }]
     }
   }
 
   it('for non multiple should set pinned object', () => {
-    expect(buildPinnedPin(nodes.entry.pins[0], {node: 'return', socket: 'return_in'}).pinned).toStrictEqual({"node": "return", "socket": "return_in"})
+    expect(buildPinnedPin(nodes.entry.pins[0], {node: 'return', pin: 'return_in'}).pinned).toStrictEqual({"node": "return", "pin": "return_in"})
   })
 
   it('for multipins should add pin to pinned', () => {
-    expect(buildPinnedPin(nodes.entry.pins[1], {node: 'return', socket: 'out1'}).pinned).toStrictEqual([{"node": "return", "socket": "out1"}])
-    expect(buildPinnedPin(nodes.entry.pins[1], {node: 'return', socket: 'out2'}).pinned).toStrictEqual([{"node": "return", "socket": "out2"}])
-    expect(buildPinnedPin(nodes.entry.pins[2], {node: 'return', socket: 'out2'}).pinned).toStrictEqual([{"node": "return", "socket": "out1"}, {"node": "return", "socket": "out2"}])
-    expect(buildPinnedPin(nodes.entry.pins[2], {node: 'return', socket: 'out1'}).pinned).toBe(nodes.entry.pins[2].pinned)
-    expect(buildPinnedPin(nodes.return.pins[1], {node: 'entry', socket: 'arg_pin'}).pinned).toStrictEqual({"node": "entry", "socket": "arg_pin"})
+    expect(buildPinnedPin(nodes.entry.pins[1], {node: 'return', pin: 'out1'}).pinned).toStrictEqual([{"node": "return", "pin": "out1"}])
+    expect(buildPinnedPin(nodes.entry.pins[1], {node: 'return', pin: 'out2'}).pinned).toStrictEqual([{"node": "return", "pin": "out2"}])
+    expect(buildPinnedPin(nodes.entry.pins[2], {node: 'return', pin: 'out2'}).pinned).toStrictEqual([{"node": "return", "pin": "out1"}, {"node": "return", "pin": "out2"}])
+    expect(buildPinnedPin(nodes.entry.pins[2], {node: 'return', pin: 'out1'}).pinned).toBe(nodes.entry.pins[2].pinned)
+    expect(buildPinnedPin(nodes.return.pins[1], {node: 'entry', pin: 'arg_pin'}).pinned).toStrictEqual({"node": "entry", "pin": "arg_pin"})
   })
 })

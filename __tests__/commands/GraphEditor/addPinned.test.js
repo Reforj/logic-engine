@@ -8,33 +8,21 @@ describe('addPinned', function () {
       type: 'Entry',
       execOutputs: [{uuid: 'entry_out'}],
       pins: [{
-        side: "Out",
-        type: 'Exec',
+        type: 0,
         pinned: null,
       },
       {
         uuid: 'arg_pin',
-        side: 'Out',
-        type: 'Var',
+        type: 3,
         name: 'input',
-        multiple: true,
-        // pinned: [{
-        //   node: 'return',
-        //   socket: 'out1'
-        // },{
-        //   node: 'return',
-        //   socket: 'out2'
-        // }]
       },
       {
         uuid: 'arg_pin2',
-        side: 'Out',
-        type: 'Var',
+        type: 3,
         name: 'input2',
-        multiple: true,
         pinned: [{
           node: 'return',
-          socket: 'out1'
+          pin: 'out1'
         }]
       }]
     },
@@ -42,47 +30,33 @@ describe('addPinned', function () {
       uuid: 'return',
       type: 'Return',
       pins: [{
-        side: "In",
-        type: 'Exec',
-        // pinned: {
-        //   node: 'entry',
-        //   socket: 'entry_out'
-        // }
+        type: 1,
       },
       {
         uuid: 'result_pin',
-        side: 'In',
-        type: 'Var',
+        type: 3,
         outputUuid: 'out1',
-        // pinned: {
-        //   node: 'entry',
-        //   socket: 'arg_pin'
-        // }
       },
       {
         uuid: 'result_pin2',
-        side: 'In',
-        type: 'Var',
+        type: 3,
         outputUuid: 'out2',
-        // pinned: {
-        //   node: 'entry',
-        //   socket: 'arg_pin2'
-        // }
       }]
     }
   }
 
   it('for multiple should set pinned object', () => {
-    expect(addPinned(nodes.entry.pins, 'arg_pin', {node: 'return', socket: 'return_in'})).toStrictEqual(
-      [{"pinned": null, "side": "Out", "type": "Exec"},
-      {"multiple": true, "name": "input", "pinned": [{"node": "return", "socket": "return_in"}], "side": "Out", "type": "Var", "uuid": "arg_pin"}, {"multiple": true, "name": "input2", "pinned": [{"node": "return", "socket": "out1"}], "side": "Out", "type": "Var", "uuid": "arg_pin2"}
+    expect(addPinned(nodes.entry.pins, 'arg_pin', {node: 'return', pin: 'return_in'})).toStrictEqual(
+      [ {"pinned": null, "type": 0},
+        {"name": "input", "type": 3, "pinned": [{"node": "return", "pin": "return_in"}], "uuid": "arg_pin"},
+        {"name": "input2", "type": 3, "pinned": [{"node": "return", "pin": "out1"}], "uuid": "arg_pin2"}
     ])
-    expect(addPinned(nodes.entry.pins, 'arg_pin2', {node: 'return', socket: 'return_in'})).toStrictEqual(
+    expect(addPinned(nodes.entry.pins, 'arg_pin2', {node: 'return', pin: 'return_in'})).toStrictEqual(
       [
-        {"pinned": null, "side": "Out", "type": "Exec"},
-        {"multiple": true, "name": "input", "side": "Out", "type": "Var", "uuid": "arg_pin"},
-        {"multiple": true, "name": "input2", "pinned": [{"node": "return", "socket": "out1"},
-        {"node": "return", "socket": "return_in"}], "side": "Out", "type": "Var", "uuid": "arg_pin2"}]
+        {"pinned": null, type: 0},
+        {"name": "input", "uuid": "arg_pin", type: 3},
+        {"name": "input2", type: 3, "pinned": [{"node": "return", "pin": "out1"},
+        {"node": "return", "pin": "return_in"}], "uuid": "arg_pin2"}]
     )
   })
 })

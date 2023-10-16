@@ -20,7 +20,7 @@ export const resolveNodeArgs = (node, context, nodes) => {
   if (!node.inputs || !node.inputs.length) { return {} }
 
   context.pushCall(node)
-  const nodesToResolve = NodesToResolveArgs(node, nodes) // [{node: Node, socket: uuid}]
+  const nodesToResolve = NodesToResolveArgs(node, nodes) // [{node: Node, pin: uuid}]
   const caller = node
 
   const results = reduce(nodesToResolve, (obj, node) => {
@@ -29,7 +29,7 @@ export const resolveNodeArgs = (node, context, nodes) => {
       return { ...obj, [node.uuid]: context.getResult(node.uuid) }
     }
 
-    const args = resolveNodeArgs(node, context, nodes) // {[socketUuid]: val}
+    const args = resolveNodeArgs(node, context, nodes) // {[pinUuid]: val}
 
     if (context.getCaller(node) === caller.uuid) {
       return { ...obj, [node.uuid]: context.getResult(node.uuid) }
@@ -38,11 +38,11 @@ export const resolveNodeArgs = (node, context, nodes) => {
     const result = node.exec(context, args, caller)
     const combinedOutput = context.setResult(node, result.outputs)
     return { ...obj, [node.uuid]: combinedOutput }
-  }) // { [nodeUuid]: {[socketUuid]: value} }
+  }) // { [nodeUuid]: {[pinUuid]: value} }
 
   return node.inputs.map((pin) => {
     if (!pin.pinned) { return }
-    return _get(results, [pin.pinned.node, pin.pinned.socket])
+    return _get(results, [pin.pinned.node, pin.pinned.pin])
   })
 }
 

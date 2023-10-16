@@ -1,5 +1,5 @@
 import { NodesData } from '../../../../../consts/NodesData'
-import { PinSide } from '../../../../../interfaces/Pin'
+import { PinType } from '../../../../../interfaces/Pin'
 
 export default class Node {
   constructor (node, runtime) {
@@ -22,15 +22,15 @@ export default class Node {
   }
 
   getNext () {
-    return this.pins.find((p) => p.exec && p.side === PinSide.Out)
+    return this.pins.find((p) => p.type === PinType.FlowOutput)
   }
 
   getInputs () {
-    return this.pins.filter((p) => !p.exec && p.side === PinSide.In)
+    return this.pins.filter((p) => p.type === PinType.DataInput)
   }
 
   getOutputs () {
-    return this.pins.filter((p) => !p.exec && p.side === PinSide.Out)
+    return this.pins.filter((p) => p.type === PinType.DataOutput)
   }
 
   exec () {
