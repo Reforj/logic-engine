@@ -4,6 +4,8 @@ import _map from 'lodash/map'
 import css from './Connections.less'
 import { PinType, DataType } from '../../../interfaces/Pin'
 
+const isFlow = (pin) => pin.type === PinType.FlowOutput || pin.type === PinType.FlowInput
+
 const Connection = ({
   node, pin, offset, onRemove, scrollTop, scrollLeft, zoom,
 }) => {
@@ -38,7 +40,7 @@ const Connection = ({
         key={destPin.pin}
         onClick={click}
         id="path"
-        className={cs(css.line, css[pin.exec ? 'exec' : 'call'], css[DataType[pin.dataType]])}
+        className={cs(css.line, css[isFlow(pin) ? 'exec' : 'call'], css[DataType[pin.dataType]])}
         d={d}
         fill="none"
       />
