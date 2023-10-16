@@ -8,7 +8,7 @@ function Branch (props) {
     <div className={css.selectWrapper}>
       <div className={cs(css.node, css.branch)}>
         <div className={cs(css.header, css.branch)}>Branch</div>
-        <div className={css.sockets}>
+        <div className={css.pins}>
           <div className={css.left}>
             {inputs(node.pins).map((pin) => renderPin(pin))}
           </div>

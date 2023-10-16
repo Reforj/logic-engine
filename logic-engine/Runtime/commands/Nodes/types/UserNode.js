@@ -6,8 +6,8 @@ export default class UserNode extends Node {
     this.name = node.path
   }
 
-  exec (context, socketArgs = []) {
-    const args = this.inputs.map((input, i) => (input.pinned ? socketArgs[i] : input.defaultValue))
+  exec (context, inputArgs = []) {
+    const args = this.inputs.map((input, i) => (input.pinned ? inputArgs[i] : input.defaultValue))
     const cb = this.runtime.getNodeHandler(this.node.name)
     if (!cb) { throw new Error(`Missing handler for node: ${this.node.name}`) }
 

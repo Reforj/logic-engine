@@ -8,7 +8,7 @@ function Entry (props) {
     <div className={css.selectWrapper}>
       <div className={css.node}>
         <div className={`${css.header} ${css.entry}`}>Entry</div>
-        <div className={css.sockets}>
+        <div className={css.pins}>
           <div className={css.right}>
             {node.pins.map((pin) => renderPin(pin))}
           </div>

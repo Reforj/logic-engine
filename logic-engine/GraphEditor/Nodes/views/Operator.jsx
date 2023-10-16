@@ -12,7 +12,7 @@ function Operator (props) {
     <div className={css.selectWrapper}>
       <div className={cs(css.node, css.operator)}>
         <div className={css.operatorName}>{nodeInfo.nodeTitle}</div>
-        <div className={css.sockets}>
+        <div className={css.pins}>
           <div className={css.left}>
             {inputs(node.pins).map((pin) => renderPin(pin))}
             {nodeInfo.canAddInputs && (

@@ -187,11 +187,11 @@ export default function GraphEditor ({
     return DisconnectConnectedPins(funcNodes, pinsToDisconnect)
   }
 
-  const onAddNode = (newNode, source, socket) => {
+  const onAddNode = (newNode, source, pin) => {
     addNode(newNode)
 
-    if (!socket) { return }
-    const nodes = ConnectRelatedPin(funcNodes, newNode, source, socket)
+    if (!pin) { return }
+    const nodes = ConnectRelatedPin(funcNodes, newNode, source, pin)
 
     if (nodes) {
       changeNodes(nodes)

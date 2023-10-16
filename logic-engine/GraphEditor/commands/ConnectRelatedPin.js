@@ -5,7 +5,7 @@ import { ConnectPins } from './ConnectPins'
 const isFlow = (pin) => pin.type === PinType.FlowOutput || pin.type === PinType.FlowInput
 const isOutput = (pin) => pin.type === PinType.FlowOutput || pin.type === PinType.DataOutput
 
-export const ConnectRelatedPin = (funcNodes, newNode, source, socket) => {
+export const ConnectRelatedPin = (funcNodes, newNode, source, pin) => {
   const nodesToUpdate = { [source.uuid]: source, [newNode.uuid]: newNode }
   const exec = {
     In: _find(newNode.pins, { type: PinType.FlowInput }),
@@ -18,45 +18,45 @@ export const ConnectRelatedPin = (funcNodes, newNode, source, socket) => {
   let nodes = null
 
   // connect related pins
-  if (isOutput(socket)) {
-    if (socket.type !== PinType.FlowOutput && inputs.In) {
+  if (isOutput(pin)) {
+    if (pin.type !== PinType.FlowOutput && inputs.In) {
       nodes = ConnectPins(
         { ...funcNodes, ...nodesToUpdate },
-        { node: source, pin: socket },
+        { node: source, pin },
         { node: newNode, pin: inputs.In },
       )
       nodes && nodes.map((n) => nodesToUpdate[n.uuid] = n)
     }
-    if (isFlow(socket) && exec.In) {
+    if (isFlow(pin) && exec.In) {
       source = nodesToUpdate[source.uuid] || source
       newNode = nodesToUpdate[newNode.uuid] || newNode
-      const pin = _find(source.pins, { type: PinType.FlowOutput })
-      if (pin) {
+      const p = _find(source.pins, { type: PinType.FlowOutput })
+      if (p) {
         nodes = ConnectPins(
           { ...funcNodes, ...nodesToUpdate },
-          { node: source, pin: socket.exec ? socket : pin },
+          { node: source, pin: isFlow(pin) ? pin : p },
           { node: newNode, pin: exec.In },
         )
         nodes && nodes.map((n) => nodesToUpdate[n.uuid] = n)
       }
     }
   } else {
-    if (!isFlow(socket) && inputs.Out) {
+    if (!isFlow(pin) && inputs.Out) {
       nodes = ConnectPins(
         { ...funcNodes, ...nodesToUpdate },
-        { node: source, pin: socket },
+        { node: source, pin },
         { node: newNode, pin: inputs.Out },
       )
       nodes && nodes.map((n) => nodesToUpdate[n.uuid] = n)
     }
-    if (isFlow(socket) && exec.Out) {
+    if (isFlow(pin) && exec.Out) {
       source = nodesToUpdate[source.uuid] || source
       newNode = nodesToUpdate[newNode.uuid] || newNode
       const pin = _find(source.pins, { type: PinType.FlowInput })
       if (pin) {
         nodes = ConnectPins(
           { ...funcNodes, ...nodesToUpdate },
-          { node: source, pin: socket },
+          { node: source, pin },
           { node: newNode, pin: exec.Out },
         )
         nodes && nodes.map((n) => nodesToUpdate[n.uuid] = n)

@@ -9,8 +9,8 @@ export default class Branch extends Node {
     this.nextFalse = _find(node.pins, { type: PinType.FlowOutput, name: 'False' })
   }
 
-  exec (context, socketArgs = []) {
-    const condition = this.inputs[0].pinned ? socketArgs[0] : this.inputs[0].defaultValue
+  exec (context, args = []) {
+    const condition = this.inputs[0].pinned ? args[0] : this.inputs[0].defaultValue
     const next = condition ? this.nextTrue : this.nextFalse
 
     return {

@@ -10,8 +10,8 @@ export default class CallLibrary extends Node {
     if (!this.func) { throw new Error(`LibraryRegister: undefined function: ${this.opcode}`) }
   }
 
-  exec (context, socketArgs = []) {
-    const args = this.inputs.map((input, i) => (input.pinned ? socketArgs[i] : input.defaultValue))
+  exec (context, inputArgs = []) {
+    const args = this.inputs.map((input, i) => (input.pinned ? inputArgs[i] : input.defaultValue))
     const result = this.func(...args)
 
     return {

@@ -30,7 +30,7 @@ interface Node {
 interface CustomNode extends Node {
   nodeClassName?: string
   headerClassName?: string
-  socketsClassName?: string
+  pinsClassName?: string
   data?: any
 }
 
@@ -48,7 +48,7 @@ export interface State {
 
 interface CustomComponentProps {
   node: StateNode
-  sockets: ReactNode
+  pins: ReactNode
   inputPins: ExistsPin[]
   outputPins: ExistsPin[]
   renderPin(pin: ExistsPin): ReactNode

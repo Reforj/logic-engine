@@ -11,7 +11,7 @@ function CallLibrary (props) {
     <div className={css.selectWrapper}>
       <div className={cs(css.node)}>
         <div className={cs(css.header, { [css.pure]: node.pure })}>{nodeInfo.nodeTitle}</div>
-        <div className={css.sockets}>
+        <div className={css.pins}>
           <div className={css.left}>
             {inputs(node.pins).map((pin) => renderPin(pin))}
           </div>

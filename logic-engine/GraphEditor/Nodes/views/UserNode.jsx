@@ -9,8 +9,8 @@ function UserNode (props) {
   } = props
   const Component = userNodesRegister.getView(node.name)
 
-  const sockets = (
-    <div className={cs(css.sockets, nodeInfo.socketsClassName)}>
+  const pins = (
+    <div className={cs(css.pins, nodeInfo.pinsClassName)}>
       <div className={css.left}>
         {inputs(node.pins).map((pin) => renderPin(pin))}
       </div>
@@ -33,7 +33,7 @@ function UserNode (props) {
               inputPins={inputs(node.pins)}
               outputPins={outputs(node.pins)}
               renderPin={renderPin}
-              sockets={sockets}
+              pins={pins}
               disconnectPin={disconnectPin}
               disconnectAllPins={disconnectAllPins}
               changePin={changePin}
@@ -41,7 +41,7 @@ function UserNode (props) {
               change={change}
             />
           )
-          : sockets}
+          : pins}
       </div>
     </div>
   )

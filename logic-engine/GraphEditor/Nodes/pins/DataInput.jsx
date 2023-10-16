@@ -105,7 +105,7 @@ function DataInput ({
   const { pinned } = pin
 
   return (
-    <div className={cs(css.socket, css[DataType[pin.dataType]])}>
+    <div className={cs(css.pin, css[DataType[pin.dataType]])}>
       <div
         ref={ref}
         onClick={onClick}

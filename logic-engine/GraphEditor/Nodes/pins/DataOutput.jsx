@@ -45,8 +45,8 @@ function DataOutput ({
 
   const pinned = pin.pinned && pin.pinned.length
   return (
-    <div className={cs(css.socket, css.output, { [css.deleted]: pin.deleted }, css[DataType[pin.dataType]])}>
-      <div className={css.socketName}>{pin.deleted ? 'Deleted' : pin.name}</div>
+    <div className={cs(css.pin, css.output, { [css.deleted]: pin.deleted }, css[DataType[pin.dataType]])}>
+      <div className={css.pinName}>{pin.deleted ? 'Deleted' : pin.name}</div>
       <div ref={ref} className={`${css.handler} ${isOver ? css.over : ''}`} data-uuid={pin.uuid} data-shift="9, 8">
         <div ref={circle} className={cs(css.circle, { [css.active]: pinned })}>
           <i className={css.arrow} />
