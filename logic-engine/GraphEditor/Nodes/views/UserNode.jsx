@@ -1,11 +1,10 @@
 import cs from 'classnames'
-import Node from '../NodeHOC'
+import Node, { inputs, outputs } from '../NodeHOC'
 import css from '../Node.less'
-import { PinSide } from '../../../../registers/NodeTypes'
 
 function UserNode (props) {
   const {
-    node, inputPin, outputPin, userNodesRegister, nodeInfo, change,
+    node, renderPin, userNodesRegister, nodeInfo, change,
     disconnectPin, disconnectAllPins, changePin, createPin,
   } = props
   const Component = userNodesRegister.getView(node.name)
@@ -13,10 +12,10 @@ function UserNode (props) {
   const sockets = (
     <div className={cs(css.sockets, nodeInfo.socketsClassName)}>
       <div className={css.left}>
-        {node.pins.filter((p) => p.side === PinSide.In).map((pin) => inputPin(pin))}
+        {inputs(node.pins).map((pin) => renderPin(pin))}
       </div>
       <div className={css.right}>
-        {node.pins.filter((p) => p.side === PinSide.Out).map((pin) => outputPin(pin))}
+        {outputs(node.pins).map((pin) => renderPin(pin))}
       </div>
     </div>
   )
@@ -31,10 +30,9 @@ function UserNode (props) {
           ? (
             <Component
               node={node}
-              inputPins={node.pins.filter((p) => p.side === PinSide.In)}
-              outputPins={node.pins.filter((p) => p.side === PinSide.Out)}
-              renderInputPin={inputPin}
-              renderOutputPin={outputPin}
+              inputPins={inputs(node.pins)}
+              outputPins={outputs(node.pins)}
+              renderPin={renderPin}
               sockets={sockets}
               disconnectPin={disconnectPin}
               disconnectAllPins={disconnectAllPins}

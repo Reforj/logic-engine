@@ -7,16 +7,16 @@ describe('CallLibrary with arguments', function () {
     code: NodeCode.OPERATOR_PLUS_NUMBER,
     pins: [{
       uuid: 'input1',
-      side: 0,
+      type: 2,
       pinned: {},
     },
     {
       uuid: 'input2',
-      side: 0,
+      type: 2,
       pinned: {},
     },{
       uuid: 'out1',
-      side: 1,
+      type: 3
     }],
   }
 

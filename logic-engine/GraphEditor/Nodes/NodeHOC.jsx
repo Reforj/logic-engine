@@ -3,12 +3,23 @@ import { useEffect } from 'react'
 import { useDrag } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 import css from '../EditorDock.less'
-import SocketInput from './sockets/SocketInput'
-import SocketOutput from './sockets/SocketOutput'
-import ExecInput from './sockets/ExecInput'
-import ExecOutput from './sockets/ExecOutput'
-import { newPin, PinSide } from '../../../registers/NodeTypes'
+import DataInput from './sockets/DataInput'
+import DataOutput from './sockets/DataOutput'
+import FlowInput from './sockets/FlowInput'
+import FlowOutput from './sockets/FlowOutput'
+import { Pin } from '../../../registers/NodeTypes'
 import { NodeType, NodesData } from '../../../consts/NodesData'
+import { PinType } from '../../../interfaces/Pin'
+
+const PIN_COMPONENTS = {
+  [PinType.FlowInput]: FlowInput,
+  [PinType.FlowOutput]: FlowOutput,
+  [PinType.DataInput]: DataInput,
+  [PinType.DataOutput]: DataOutput,
+}
+
+export const inputs = (pins) => (pins.filter((p) => p.type === PinType.DataInput || p.type === PinType.FlowInput))
+export const outputs = (pins) => (pins.filter((p) => p.type === PinType.DataOutput || p.type === PinType.FlowOutput))
 
 const NodeHOC = (Component) => function (props) {
   const { id, node, userNodesRegister } = props
@@ -39,18 +50,14 @@ const NodeHOC = (Component) => function (props) {
   }
 
   const addPin = (pin) => {
-    const p = newPin({ side: PinSide.In, ...pin, extra: true })
+    const p = Pin({ type: PinType.DataInput, ...pin, extra: true })
     props.changeNode({ ...node, pins: [...node.pins, p] })
   }
 
-  const inputPin = (pin) => {
-    const Pin = pin.exec ? ExecInput : SocketInput
-    return <Pin key={pin.uuid} socket={pin} title={pin.title} {...props} changeNode={changeNode} />
-  }
+  const renderPin = (pin) => {
+    const Pin = PIN_COMPONENTS[pin.type]
 
-  const outputPin = (pin) => {
-    const Pin = pin.exec ? ExecOutput : SocketOutput
-    return <Pin key={pin.uuid} socket={pin} {...props} changeNode={changeNode} />
+    return <Pin key={pin.uuid} pin={pin} title={pin.title} {...props} changeNode={changeNode} />
   }
 
   const disconnectPin = (pin) => {
@@ -70,7 +77,7 @@ const NodeHOC = (Component) => function (props) {
   }
 
   const createPin = (args) => {
-    const pin = newPin(args)
+    const pin = Pin(args)
     props.changeNode({ ...node, pins: [...node.pins, pin] })
     return pin
   }
@@ -96,8 +103,7 @@ const NodeHOC = (Component) => function (props) {
       <Component
         {...props}
         nodeInfo={nodeInfo}
-        inputPin={inputPin}
-        outputPin={outputPin}
+        renderPin={renderPin}
         addPin={addPin}
         changeNode={changeNode}
         disconnectPin={disconnectPin}

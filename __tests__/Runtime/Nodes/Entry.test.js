@@ -27,6 +27,6 @@ describe('Func with arguments', function () {
   })
 
   it('should return next null', () => {
-    expect(new Entry({executable: true, pins: [{uuid: 'entry_out', exec: true, side: 1}]}, {inputs: []}).exec({}, [])).toStrictEqual({next: null, outputs: []})
+    expect(new Entry({executable: true, pins: [{uuid: 'entry_out', type: 1}]}, {inputs: []}).exec({}, [])).toStrictEqual({next: null, outputs: []})
   })
 })

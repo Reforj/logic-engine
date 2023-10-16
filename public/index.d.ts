@@ -1,22 +1,13 @@
+import { PinType, PinArgs } from './interfaces/Pin'
+
+export { PinType, PinArgs, Pin }
+
 export enum DataType {
   Boolean,
   String,
   Number,
   Object,
   Any
-}
-
-export enum PinSide {
-  In = 0,
-  Out = 1
-}
-interface Pin {
-  side: PinSide
-  name?: string
-  dataType?: DataType
-  defaultValue?: any
-  exec?: boolean
-  data?: any
 }
 
 interface EntryPin {
@@ -60,8 +51,7 @@ interface CustomComponentProps {
   sockets: ReactNode
   inputPins: ExistsPin[]
   outputPins: ExistsPin[]
-  renderInputPin(pin: ExistsPin): ReactNode
-  renderOutputPin(pin: ExistsPin): ReactNode
+  renderPin(pin: ExistsPin): ReactNode
   disconnectPin(pin: ExistsPin): void
   disconnectAllPins(): void
   changePin(pin: ExistsPin): void

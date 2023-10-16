@@ -1,6 +1,6 @@
 import { Opcode } from './Opcodes'
 import {
-  PinSide, Pin, DataType, InputPin, OutputPin,
+  Pin, DataType, PinType,
 } from '../interfaces/Pin'
 
 const defaultValues = {
@@ -11,12 +11,26 @@ const defaultValues = {
   [DataType.Any]: undefined,
 }
 
-const input = (data: Pin): InputPin => ({
+interface PinArgs {
+  type: PinType,
+  name?: string
+  dataType?: DataType
+  defaultValue?: any
+}
+interface InputArgs extends Omit<PinArgs, 'type'> {
+  exec?: boolean
+}
+
+const pin = (data: PinArgs) => ({ ...data })
+const output = ({ exec, ...data }: InputArgs) => pin({
+  type: exec ? PinType.FlowOutput : PinType.DataOutput,
   ...data,
-  ...(data.exec ? {} : { defaultValue: data.defaultValue ?? defaultValues[data.dataType ?? DataType.Any] }),
-  side: PinSide.In,
 })
-const output = (data: Pin): OutputPin => ({ ...data, side: PinSide.Out })
+const input = ({ exec, ...data }: InputArgs) => pin({
+  type: exec ? PinType.FlowInput : PinType.DataInput,
+  ...data,
+  ...({ defaultValue: data.defaultValue ?? defaultValues[data.dataType ?? DataType.Any] }),
+})
 
 export enum NodeType {
   Entry,
@@ -235,7 +249,6 @@ export const NodesData = {
   [NodeCode.RETURN]: {
     type: NodeType.Return,
     pins: [input({ exec: true }), input({ name: 'Result', dataType: DataType.Boolean })],
-    canNotDelete: true,
     executable: true,
   },
   [NodeCode.USER_NODE]: {

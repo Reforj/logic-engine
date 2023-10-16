@@ -6,12 +6,10 @@
           "pins": [
               {
                   "uuid": "1219fe91-d828-44e6-b07d-dd0ef3860d9f",
-                  "exec": true,
-                  "side": 1,
-                  "multiple": false,
+                  "type": 1,
                   "pinned": {
                       "node": "d67e9284-467c-4a3a-98ab-182ccd53c5c5",
-                      "socket": "1ea713e6-3537-4799-9b7e-00877176b3b7"
+                      "pin": "1ea713e6-3537-4799-9b7e-00877176b3b7"
                   }
               }
           ],
@@ -26,13 +24,11 @@
           "pins": [
               {
                   "uuid": "1ea713e6-3537-4799-9b7e-00877176b3b7",
-                  "exec": true,
-                  "side": 0,
-                  "multiple": true,
+                  "type": 0,
                   "pinned": [
                       {
                           "node": "c8aa8cd1-0ad6-4fde-a966-453466b9a6ec",
-                          "socket": "1219fe91-d828-44e6-b07d-dd0ef3860d9f"
+                          "pin": "1219fe91-d828-44e6-b07d-dd0ef3860d9f"
                       }
                   ]
               },
@@ -41,10 +37,10 @@
                   "name": "Result",
                   "dataType": 0,
                   "defaultValue": false,
-                  "side": 0,
+                  "type": 2,
                   "pinned": {
                       "node": "d95b9d06-17be-4a3d-bec0-a706b973d507",
-                      "socket": "2f975405-c545-4de6-b25e-b4d62b27ed5e"
+                      "pin": "2f975405-c545-4de6-b25e-b4d62b27ed5e"
                   }
               }
           ],
@@ -61,27 +57,26 @@
                   "uuid": "759c1830-f3a4-49bd-af5c-d4dee7f174b7",
                   "dataType": 0,
                   "defaultValue": true,
-                  "side": 0,
+                  "type": 2,
                   "pinned": {
                       "node": "20566c4e-837d-492b-804a-2df60ab864bc",
-                      "socket": "c8d95a11-d259-4209-999a-23d20211dee1"
+                      "pin": "c8d95a11-d259-4209-999a-23d20211dee1"
                   }
               },
               {
                   "uuid": "e773c03f-c190-4de0-8300-ca7e3ad7065e",
                   "dataType": 0,
                   "defaultValue": true,
-                  "side": 0
+                  "type": 2
               },
               {
                   "uuid": "2f975405-c545-4de6-b25e-b4d62b27ed5e",
                   "dataType": 0,
-                  "side": 1,
-                  "multiple": true,
+                  "type": 3,
                   "pinned": [
                       {
                           "node": "d67e9284-467c-4a3a-98ab-182ccd53c5c5",
-                          "socket": "937faf1c-04df-49c9-9051-9c684ad733eb"
+                          "pin": "937faf1c-04df-49c9-9051-9c684ad733eb"
                       }
                   ]
               }
@@ -99,17 +94,16 @@
                   "uuid": "ec04b796-9c28-45eb-9616-461890637606",
                   "dataType": 0,
                   "defaultValue": false,
-                  "side": 0
+                  "type": 2
               },
               {
                   "uuid": "c8d95a11-d259-4209-999a-23d20211dee1",
                   "dataType": 0,
-                  "side": 1,
-                  "multiple": true,
+                  "type": 3,
                   "pinned": [
                       {
                           "node": "d95b9d06-17be-4a3d-bec0-a706b973d507",
-                          "socket": "759c1830-f3a4-49bd-af5c-d4dee7f174b7"
+                          "pin": "759c1830-f3a4-49bd-af5c-d4dee7f174b7"
                       }
                   ]
               }

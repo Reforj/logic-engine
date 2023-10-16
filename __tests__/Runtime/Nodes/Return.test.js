@@ -7,16 +7,14 @@ describe('Return arguments', function () {
         uuid: 'reutnr',
         type: 'Return',
         pins: [{
-          side: 0,
-          exec: true,
+          type: 0,
           pinned: {
             node: 'return',
-            socket: 'return_in'
+            pin: 'return_in'
           }
         },
         {
-          side: 0,
-          type: 'Var',
+          type: 2,
           outputUuid: 'output',
           uuid: 'output_arg',
           defaultValue: 10,
