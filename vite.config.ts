@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import loadCssModulePlugin from 'vite-plugin-load-css-module'
 import react from '@vitejs/plugin-react'
 import pkt from './package.json'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 export default defineConfig({
   plugins: [
@@ -15,6 +16,18 @@ export default defineConfig({
         }
       },
     }),
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'readme.md',
+          dest: '.'
+        },
+        {
+          src: 'interfaces/*',
+          dest: 'interfaces/'
+        }
+      ]
+    })
   ],
   define: {
     "_VERSION_": pkt.version,
@@ -33,6 +46,7 @@ export default defineConfig({
         },
       },
     },
+
   },
   resolve: {
     alias: {
