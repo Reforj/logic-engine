@@ -23,7 +23,7 @@
     }
   },
   "typings": "./index.d.ts",
-  "version": "0.1.0-alpha",
+  "version": "0.1.0-alpha2",
   "scripts": {
     "publish": ""
   },
