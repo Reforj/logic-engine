@@ -1,6 +1,17 @@
-import { PinType, PinArgs } from './interfaces/Pin'
+export enum PinType {
+  FlowInput,
+  FlowOutput,
+  DataInput,
+  DataOutput
+}
 
-export { PinType, PinArgs, Pin }
+export interface PinArgs {
+  type: PinType,
+  name?: string
+  dataType?: DataType
+  defaultValue?: any
+  data?: any
+}
 
 export enum DataType {
   Boolean,
@@ -74,4 +85,4 @@ export declare const LogicEngine: React.ForwardRefExoticComponent<{
 
 export declare function getState(): State
 
-export declare function newPin(args:Pin): ExistsPin
+export declare function Pin(args:PinArgs): ExistsPin
